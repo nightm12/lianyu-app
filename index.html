@@ -1136,14 +1136,6 @@ function showScreen(name){
     if(s===target){s.classList.remove('hidden','hidden-left');}
     else{s.classList.add('hidden');}
   });
-  // 粒子动画：只在登录页运行，其他页面停止以节省电量
-  if(name==='login'){
-    if(window._initLoginCanvas)window._initLoginCanvas();
-    if(window._startTagline)window._startTagline();
-  } else {
-    if(window._stopLoginCanvas)window._stopLoginCanvas();
-    if(window._stopTagline)window._stopTagline();
-  }
 }
 
 function renderUserBar(){
@@ -1463,9 +1455,10 @@ function setTab(name,niId){
 }
 function googleLogin(){
   var fb=window._fb;if(!fb){showToast('初始化中，请稍后');return;}
-  var btn=document.getElementById('googleLoginBtn');if(btn){btn.disabled=true;btn.style.opacity='.6';}
-  fb.signInWithPopup(fb.auth,fb.gp).catch(function(e){
-    if(e.code!=='auth/popup-closed-by-user')showToast('❌ Google登录失败：'+mapAuthErr(e.code));
+  var btn=document.getElementById('googleLoginBtn');if(btn){btn.disabled=true;btn.style.opacity='.6';btn.querySelector('span')?btn.querySelector('span').textContent='跳转中…':null;}
+  // WebView 里用 redirect 代替 popup（popup 在 WebView 会被拦截）
+  fb.signInWithRedirect(fb.auth,fb.gp).catch(function(e){
+    showToast('❌ Google登录失败：'+mapAuthErr(e.code));
     if(btn){btn.disabled=false;btn.style.opacity='1';}
   });
 }
@@ -2488,8 +2481,8 @@ async function maybeGenerateAIPhoto(aiText,msgs,avHtml,char){
   _imgMsgCount++;
   var should=false;
   var kw=['看','图','照片','拍','今天','穿','发','美','可爱','风景','地方','在','吃','喝','买','送'];
-  if(kw.some(function(k){return aiText.indexOf(k)>=0;})&&Math.random()<0.15)should=true; // 降低从0.45到0.15
-  if(_imgMsgCount>=10&&Math.random()<0.3){should=true;_imgMsgCount=0;} // 降低触发频率
+  if(kw.some(function(k){return aiText.indexOf(k)>=0;})&&Math.random()<0.45)should=true;
+  if(_imgMsgCount>=5&&Math.random()<0.5){should=true;_imgMsgCount=0;}
   if(!should)return;_imgMsgCount=0;
   var cfg=loadConfig();
   var imgPrompt='cute asian girl selfie natural candid photo';
@@ -3040,22 +3033,16 @@ function formatTime(ts){var d=new Date(ts),now=new Date(),diff=now-d;if(diff<600
     }}
     animId=requestAnimationFrame(animate);
   }
-  function stopCanvas(){
-    if(animId){cancelAnimationFrame(animId);animId=null;}
-    if(ctx&&canvas)ctx.clearRect(0,0,canvas.width,canvas.height);
-  }
   window._initLoginCanvas=initCanvas;
-  window._stopLoginCanvas=stopCanvas;
   document.addEventListener('DOMContentLoaded',function(){setTimeout(initCanvas,100);});
 })();
 
 // ---- Typewriter taglines ----
 (function(){
   var lines=['你的专属 AI 伴侣 ✨','陪你聊天，懂你心情 💕','随时在线，永远在你身边 🌸','用 AI 的温度，暖你每一天 🌙'];
-  var li=0,ci=0,typing=true,el=null,timer=null,running=false;
+  var li=0,ci=0,typing=true,el=null,timer=null;
   function tick(){
     el=el||document.getElementById('loginTagline');if(!el)return;
-    if(!running)return;
     if(typing){
       el.textContent=lines[li].slice(0,ci+1);ci++;
       if(ci>=lines[li].length){typing=false;timer=setTimeout(tick,2200);return;}
@@ -3065,21 +3052,26 @@ function formatTime(ts){var d=new Date(ts),now=new Date(),diff=now-d;if(diff<600
     }
     timer=setTimeout(tick,typing?75:35);
   }
-  function start(){if(running)return;running=true;tick();}
-  function stop(){running=false;clearTimeout(timer);}
-  window._startTagline=start;
-  window._stopTagline=stop;
-  window.addEventListener('load',function(){setTimeout(start,800);});
+  window.addEventListener('load',function(){setTimeout(tick,800);});
 })();
 </script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyDRsZ-iXFM5lfT_ZQ3F3DTqtES3yl-7A2w",authDomain:"lianyu-ai.firebaseapp.com",projectId:"lianyu-ai",storageBucket:"lianyu-ai.firebasestorage.app",messagingSenderId:"73696442391",appId:"1:73696442391:web:3d02bfc5f00bb7354d0452"});
 const auth=getAuth(app),db=getFirestore(app),gp=new GoogleAuthProvider();
-window._fb={auth,db,gp,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,signOut,updateProfile,doc,getDoc,setDoc,updateDoc,onSnapshot,serverTimestamp};
+window._fb={auth,db,gp,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,updateProfile,doc,getDoc,setDoc,updateDoc,onSnapshot,serverTimestamp};
+// 处理 redirect 登录回调
+getRedirectResult(auth).then(function(result){
+  if(result&&result.user){
+    // onAuthStateChanged 会自动处理，这里只是确保redirect回来时能触发
+    console.log('[恋语] Redirect login success');
+  }
+}).catch(function(e){
+  if(e.code&&e.code!=='auth/no-current-user')console.warn('[恋语] Redirect result error',e.code);
+});
 onAuthStateChanged(auth,async fbUser=>{
   if(fbUser){
     const uRef=doc(db,'users',fbUser.uid);let profile;
