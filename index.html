@@ -425,7 +425,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
       <input class="login-inp" id="loginPwd" type="password" placeholder="密码">
       <button class="login-submit-btn" id="loginBtn" onclick="emailLogin()">登录</button>
       <div style="text-align:center;margin-top:10px">
-        <button onclick="forgotPassword()" style="background:none;border:none;color:var(--a2);font-size:12px;cursor:pointer;font-family:var(--sans);text-decoration:underline">忘记密码？</button>
+        <button onclick="forgotPassword()" style="background:none;border:none;color:var(--a2);font-size:12px;cursor:pointer;font-family:var(--sans);text-decoration:underline;padding:4px 8px">忘记密码？点这里重置</button>
       </div>
     </div>
     <div id="authReg" style="display:none">
@@ -1458,30 +1458,20 @@ function setTab(name,niId){
 }
 function forgotPassword(){
   var email=document.getElementById('loginEmail').value.trim();
-  if(!email){
-    email=prompt('请输入你的邮箱地址：','');
-    if(!email)return;
-  }
-  var fb=window._fb;if(!fb){showToast('初始化中');return;}
-  // Firebase sendPasswordResetEmail
-  import('https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js').then(function(m){
-    m.sendPasswordResetEmail(fb.auth,email).then(function(){
-      showToast('✅ 重置邮件已发送，请查收邮箱');
-    }).catch(function(e){
-      showToast('❌ '+mapAuthErr(e.code));
-    });
-  });
+  if(!email){showToast('请先在上方输入你的邮箱地址');return;}
+  var fb=window._fb;if(!fb||!fb.sendPasswordResetEmail){showToast('初始化中，请稍后再试');return;}
+  fb.sendPasswordResetEmail(fb.auth,email)
+    .then(function(){showToast('✅ 重置邮件已发送！请查收邮箱');})
+    .catch(function(e){showToast('❌ '+mapAuthErr(e.code));});
 }
 
 function googleLogin(){
   var fb=window._fb;if(!fb){showToast('初始化中，请稍后');return;}
   var inApp=!!window.ReactNativeWebView;
   if(inApp){
-    // 在 App 里无法用 Google 登录，提示用邮箱
-    showToast('⚠️ 请使用邮箱登录。如之前用Google注册，点「忘记密码」设置密码即可');
+    showToast('App内请用邮箱登录 👆 如之前用Google注册，点「忘记密码」设置密码');
     return;
   }
-  // 普通浏览器里正常 popup 登录
   var btn=document.getElementById('googleLoginBtn');if(btn){btn.disabled=true;btn.style.opacity='.6';}
   fb.signInWithPopup(fb.auth,fb.gp).catch(function(e){
     if(e.code!=='auth/popup-closed-by-user')showToast('❌ Google登录失败：'+mapAuthErr(e.code));
@@ -3084,11 +3074,11 @@ function formatTime(ts){var d=new Date(ts),now=new Date(),diff=now-d;if(diff<600
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, updateProfile, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyDRsZ-iXFM5lfT_ZQ3F3DTqtES3yl-7A2w",authDomain:"lianyu-ai.firebaseapp.com",projectId:"lianyu-ai",storageBucket:"lianyu-ai.firebasestorage.app",messagingSenderId:"73696442391",appId:"1:73696442391:web:3d02bfc5f00bb7354d0452"});
 const auth=getAuth(app),db=getFirestore(app),gp=new GoogleAuthProvider();
-window._fb={auth,db,gp,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,signOut,updateProfile,doc,getDoc,setDoc,updateDoc,onSnapshot,serverTimestamp};
+window._fb={auth,db,gp,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,signOut,updateProfile,sendPasswordResetEmail,doc,getDoc,setDoc,updateDoc,onSnapshot,serverTimestamp};
 onAuthStateChanged(auth,async fbUser=>{
   if(fbUser){
     const uRef=doc(db,'users',fbUser.uid);let profile;
