@@ -424,6 +424,9 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
       <input class="login-inp" id="loginEmail" type="email" placeholder="邮箱地址">
       <input class="login-inp" id="loginPwd" type="password" placeholder="密码">
       <button class="login-submit-btn" id="loginBtn" onclick="emailLogin()">登录</button>
+      <div style="text-align:center;margin-top:10px">
+        <button onclick="forgotPassword()" style="background:none;border:none;color:var(--a2);font-size:12px;cursor:pointer;font-family:var(--sans);text-decoration:underline">忘记密码？</button>
+      </div>
     </div>
     <div id="authReg" style="display:none">
       <input class="login-inp" id="regName" type="text" placeholder="昵称">
@@ -1453,12 +1456,35 @@ function setTab(name,niId){
   var el=document.getElementById(niId);if(el)el.classList.add('active');
   showScreen(name);
 }
+function forgotPassword(){
+  var email=document.getElementById('loginEmail').value.trim();
+  if(!email){
+    email=prompt('请输入你的邮箱地址：','');
+    if(!email)return;
+  }
+  var fb=window._fb;if(!fb){showToast('初始化中');return;}
+  // Firebase sendPasswordResetEmail
+  import('https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js').then(function(m){
+    m.sendPasswordResetEmail(fb.auth,email).then(function(){
+      showToast('✅ 重置邮件已发送，请查收邮箱');
+    }).catch(function(e){
+      showToast('❌ '+mapAuthErr(e.code));
+    });
+  });
+}
+
 function googleLogin(){
   var fb=window._fb;if(!fb){showToast('初始化中，请稍后');return;}
-  var btn=document.getElementById('googleLoginBtn');if(btn){btn.disabled=true;btn.style.opacity='.6';btn.querySelector('span')?btn.querySelector('span').textContent='跳转中…':null;}
-  // WebView 里用 redirect 代替 popup（popup 在 WebView 会被拦截）
-  fb.signInWithRedirect(fb.auth,fb.gp).catch(function(e){
-    showToast('❌ Google登录失败：'+mapAuthErr(e.code));
+  var inApp=!!window.ReactNativeWebView;
+  if(inApp){
+    // 在 App 里无法用 Google 登录，提示用邮箱
+    showToast('⚠️ 请使用邮箱登录。如之前用Google注册，点「忘记密码」设置密码即可');
+    return;
+  }
+  // 普通浏览器里正常 popup 登录
+  var btn=document.getElementById('googleLoginBtn');if(btn){btn.disabled=true;btn.style.opacity='.6';}
+  fb.signInWithPopup(fb.auth,fb.gp).catch(function(e){
+    if(e.code!=='auth/popup-closed-by-user')showToast('❌ Google登录失败：'+mapAuthErr(e.code));
     if(btn){btn.disabled=false;btn.style.opacity='1';}
   });
 }
@@ -3058,20 +3084,11 @@ function formatTime(ts){var d=new Date(ts),now=new Date(),diff=now-d;if(diff<600
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyDRsZ-iXFM5lfT_ZQ3F3DTqtES3yl-7A2w",authDomain:"lianyu-ai.firebaseapp.com",projectId:"lianyu-ai",storageBucket:"lianyu-ai.firebasestorage.app",messagingSenderId:"73696442391",appId:"1:73696442391:web:3d02bfc5f00bb7354d0452"});
 const auth=getAuth(app),db=getFirestore(app),gp=new GoogleAuthProvider();
-window._fb={auth,db,gp,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,updateProfile,doc,getDoc,setDoc,updateDoc,onSnapshot,serverTimestamp};
-// 处理 redirect 登录回调
-getRedirectResult(auth).then(function(result){
-  if(result&&result.user){
-    // onAuthStateChanged 会自动处理，这里只是确保redirect回来时能触发
-    console.log('[恋语] Redirect login success');
-  }
-}).catch(function(e){
-  if(e.code&&e.code!=='auth/no-current-user')console.warn('[恋语] Redirect result error',e.code);
-});
+window._fb={auth,db,gp,signInWithEmailAndPassword,createUserWithEmailAndPassword,signInWithPopup,signOut,updateProfile,doc,getDoc,setDoc,updateDoc,onSnapshot,serverTimestamp};
 onAuthStateChanged(auth,async fbUser=>{
   if(fbUser){
     const uRef=doc(db,'users',fbUser.uid);let profile;
