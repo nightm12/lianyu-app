@@ -29,7 +29,7 @@
 html,body{height:100%}
 body{font-family:var(--sans);background:#020108;display:flex;justify-content:center;align-items:center;min-height:100vh;overflow:hidden}
 .phone{width:393px;height:852px;background:var(--bg);border-radius:52px;overflow:hidden;position:relative;box-shadow:0 80px 180px rgba(0,0,0,.98),0 0 0 1px rgba(255,255,255,.05),inset 0 1px 0 rgba(255,255,255,.07);display:flex;flex-direction:column}
-@media(max-width:430px){body{background:var(--bg);align-items:flex-start}.phone{width:100vw;height:100dvh;border-radius:0;box-shadow:none}}
+@media(max-width:430px){body{background:var(--bg);align-items:flex-start}.phone{width:100vw;height:100dvh;height:100svh;border-radius:0;box-shadow:none}}
 /* ambient glows */
 .phone::before{content:'';position:absolute;top:-100px;left:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(194,96,127,.1),transparent 65%);pointer-events:none;z-index:0}
 .phone::after{content:'';position:absolute;bottom:-80px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(122,34,72,.08),transparent 65%);pointer-events:none;z-index:0}
@@ -434,8 +434,8 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
       <input class="login-inp" id="regPwd" type="password" placeholder="密码（至少 6 位）">
       <button class="login-submit-btn" id="regBtn" onclick="emailRegister()">创建账号</button>
     </div>
-    <div class="login-divider">或者</div>
-    <button class="google-btn" id="googleLoginBtn" onclick="googleLogin()">
+    <div class="login-divider" style="display:none">或者</div>
+    <button class="google-btn" id="googleLoginBtn" onclick="googleLogin()" style="display:none">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.58-13.47-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       使用 Google 登录
     </button>
@@ -1139,6 +1139,14 @@ function showScreen(name){
     if(s===target){s.classList.remove('hidden','hidden-left');}
     else{s.classList.add('hidden');}
   });
+  // 只在登录页运行动画，其他页面停止节省电量
+  if(name==='login'){
+    if(window._initLoginCanvas)window._initLoginCanvas();
+    if(window._startTagline)window._startTagline();
+  } else {
+    if(window._stopLoginCanvas)window._stopLoginCanvas();
+    if(window._stopTagline)window._stopTagline();
+  }
 }
 
 function renderUserBar(){
@@ -1459,25 +1467,13 @@ function setTab(name,niId){
 function forgotPassword(){
   var email=document.getElementById('loginEmail').value.trim();
   if(!email){showToast('请先在上方输入你的邮箱地址');return;}
-  var fb=window._fb;if(!fb||!fb.sendPasswordResetEmail){showToast('初始化中，请稍后再试');return;}
+  var fb=window._fb;if(!fb){showToast('初始化中，请稍后再试');return;}
   fb.sendPasswordResetEmail(fb.auth,email)
     .then(function(){showToast('✅ 重置邮件已发送！请查收邮箱');})
     .catch(function(e){showToast('❌ '+mapAuthErr(e.code));});
 }
 
-function googleLogin(){
-  var fb=window._fb;if(!fb){showToast('初始化中，请稍后');return;}
-  var inApp=!!window.ReactNativeWebView;
-  if(inApp){
-    showToast('App内请用邮箱登录 👆 如之前用Google注册，点「忘记密码」设置密码');
-    return;
-  }
-  var btn=document.getElementById('googleLoginBtn');if(btn){btn.disabled=true;btn.style.opacity='.6';}
-  fb.signInWithPopup(fb.auth,fb.gp).catch(function(e){
-    if(e.code!=='auth/popup-closed-by-user')showToast('❌ Google登录失败：'+mapAuthErr(e.code));
-    if(btn){btn.disabled=false;btn.style.opacity='1';}
-  });
-}
+function googleLogin(){}
 function logout(){
   if(!confirm('确认退出登录？'))return;
   var fb=window._fb;if(fb)fb.signOut(fb.auth).catch(function(){});
@@ -2497,8 +2493,8 @@ async function maybeGenerateAIPhoto(aiText,msgs,avHtml,char){
   _imgMsgCount++;
   var should=false;
   var kw=['看','图','照片','拍','今天','穿','发','美','可爱','风景','地方','在','吃','喝','买','送'];
-  if(kw.some(function(k){return aiText.indexOf(k)>=0;})&&Math.random()<0.45)should=true;
-  if(_imgMsgCount>=5&&Math.random()<0.5){should=true;_imgMsgCount=0;}
+  if(kw.some(function(k){return aiText.indexOf(k)>=0;})&&Math.random()<0.15)should=true;
+  if(_imgMsgCount>=10&&Math.random()<0.3){should=true;_imgMsgCount=0;}
   if(!should)return;_imgMsgCount=0;
   var cfg=loadConfig();
   var imgPrompt='cute asian girl selfie natural candid photo';
@@ -3049,16 +3045,22 @@ function formatTime(ts){var d=new Date(ts),now=new Date(),diff=now-d;if(diff<600
     }}
     animId=requestAnimationFrame(animate);
   }
+  function stopCanvas(){
+    if(animId){cancelAnimationFrame(animId);animId=null;}
+    if(ctx&&canvas)ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
   window._initLoginCanvas=initCanvas;
+  window._stopLoginCanvas=stopCanvas;
   document.addEventListener('DOMContentLoaded',function(){setTimeout(initCanvas,100);});
 })();
 
 // ---- Typewriter taglines ----
 (function(){
   var lines=['你的专属 AI 伴侣 ✨','陪你聊天，懂你心情 💕','随时在线，永远在你身边 🌸','用 AI 的温度，暖你每一天 🌙'];
-  var li=0,ci=0,typing=true,el=null,timer=null;
+  var li=0,ci=0,typing=true,el=null,timer=null,running=false;
   function tick(){
     el=el||document.getElementById('loginTagline');if(!el)return;
+    if(!running)return;
     if(typing){
       el.textContent=lines[li].slice(0,ci+1);ci++;
       if(ci>=lines[li].length){typing=false;timer=setTimeout(tick,2200);return;}
@@ -3068,7 +3070,11 @@ function formatTime(ts){var d=new Date(ts),now=new Date(),diff=now-d;if(diff<600
     }
     timer=setTimeout(tick,typing?75:35);
   }
-  window.addEventListener('load',function(){setTimeout(tick,800);});
+  function start(){if(running)return;running=true;tick();}
+  function stop(){running=false;clearTimeout(timer);}
+  window._startTagline=start;
+  window._stopTagline=stop;
+  window.addEventListener('load',function(){setTimeout(start,800);});
 })();
 </script>
 
