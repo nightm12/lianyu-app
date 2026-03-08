@@ -95,7 +95,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .stab.active{background:var(--a);border-color:var(--a);color:white}
 .scont{flex:1;overflow-y:auto;padding:14px 16px}.scont::-webkit-scrollbar{width:2px}.scont::-webkit-scrollbar-thumb{background:var(--a);border-radius:1px}
 /* ── BOTTOM NAV ── */
-.bnav{padding:6px 0 calc(0px+16px);background:rgba(6,4,16,.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;flex-shrink:0}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:393px;max-width:100vw;padding:6px 0 calc(0px+16px);background:rgba(6,4,16,.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;flex-shrink:0;z-index:100}
 .ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:7px 0;border:none;background:none;color:var(--t3);font-size:9px;transition:color .2s;font-family:var(--sans);letter-spacing:.2px}
 .ni svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s,stroke .2s}
 .ni:active svg{transform:scale(.85)}
@@ -1054,7 +1054,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="toast" id="toast"></div>
   
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.8</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.9</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
@@ -1163,7 +1163,6 @@ function showScreen(name){
     if(s===target){s.classList.remove('hidden','hidden-left');}
     else{s.classList.add('hidden');}
   });
-  // 只在登录页运行动画，其他页面停止节省电量
   if(name==='login'){
     if(window._initLoginCanvas)window._initLoginCanvas();
     if(window._startTagline)window._startTagline();
@@ -1171,11 +1170,11 @@ function showScreen(name){
     if(window._stopLoginCanvas)window._stopLoginCanvas();
     if(window._stopTagline)window._stopTagline();
   }
-  // 底部导航在主要页面显示，全屏页面隐藏
+  // bnav: 전체화면 페이지에서 숨김
   var bnav=document.querySelector('.bnav');
   if(bnav){
-    var hiddenScreens=['login','chat','date','call','char-editor'];
-    bnav.style.display=hiddenScreens.indexOf(name)>=0?'none':'flex';
+    var hideOn=['login','chat','date','call','char-editor'];
+    bnav.style.display=hideOn.indexOf(name)>=0?'none':'flex';
   }
 }
 
@@ -1486,10 +1485,6 @@ function saveAll(){
 function setTab(name,niId){
   document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');});
   var el=document.getElementById(niId);if(el)el.classList.add('active');
-  // 把bnav搬到目标页面里再切换
-  var bnav=document.querySelector('.bnav');
-  var target=document.getElementById('screen-'+name);
-  if(bnav&&target){target.appendChild(bnav);}
   showScreen(name);
   if(name==='moments')renderMoments();
   else if(name==='emoji-manager')renderEmojiManager();
