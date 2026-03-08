@@ -2904,6 +2904,25 @@ setTimeout(function(){
 
 // date mode functions removed
 
+// ── Feature Drawer ──────────────────────────────────────
+var _drawerOpen = false;
+function toggleFeatDrawer(){
+  _drawerOpen = !_drawerOpen;
+  var drawer = document.getElementById('featDrawer');
+  var btn = document.getElementById('plusBtn');
+  if(drawer) drawer.classList.toggle('open', _drawerOpen);
+  if(btn) btn.classList.toggle('open', _drawerOpen);
+  if(_drawerOpen) closeEmojiPicker();
+}
+function closeFeatDrawer(){
+  _drawerOpen = false;
+  var drawer = document.getElementById('featDrawer');
+  var btn = document.getElementById('plusBtn');
+  if(drawer) drawer.classList.remove('open');
+  if(btn) btn.classList.remove('open');
+}
+// ────────────────────────────────────────────────────────
+
 function openWalletFromChat(){
   closeFeatDrawer();
   setTimeout(function(){
