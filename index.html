@@ -41,7 +41,8 @@ window.addEventListener('error', function(){
   --serif:'Cormorant Garamond',serif;
   --sans:'DM Sans','Noto Sans SC',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+@keyframes spin{to{transform:rotate(360deg)}}
+box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{height:100%;height:-webkit-fill-available}
 body{font-family:var(--sans);background:#020108;display:flex;justify-content:center;align-items:center;min-height:100vh;min-height:-webkit-fill-available;overflow:hidden}
 .phone{width:393px;height:852px;background:var(--bg);border-radius:52px;overflow:hidden;position:relative;box-shadow:0 80px 180px rgba(0,0,0,.98),0 0 0 1px rgba(255,255,255,.05),inset 0 1px 0 rgba(255,255,255,.07);display:flex;flex-direction:column}
@@ -430,7 +431,6 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
   <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;font-weight:300;background:linear-gradient(135deg,#ffe0f0,#e08aaa,#c2607f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px">恋语</div>
   <div style="width:36px;height:36px;border:2px solid rgba(194,96,127,.2);border-top-color:#c2607f;border-radius:50%;animation:spin .8s linear infinite"></div>
 </div>
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 <div class="screens">
 
 <!-- LOGIN -->
@@ -1052,7 +1052,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
     <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>设置</button>
   </div>
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.6</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.7</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
