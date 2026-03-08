@@ -50,10 +50,10 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .phone::before{content:'';position:absolute;top:-100px;left:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(194,96,127,.1),transparent 65%);pointer-events:none;z-index:0}
 .phone::after{content:'';position:absolute;bottom:-80px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(122,34,72,.08),transparent 65%);pointer-events:none;z-index:0}
 /* screens */
-.screens{flex:1;position:relative;overflow:hidden;z-index:1;min-height:0}
-.screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform .32s cubic-bezier(.4,0,.2,1),opacity .32s;will-change:transform;background:var(--bg)}
-.screen.hidden{transform:translateX(100%);opacity:0;pointer-events:none}
-.screen.hidden-left{transform:translateX(-8%) scale(.97);opacity:0;pointer-events:none}
+.screens{flex:1;position:relative;overflow:hidden}
+.screen{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+.screen.hidden{display:none!important}
+.screen.hidden-left{display:none!important}
 /* shared header */
 .hdr{padding:calc(0px+16px) 16px 13px;background:rgba(6,4,16,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .hdr-title{font-family:var(--serif);font-size:19px;color:var(--t);font-weight:300;flex:1;letter-spacing:.6px;font-style:italic}
@@ -1052,7 +1052,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
     <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>设置</button>
   </div>
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.5</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.6</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
