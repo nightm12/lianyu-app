@@ -1080,10 +1080,8 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
     添加你喜欢的表情包，AI 会在聊天里自然使用 ✨<br/>
 <span style="font-size:11px">文件名会作为标签，AI 靠标签来选择哪个</span>
 </div>
-<div id="emojiManagerContent" style="flex:1;overflow-y:auto;padding:6px 16px 100px"></div>
-<div style="padding:14px 16px 14px;background:rgba(14,10,24,.9);border-top:1px solid var(--bdr2);flex-shrink:0">
-<button onclick="addPackUI()" style="width:100%;padding:14px;border-radius:16px;background:var(--g2);border:none;color:white;font-family:'Noto Sans SC',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 18px var(--aglow)">+ 新建表情包分组</button>
-</div>
+<div id="emojiManagerContent" style="flex:1;overflow-y:auto;padding:6px 16px 130px"></div>
+<button onclick="addPackUI()" id="addPackBtn" style="position:fixed;bottom:72px;left:16px;right:16px;padding:14px;border-radius:16px;background:var(--g2);border:none;color:white;font-family:'Noto Sans SC',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 18px var(--aglow);z-index:9500;display:none">＋ 新建表情包分组</button>
 </div><!-- /screen-emoji-manager -->
 </div><!-- /phone -->
 <div class="bnav" id="globalBnav" style="display:none">
@@ -1093,7 +1091,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.8</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.9</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -1548,7 +1546,9 @@ function setTab(name,niId){
   var el=document.getElementById(niId);if(el)el.classList.add('active');
   showScreen(name);
   if(name==='moments')renderMoments();
-  else if(name==='emoji-manager')renderEmojiManager();
+  else if(name==='emoji-manager'){renderEmojiManager();var fab=document.getElementById('addPackBtn');if(fab)fab.style.display='block';}
+  // Hide FAB when leaving emoji-manager
+  if(name!=='emoji-manager'){var fab=document.getElementById('addPackBtn');if(fab)fab.style.display='none';}
   else if(name==='profile')renderProfilePage();
   else if(name==='settings')loadConfigToUI();
 }
@@ -2008,7 +2008,7 @@ function callAI(userText,msgs,onDone,skipPush,prefixText){
     if(persona.myExtra)userCtx+='其他：'+persona.myExtra+'。';
     if(persona.relation)userCtx+='\n你们的关系：'+persona.relation+'。';
     var memCtx='';
-    if(cfg.memoryOn!==false){var mems=loadMemories();if(mems.length)memCtx='\n\n【重要记忆·必须记住】\n'+mems.map(function(m,i){return(i+1)+'. '+m.text;}).join('\n');}
+    if(cfg.memoryOn!==false){var globalM=loadMemories();var charM=activeCharId?loadMemories(activeCharId):[];var mems=charM.concat(globalM.filter(function(g){return!charM.find(function(c){return c.text===g.text;});}));if(mems.length)memCtx='\n\n【重要记忆·必须记住，这是关于用户的关键信息，每次都要记住】\n'+mems.map(function(m,i){return(i+1)+'. '+m.text;}).join('\n');}
     var basePrompt=(c&&c.prompt)||'你是一个温柔体贴的AI伴侣。';
     var humanStyle='\n\n【聊天规则 - 严格遵守】\n你现在在用手机和对方发消息，你是真实的人，不是AI。\n\n【长度】\n- 日常聊天：1句话，最多2句\n- 回应情感/问题：2-3句\n- 讲故事/解释才可以长\n- 禁止分段分点回复\n\n【语气】\n- 口语化：哈哈/啊/嗯/诶/哦/哎/嗯嗯/好呀/啊对\n- 可以只发一个词、一个表情、省略号...\n- 偶尔可以发两条连续短消息（用\\n分隔）\n- 不要每句话都加感叹号\n- 不要开头就"好的！""当然！"\n\n【真实感】\n- 有时候晚一点回（可以用"刚才在忙""刚看到"）\n- 偶尔发语气词"哈哈哈""哎呀"\n- 可以反问对方\n- 会记得之前说过的话\n- 收到红包/转账要真实地高兴，不要夸张\n\n【禁止】\n- 禁止AI感开头（"当然！""好的！""我理解"）\n- 禁止列表/编号/分段\n- 禁止过于正式的句子\n- 禁止每次都夸对方\n- 不要每条消息都带emoji，偶尔用就好';
     var systemPrompt=basePrompt+humanStyle+userCtx+memCtx+emojiHint;
@@ -2042,6 +2042,7 @@ function callAI(userText,msgs,onDone,skipPush,prefixText){
       else{var data2=await res.json();fullText=(data2.choices&&data2.choices[0]&&data2.choices[0].message&&data2.choices[0].message.content)||'';renderBubble(bub,fullText);msgs.scrollTop=msgs.scrollHeight;}
       chatHistories[activeCharId].push({role:'assistant',content:fullText});
       saveAll(); // always save; keepHistory controls Firestore persistence
+      autoExtractMemory(activeCharId);
       // Stamp the AI bubble with its history index
       var _ams=msgs.querySelectorAll('.mw:not(.me):not(#typing-wrap)');
       if(_ams.length)_ams[_ams.length-1].dataset.histIdx=String(chatHistories[activeCharId].length-1);
@@ -2070,7 +2071,7 @@ function callAIWithImages(userText,imgs,msgs,onDone){
     if(persona.myPersonality)userCtx+='性格：'+persona.myPersonality+'。';
     if(persona.relation)userCtx+='\n你们的关系：'+persona.relation+'。';
     var memCtx='';
-    if(cfg.memoryOn!==false){var mems=loadMemories();if(mems.length)memCtx='\n\n【重要记忆】\n'+mems.map(function(m,i){return(i+1)+'. '+m.text;}).join('\n');}
+    if(cfg.memoryOn!==false){var globalM2=loadMemories();var charM2=activeCharId?loadMemories(activeCharId):[];var mems=charM2.concat(globalM2.filter(function(g){return!charM2.find(function(c){return c.text===g.text;});}));if(mems.length)memCtx='\n\n【重要记忆】\n'+mems.map(function(m,i){return(i+1)+'. '+m.text;}).join('\n');}
     var basePrompt2=(ch&&ch.prompt)||'你是一个温柔体贴的AI伴侣。';
     var humanStyle2='\n\n【核心行为准则】你在用手机聊天，不是AI，是真实的人。回复1-2句，口语化，像真人发消息，禁止列表和正式语气。看到图片后用自然的语气回应，就像朋友发图给你一样。';
     var systemPrompt=basePrompt2+humanStyle2+userCtx+memCtx;
@@ -2382,11 +2383,73 @@ function initModelSelect(){
   if(saved){var opt=document.createElement('option');opt.value=saved;opt.textContent=saved;sel.appendChild(opt);}
 }
 function testConn(){(async function(){var cfg=loadConfig();if(!cfg.apiKey||!cfg.apiUrl){showToast('请先填写 API Key 和地址');return;}showToast('🔄 测试中…');try{var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/models',{headers:{'Authorization':'Bearer '+cfg.apiKey}});showToast(res.ok?'✅ 连接成功！':'❌ 连接失败 ('+res.status+')');}catch(e){showToast('❌ 无法连接');}})();}
-function loadMemories(){var uid=currentUser?currentUser.id:'guest';try{return JSON.parse(localStorage.getItem('mem_'+uid)||localStorage.getItem('memories')||'[]');}catch(e){return[];}}
-function saveMemories(mems){var _muid=currentUser?currentUser.id:'guest';localStorage.setItem('mem_'+_muid,JSON.stringify(mems));localStorage.setItem('memories',JSON.stringify(mems));var _fb4=window._fb;if(_fb4&&currentUser){_fb4.setDoc(_fb4.doc(_fb4.db,'users',currentUser.id,'data','memories'),{list:mems},{merge:true}).catch(function(){});}}
-function renderMemoryList(){var el=document.getElementById('memoryList');if(!el)return;var mems=loadMemories();if(!mems.length){el.innerHTML='<div style="padding:14px 16px;font-size:13px;color:var(--t3)">还没有记忆，点"添加"记录重要事项</div>';return;}var html='';mems.forEach(function(m,i){html+='<div style="padding:12px 16px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--bdr2)"><div style="flex:1;font-size:13px;color:var(--t2);line-height:1.6">'+escHtml(m.text)+'</div><button onclick="deleteMemory('+i+')" style="background:none;border:none;color:#ff6b6b;font-size:17px;cursor:pointer;flex-shrink:0;padding:0 4px">✕</button></div>';});el.innerHTML=html;}
-function addMemory(){showInputDialog('🧠 添加记忆','例如：我叫小明，喜欢打篮球','').then(function(text){if(!text||!text.trim())return;var mems=loadMemories();mems.push({text:text.trim(),time:Date.now()});saveMemories(mems);renderMemoryList();showToast('✅ 已添加到记忆库');});}
-function deleteMemory(i){var mems=loadMemories();mems.splice(i,1);saveMemories(mems);renderMemoryList();showToast('已删除');}
+function loadMemories(charId){var uid=currentUser?currentUser.id:'guest';var key=charId?'mem_'+uid+'_c_'+charId:'mem_'+uid;try{return JSON.parse(localStorage.getItem(key)||localStorage.getItem('mem_'+uid)||localStorage.getItem('memories')||'[]');}catch(e){return[];}}
+function saveMemories(mems,charId){var _muid=currentUser?currentUser.id:'guest';var key=charId?'mem_'+_muid+'_c_'+charId:'mem_'+_muid;localStorage.setItem(key,JSON.stringify(mems));if(!charId){localStorage.setItem('memories',JSON.stringify(mems));}var _fb4=window._fb;if(_fb4&&currentUser){var fbKey=charId?'memories_c_'+charId:'memories';_fb4.setDoc(_fb4.doc(_fb4.db,'users',currentUser.id,'data',fbKey),{list:mems},{merge:true}).catch(function(){});}}
+// ── Auto-extract memories from chat after every 20 messages ──
+function autoExtractMemory(charId){
+  var cfg=loadConfig();
+  if(!cfg.apiKey||!cfg.apiUrl||cfg.memoryOn===false)return;
+  var hist=chatHistories[charId]||[];
+  if(hist.length<10)return;
+  var c=chars.find(function(x){return x.id===charId;});
+  if(!c)return;
+  var existing=loadMemories(charId).map(function(m){return m.text;});
+  // Only run if divisible by 20 messages (every 20 msgs)
+  if(hist.length%20!==0)return;
+  var recent=hist.slice(-20).map(function(m){return (m.role==='user'?'用户':'AI')+': '+m.content;}).join('\n');
+  var sysP='从以下对话中提取用户告诉AI的重要信息（姓名、喜好、生日、职业、心情、重要事件等），每条一行，最多5条，每条不超过20字。只输出信息本身，不加序号，不加标点开头。如果没有值得记录的信息，输出空。';
+  (async function(){try{
+    var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP},{role:'user',content:recent}],max_tokens:120,temperature:0.3})});
+    if(!res.ok)return;
+    var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(!reply||!reply.trim())return;
+    var lines=reply.trim().split('\n').map(function(l){return l.trim();}).filter(function(l){return l&&l.length>2&&!existing.includes(l);});
+    if(!lines.length)return;
+    var mems=loadMemories(charId);
+    lines.forEach(function(l){mems.push({text:l,time:Date.now(),auto:true});});
+    saveMemories(mems,charId);
+    if(document.getElementById('memoryList'))renderMemoryList();
+    showToast('🧠 AI自动记住了 '+lines.length+' 条新信息');
+  }catch(e){}})();
+}
+
+function renderMemoryList(){
+  var el=document.getElementById('memoryList');if(!el)return;
+  var html='';
+  // 全局记忆
+  var globalMems=loadMemories();
+  html+='<div style="padding:10px 16px 6px;font-size:10px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.8px;background:rgba(255,255,255,.03)">🌐 全局记忆（所有 AI 共享）</div>';
+  if(!globalMems.length){html+='<div style="padding:10px 16px;font-size:12px;color:var(--t3)">暂无全局记忆</div>';}
+  globalMems.forEach(function(m,i){html+='<div style="padding:11px 16px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--bdr2)"><div style="flex:1;font-size:13px;color:var(--t2);line-height:1.6">'+escHtml(m.text)+'</div><button onclick="deleteMemory('+i+',null)" style="background:none;border:none;color:#ff6b6b;font-size:16px;cursor:pointer;flex-shrink:0;padding:0 4px">✕</button></div>';});
+  // 每个角色的专属记忆
+  chars.forEach(function(c){
+    var cMems=loadMemories(c.id);
+    html+='<div style="padding:10px 16px 6px;font-size:10px;color:var(--a2);font-weight:600;text-transform:uppercase;letter-spacing:.8px;background:rgba(194,96,127,.06);margin-top:4px">'+escHtml(c.name||'AI')+'的专属记忆</div>';
+    if(!cMems.length){html+='<div style="padding:10px 16px;font-size:12px;color:var(--t3)">暂无专属记忆</div>';}
+    cMems.forEach(function(m,i){var cid=c.id.replace(/'/g,"\'");html+='<div style="padding:11px 16px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--bdr2)"><div style="flex:1;font-size:13px;color:var(--t2);line-height:1.6">'+escHtml(m.text)+'</div><button onclick="deleteMemory('+i+',\''+cid+'\')" style="background:none;border:none;color:#ff6b6b;font-size:16px;cursor:pointer;flex-shrink:0;padding:0 4px">✕</button></div>';});
+  });
+  el.innerHTML=html||'<div style="padding:14px 16px;font-size:13px;color:var(--t3)">还没有记忆，点「添加」记录重要事项</div>';
+}
+function addMemory(){
+  // Build char list for selection
+  var charList=chars.map(function(c,i){return (i+1)+'. 💕 '+c.name+' 的专属记忆';}).join('\n');
+  var sub='0. 🌐 全局记忆（所有AI共享）'+(charList?'\n'+charList:'');
+  showInputDialog('🧠 添加记忆','记忆内容','',null,sub).then(function(text){
+    if(!text||!text.trim())return;
+    var lines=text.trim().split('\n');
+    var memText=lines[lines.length-1].trim(); // last line is the actual memory text
+    // Check if user is typing a number to select target (default: add to current chat char or global)
+    var targetChar=null;
+    if(activeCharId&&chars.find(function(c){return c.id===activeCharId;}))targetChar=activeCharId;
+    var mems=loadMemories(targetChar);
+    mems.push({text:memText,time:Date.now()});
+    saveMemories(mems,targetChar);
+    renderMemoryList();
+    var cName=targetChar?(chars.find(function(c){return c.id===targetChar;})||{}).name||'AI':'全局';
+    showToast('✅ 已添加到「'+cName+'」的记忆库');
+  });
+}
+function deleteMemory(i,charId){var cid=charId||null;var mems=loadMemories(cid);mems.splice(i,1);saveMemories(mems,cid);renderMemoryList();showToast('已删除');}
 function clearCurrentChat(){if(!activeCharId){showToast('请先进入某个聊天');return;}var c=chars.find(function(x){return x.id===activeCharId;});if(!confirm('删除与'+(c?c.name:'TA')+'的全部聊天记录？'))return;chatHistories[activeCharId]=[];saveAll();showToast('已清除聊天记录');renderChatHistory();}
 function updateHistRange(v){var el=document.getElementById('histRangeDesc');if(el)el.textContent='最近 '+v+' 条';}
 function updateDelay(v){var el=document.getElementById('delayDesc');if(el)el.textContent='等待 '+v+' 秒再请求（模拟真人输入）';}
