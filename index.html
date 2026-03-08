@@ -571,6 +571,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="cinput-area">
 <button class="plus-btn" id="plusBtn" onclick="toggleFeatDrawer()" title="更多功能"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-width="2.5" viewbox="0 0 24 24" width="20"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></button>
 <button class="mic-btn" id="micBtn" onmousedown="startVoiceInput(event)" onmouseup="stopVoiceInput(event)" ontouchend="stopVoiceInput(event)" ontouchstart="startVoiceInput(event)">🎤</button>
+<button onclick="toggleEmojiPicker()" title="表情包" style="width:36px;height:36px;border-radius:50%;background:var(--glass);border:1px solid var(--bdr);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;transition:background .15s" id="emojiPickerBtn">😊</button>
 <textarea class="ci" id="chatInput" oninput="autoResize(this);closeFeatDrawer()" onkeydown="handleKey(event)" placeholder="说点什么…" rows="1"></textarea>
 <button class="sbtn" onclick="sendMessage()"><svg fill="none" height="18" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><line x1="22" x2="11" y1="2" y2="13"></line><polygon fill="white" points="22 2 15 22 11 13 2 9 22 2" stroke="none"></polygon></svg></button>
 </div>
@@ -1083,6 +1084,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div style="padding:14px 16px 14px;background:rgba(14,10,24,.9);border-top:1px solid var(--bdr2);flex-shrink:0">
 <button onclick="addPackUI()" style="width:100%;padding:14px;border-radius:16px;background:var(--g2);border:none;color:white;font-family:'Noto Sans SC',sans-serif;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 18px var(--aglow)">+ 新建表情包分组</button>
 </div>
+</div><!-- /screen-emoji-manager -->
 </div><!-- /phone -->
 <div class="bnav" id="globalBnav" style="display:none">
 <button class="ni active" id="ni-home" onclick="setTab('home','ni-home')"><svg viewbox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>首页</button>
@@ -1091,7 +1093,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.7</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.8</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
