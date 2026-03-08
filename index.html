@@ -420,6 +420,12 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </head>
 <body>
 <div class="phone">
+<!-- Loading画面：已登录时显示，验证完成后隐藏 -->
+<div id="loadingScreen" style="position:absolute;inset:0;background:#060410;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s">
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;font-weight:300;background:linear-gradient(135deg,#ffe0f0,#e08aaa,#c2607f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px">恋语</div>
+  <div style="width:36px;height:36px;border:2px solid rgba(194,96,127,.2);border-top-color:#c2607f;border-radius:50%;animation:spin .8s linear infinite"></div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 <div class="screens">
 
 <!-- LOGIN -->
@@ -653,6 +659,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
       </div>
       <div class="wallet-recent">
         <div class="wallet-recent-title">最近交易</div>
+        <div id="walletTxContainer">
         <div class="wallet-tx">
           <div class="wallet-tx-icon">🧧</div>
           <div class="wallet-tx-info"><div class="wallet-tx-name" id="walletTxName1">发红包</div><div class="wallet-tx-time">刚刚</div></div>
@@ -792,7 +799,6 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
     <div class="stab" onclick="switchTab(this,'tab-persona')">👤 人设</div>
     <div class="stab" onclick="switchTab(this,'tab-memory')">🧠 记忆</div>
     <div class="stab" onclick="switchTab(this,'tab-advanced')">⚙️ 高级</div>
-    <div class="stab" onclick="switchTab(this,'tab-install')">📲 安装</div>
   </div>
   <div class="scont">
     <!-- API TAB -->
@@ -1040,7 +1046,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div><!-- /screens -->
 <div class="toast" id="toast"></div>
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v5.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.1</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
@@ -1199,16 +1205,24 @@ function renderProfilePage(){
   var eb=document.getElementById('epBio');if(eb)eb.value=u.bio||'';
 }
 
+function hideLoading(){
+  var el=document.getElementById('loadingScreen');
+  if(el){el.style.opacity='0';setTimeout(function(){el.style.display='none';},400);}
+}
+
 window.addEventListener('load',function(){
   window.onFirebaseLogin = handleFbLogin;
   window.onFirebaseLogout = function(){
     stopRealtimeSync();currentUser=null;chars=[];chatHistories={};emojiPacks=[];moments=[];_initialLoadDone=false;_firstSaveDone=false;
+    hideLoading();
     showScreen('login');
   };
-  // 如果已有pending登录信息，直接处理不显示登录页（避免闪屏）
   if(window._pendingFbUser){
+    // 已登录：显示loading，等数据加载完再进入
     handleFbLogin(window._pendingFbUser);
   } else {
+    // 未登录：直接隐藏loading显示登录页
+    hideLoading();
     showScreen('login');
   }
 });
@@ -1231,6 +1245,7 @@ function handleFbLogin(fbUser){
   loadUserDataFromFirestore().then(function(){
     console.log('[恋语] Data loaded. chars='+chars.length+' path=users/'+uid+'/data/main');
     renderUserBar();renderChars();renderProfilePage();showScreen('home');
+    hideLoading();
   });
 }
 
@@ -2866,40 +2881,159 @@ function chatWalletAction(type){
   closeChatWallet();
   var ch = chars.find(function(x){ return x.id===activeCharId; });
   var nm = (ch&&ch.name)||'TA';
+
   if(type==='redpacket'){
     setTimeout(function(){ sendRedPacketInChat(); }, 300);
+
   } else if(type==='transfer'){
     var amt = prompt('转账给'+nm+'（元）:','50.00');
     if(!amt||isNaN(parseFloat(amt))) return;
     amt = parseFloat(amt).toFixed(2);
+    if(parseFloat(amt)>_walletBalance){showToast('余额不足，请先充值');return;}
     _walletBalance = Math.max(0, _walletBalance - parseFloat(amt));
-    // Show as chat message
-    var msgs = document.getElementById('messages');
-    if(!msgs) return;
+    updateWalletUI();
+    addWalletTx('💸','转账给'+nm,'-¥'+amt,'red');
+    var msgs = document.getElementById('messages'); if(!msgs) return;
     var el = document.createElement('div'); el.className='mw me';
     var col = document.createElement('div'); col.className='msg-col';
     var card = document.createElement('div');
     card.style.cssText='background:linear-gradient(135deg,#07c160,#04a34f);border-radius:14px;padding:14px 16px;min-width:160px;';
     card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">微信转账</div><div style="color:white;font-size:24px;font-weight:700">¥'+amt+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">转账给'+escHtml(nm)+'</div>';
-    col.appendChild(card);
-    el.appendChild(col);
-    var tw = document.getElementById('typing-wrap');
-    if(tw&&tw.parentNode===msgs) msgs.insertBefore(el,tw); else msgs.appendChild(el);
-    msgs.scrollTop = msgs.scrollHeight;
-    if(!chatHistories[activeCharId]) chatHistories[activeCharId]=[];
+    col.appendChild(card); el.appendChild(col);
+    var tw=document.getElementById('typing-wrap');
+    if(tw&&tw.parentNode===msgs)msgs.insertBefore(el,tw);else msgs.appendChild(el);
+    msgs.scrollTop=msgs.scrollHeight;
+    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
     chatHistories[activeCharId].push({role:'user',content:'[转账¥'+amt+'给'+nm+']'});
     saveAll();
-    var tw2 = document.getElementById('typing-wrap'); if(tw2) tw2.style.display='flex'; msgs.scrollTop=msgs.scrollHeight;
-    callAI('[用户刚转账¥'+amt+'给你，请用1句话自然地道谢，口语化，不要太正式]', msgs, function(){}, true);
+    var tw2=document.getElementById('typing-wrap');if(tw2)tw2.style.display='flex';msgs.scrollTop=msgs.scrollHeight;
+    callAI('[用户刚转账¥'+amt+'给你，请用1句话自然地道谢，口语化]',msgs,function(){},true);
     showToast('已转账 ¥'+amt+' 给'+nm);
+
+  } else if(type==='topup'){
+    var options=['¥50','¥100','¥200','¥500'];
+    var topupAmt = prompt('充值零钱（元）:\n可选：50 / 100 / 200 / 500','100');
+    if(!topupAmt||isNaN(parseFloat(topupAmt))) return;
+    topupAmt = parseFloat(topupAmt).toFixed(2);
+    _walletBalance += parseFloat(topupAmt);
+    updateWalletUI();
+    addWalletTx('🏦','零钱充值','+¥'+topupAmt,'green');
+    showToast('充值成功 ¥'+topupAmt+'，余额 ¥'+_walletBalance.toFixed(2));
+
   } else if(type==='split'){
     var total = prompt('AA账单总金额（元）:','128.00');
     if(!total||isNaN(parseFloat(total))) return;
     var each = (parseFloat(total)/2).toFixed(2);
-    var msgs2 = document.getElementById('messages'); if(!msgs2) return;
-    var inp = document.getElementById('chatInput'); if(inp){ inp.value='我们AA吧，你该付 ¥'+each; sendMessage(); }
-  } else {
-    showToast('功能演示中 ✨');
+    var msgs3 = document.getElementById('messages'); if(!msgs3) return;
+    var el3 = document.createElement('div'); el3.className='mw me';
+    var col3 = document.createElement('div'); col3.className='msg-col';
+    var card3 = document.createElement('div');
+    card3.style.cssText='background:linear-gradient(135deg,#f57c00,#e65100);border-radius:14px;padding:14px 16px;min-width:160px;';
+    card3.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">🍽️ AA收款</div><div style="color:white;font-size:22px;font-weight:700">¥'+each+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">总账单 ¥'+parseFloat(total).toFixed(2)+'，人均 ¥'+each+'</div>';
+    col3.appendChild(card3); el3.appendChild(col3);
+    var tw3=document.getElementById('typing-wrap');
+    if(tw3&&tw3.parentNode===msgs3)msgs3.insertBefore(el3,tw3);else msgs3.appendChild(el3);
+    msgs3.scrollTop=msgs3.scrollHeight;
+    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+    chatHistories[activeCharId].push({role:'user',content:'[发起AA，总账单¥'+total+'，你需要付¥'+each+']'});
+    saveAll();
+    var tw4=document.getElementById('typing-wrap');if(tw4)tw4.style.display='flex';msgs3.scrollTop=msgs3.scrollHeight;
+    callAI('[用户发起AA收款，总账单¥'+total+'，你需要付¥'+each+'，请自然回应，1句话]',msgs3,function(){},true);
+
+  } else if(type==='pay'){
+    // 扫码付款：弹出二维码支付模拟
+    var payAmt = prompt('扫码付款金额（元）:','28.00');
+    if(!payAmt||isNaN(parseFloat(payAmt))) return;
+    payAmt = parseFloat(payAmt).toFixed(2);
+    if(parseFloat(payAmt)>_walletBalance){showToast('余额不足，请先充值');return;}
+    var merchant = prompt('商家名称:','便利店') || '便利店';
+    _walletBalance = Math.max(0,_walletBalance - parseFloat(payAmt));
+    updateWalletUI();
+    addWalletTx('📲','付款给'+merchant,'-¥'+payAmt,'red');
+    var msgs5=document.getElementById('messages');if(!msgs5)return;
+    var el5=document.createElement('div');el5.className='mw me';
+    var col5=document.createElement('div');col5.className='msg-col';
+    var card5=document.createElement('div');
+    card5.style.cssText='background:linear-gradient(135deg,#6a1b9a,#4a148c);border-radius:14px;padding:14px 16px;min-width:160px;';
+    card5.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">📲 扫码付款</div><div style="color:white;font-size:22px;font-weight:700">¥'+payAmt+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">付款给：'+escHtml(merchant)+'</div>';
+    col5.appendChild(card5);el5.appendChild(col5);
+    var tw5=document.getElementById('typing-wrap');
+    if(tw5&&tw5.parentNode===msgs5)msgs5.insertBefore(el5,tw5);else msgs5.appendChild(el5);
+    msgs5.scrollTop=msgs5.scrollHeight;
+    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+    chatHistories[activeCharId].push({role:'user',content:'[刚用微信扫码付了¥'+payAmt+'在'+merchant+']'});
+    saveAll();
+    var tw6=document.getElementById('typing-wrap');if(tw6)tw6.style.display='flex';msgs5.scrollTop=msgs5.scrollHeight;
+    callAI('[用户刚在'+merchant+'扫码付款¥'+payAmt+'，请自然地回应，1句话]',msgs5,function(){},true);
+    showToast('付款成功 ¥'+payAmt);
+
+  } else if(type==='receive'){
+    // 收付款：生成二维码让对方扫
+    var recvAmt = prompt('收款金额（元，留空为随机扫）:','');
+    var recvNote = recvAmt ? '收款 ¥'+parseFloat(recvAmt).toFixed(2) : '扫码收款';
+    var msgs7=document.getElementById('messages');if(!msgs7)return;
+    var el7=document.createElement('div');el7.className='mw me';
+    var col7=document.createElement('div');col7.className='msg-col';
+    var card7=document.createElement('div');
+    card7.style.cssText='background:linear-gradient(135deg,#00838f,#006064);border-radius:14px;padding:14px 16px;min-width:160px;text-align:center;';
+    var qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=80x80&data='+encodeURIComponent('wxpay://'+recvNote);
+    card7.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:8px">🏦 '+escHtml(recvNote)+'</div><img src="'+qrUrl+'" style="width:80px;height:80px;border-radius:8px;background:white;padding:4px"><div style="color:rgba(255,255,255,.7);font-size:10px;margin-top:6px">向对方展示二维码</div>';
+    col7.appendChild(card7);el7.appendChild(col7);
+    var tw7=document.getElementById('typing-wrap');
+    if(tw7&&tw7.parentNode===msgs7)msgs7.insertBefore(el7,tw7);else msgs7.appendChild(el7);
+    msgs7.scrollTop=msgs7.scrollHeight;
+    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+    chatHistories[activeCharId].push({role:'user',content:'[发起了收款码，'+recvNote+']'});
+    saveAll();
+    var tw8=document.getElementById('typing-wrap');if(tw8)tw8.style.display='flex';msgs7.scrollTop=msgs7.scrollHeight;
+    callAI('[用户发起了收款码'+recvNote+'，请自然地回应，1句话]',msgs7,function(){},true);
+
+  } else if(type==='shop'){
+    // 购物：选商品送给AI
+    var items=[{n:'🌹 玫瑰花束',p:38.8},{n:'🍫 巧克力礼盒',p:58},{n:'🧸 可爱玩偶',p:128},{n:'💍 银色项链',p:298},{n:'🎂 生日蛋糕',p:88},{n:'👗 连衣裙',p:168}];
+    var list=items.map(function(x,i){return (i+1)+'. '+x.n+' ¥'+x.p;}).join('\n');
+    var choice=prompt('选择礼物发给'+nm+':\n'+list+'\n\n输入数字(1-'+items.length+'):','1');
+    if(!choice||isNaN(parseInt(choice)))return;
+    var idx=parseInt(choice)-1;
+    if(idx<0||idx>=items.length)return;
+    var item=items[idx];
+    if(item.p>_walletBalance){showToast('余额不足 ¥'+_walletBalance.toFixed(2)+'，请先充值');return;}
+    _walletBalance=Math.max(0,_walletBalance-item.p);
+    updateWalletUI();
+    addWalletTx('🛍️','购买'+item.n,'-¥'+item.p,'red');
+    var msgs9=document.getElementById('messages');if(!msgs9)return;
+    var el9=document.createElement('div');el9.className='mw me';
+    var col9=document.createElement('div');col9.className='msg-col';
+    var card9=document.createElement('div');
+    card9.style.cssText='background:linear-gradient(135deg,#c62828,#ad1457);border-radius:14px;padding:14px 16px;min-width:160px;';
+    card9.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:6px">🛍️ 送给'+escHtml(nm)+'的礼物</div><div style="color:white;font-size:22px;margin-bottom:4px">'+item.n.split(' ')[0]+'</div><div style="color:rgba(255,255,255,.9);font-size:13px;font-weight:600">'+escHtml(item.n.substring(item.n.indexOf(' ')+1))+'</div><div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:4px">¥'+item.p+'</div>';
+    col9.appendChild(card9);el9.appendChild(col9);
+    var tw9=document.getElementById('typing-wrap');
+    if(tw9&&tw9.parentNode===msgs9)msgs9.insertBefore(el9,tw9);else msgs9.appendChild(el9);
+    msgs9.scrollTop=msgs9.scrollHeight;
+    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+    chatHistories[activeCharId].push({role:'user',content:'[送了一个礼物给你：'+item.n+'，花了¥'+item.p+']'});
+    saveAll();
+    var tw10=document.getElementById('typing-wrap');if(tw10)tw10.style.display='flex';msgs9.scrollTop=msgs9.scrollHeight;
+    callAI('[用户刚花¥'+item.p+'买了'+item.n+'送给你，请表现出开心和感动，1-2句话，自然口语化]',msgs9,function(){},true);
+    showToast('已送出 '+item.n+' 给'+nm);
+
+  } else if(type==='more'){
+    // 更多：理财/信用卡/生活缴费
+    var moreOpts=['1. 💰 零钱理财（模拟）','2. 💳 信用卡还款','3. 🏠 生活缴费','4. 🎁 礼品卡充值'].join('\n');
+    var mc=prompt('更多功能:\n'+moreOpts+'\n\n输入数字:','1');
+    if(!mc)return;
+    var moreMap={
+      '1':'[发现用户在玩零钱理财，把¥'+(_walletBalance*0.1).toFixed(0)+'存入了理财，请评论一下理财这件事，1句话]',
+      '2':'[用户在还信用卡，请问他还了多少，1句话]',
+      '3':'[用户在缴水电费，请关心一下，1句话]',
+      '4':'[用户在充礼品卡，请好奇地问问要送给谁，1句话]'
+    };
+    var mc2=mc.trim();
+    var prompt2=moreMap[mc2]||moreMap['1'];
+    var msgs11=document.getElementById('messages');if(!msgs11)return;
+    var tw11=document.getElementById('typing-wrap');if(tw11)tw11.style.display='flex';msgs11.scrollTop=msgs11.scrollHeight;
+    callAI(prompt2,msgs11,function(){},true);
   }
 }
 function sendRedPacketInChat(){
@@ -2965,6 +3099,30 @@ function startCallFromDrawer(){
 // WALLET FUNCTIONS
 // ══════════════════════════════════════════════
 var _walletBalance = 188.88;
+var _walletTxList = [
+  {icon:'🧧',name:'给TA发红包',amt:'-¥8.88',cls:'red',time:'刚刚'},
+  {icon:'💸',name:'转账给TA',amt:'-¥50.00',cls:'red',time:'昨天'},
+  {icon:'🏦',name:'零钱充值',amt:'+¥200.00',cls:'green',time:'3天前'}
+];
+
+function updateWalletUI(){
+  var b1=document.getElementById('chatWalletBalance');if(b1)b1.textContent=_walletBalance.toFixed(2);
+  var b2=document.getElementById('walletBalance');if(b2)b2.textContent=_walletBalance.toFixed(2);
+}
+
+function addWalletTx(icon,name,amt,cls){
+  _walletTxList.unshift({icon:icon,name:name,amt:amt,cls:cls,time:'刚刚'});
+  if(_walletTxList.length>10)_walletTxList.pop();
+  // 更新最近交易显示
+  var container=document.getElementById('walletTxContainer');
+  if(!container)return;
+  container.innerHTML='';
+  _walletTxList.slice(0,3).forEach(function(tx){
+    var div=document.createElement('div');div.className='wallet-tx';
+    div.innerHTML='<div class="wallet-tx-icon">'+tx.icon+'</div><div class="wallet-tx-info"><div class="wallet-tx-name">'+escHtml(tx.name)+'</div><div class="wallet-tx-time">'+tx.time+'</div></div><div class="wallet-tx-amt '+tx.cls+'">'+tx.amt+'</div>';
+    container.appendChild(div);
+  });
+}
 
 function openWallet(){
   var overlay=document.getElementById('walletOverlay');if(!overlay)return;
@@ -3006,9 +3164,9 @@ function walletAction(type){
     appendDateMsg('user','我们AA吧，你该付 ¥'+each,'text');
     setTimeout(function(){sendDateAI('[用户要AA，每人¥'+each+'，请自然地回应，1句话]',true);},500);
   } else if(type==='pay'){
-    showToast('扫码付款 — 演示功能');
+    showToast('💡 扫码付款为演示功能');
   } else {
-    showToast('功能演示中 ✨');
+    showToast('💡 此功能为演示展示');
   }
 }
 
