@@ -145,6 +145,27 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .ch-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .ch-info{flex:1;min-width:0;overflow:hidden}.ch-name{font-size:15px;font-weight:600;color:var(--t);letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ch-status{font-size:10.5px;color:#5cca88;display:flex;align-items:center;gap:4px}.ch-status::before{content:'';width:5px;height:5px;background:#5cca88;border-radius:50%;animation:blink 2s infinite}
+/* mode status pill */
+.mode-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 7px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--sans);cursor:default;transition:all .3s;white-space:nowrap}
+.mode-pill.online{background:rgba(92,202,136,.12);color:#5cca88;border:1px solid rgba(92,202,136,.3)}
+.mode-pill.meeting{background:rgba(255,160,80,.13);color:#ffab5e;border:1px solid rgba(255,160,80,.35)}
+.mode-pill.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mode-pill.online .dot{background:#5cca88;animation:blink 2s infinite}
+.mode-pill.meeting .dot{background:#ffab5e;animation:pulse 1.5s infinite}
+/* transition system message in chat/date */
+.ctx-bridge{margin:10px 16px;padding:10px 14px;border-radius:14px;font-size:12px;line-height:1.5;text-align:center;color:var(--t2)}
+.ctx-bridge.to-date{background:rgba(255,160,80,.08);border:1px solid rgba(255,160,80,.22);color:#ffab5e}
+.ctx-bridge.to-chat{background:rgba(92,202,136,.07);border:1px solid rgba(92,202,136,.2);color:#5cca88}
+/* "出门见面 / 回到网上" banner at bottom of feat drawer */
+.meet-banner{margin:10px 12px 4px;border-radius:14px;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+.meet-banner-inner{display:flex;align-items:center;gap:12px;padding:13px 16px;transition:opacity .15s}
+.meet-banner-inner:active{opacity:.7}
+.meet-banner.go{background:linear-gradient(135deg,rgba(255,140,60,.18),rgba(255,100,100,.12));border:1px solid rgba(255,140,60,.35)}
+.meet-banner.back{background:linear-gradient(135deg,rgba(92,202,136,.14),rgba(56,180,180,.1));border:1px solid rgba(92,202,136,.3)}
+.meet-banner-icon{font-size:26px;flex-shrink:0}
+.meet-banner-text{flex:1}
+.meet-banner-title{font-size:14px;font-weight:700;color:var(--t)}
+.meet-banner-sub{font-size:11px;color:var(--t3);margin-top:2px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .msgs{flex:1;overflow-y:auto;padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}.msgs::-webkit-scrollbar{display:none}
 .mw{display:flex;gap:8px;align-items:flex-start;animation:msgIn .22s ease-out}
@@ -548,7 +569,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="ch-av" id="chatHdrAv">🌸</div>
 <div class="ch-info">
 <div class="ch-name" id="chatHdrName">林晓</div>
-<div class="ch-status">在线中</div>
+<div id="chatModePill" class="mode-pill online"><span class="dot"></span>网上聊天</div>
 </div>
 <button class="date-mode-btn" id="dateModeBtn" onclick="openDateMode()" title="出门见面"><svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></button>
 <button class="icon-btn" id="summarizeBtn" onclick="summarizeAndSaveMemory()" title="总结并保存记忆" style="font-size:15px">🧠</button>
@@ -604,6 +625,17 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="feat-label">语音通话</div>
 </div>
 </div>
+<!-- Meet / Return banner -->
+<div id="meetBanner" class="meet-banner go" onclick="toggleMeetMode()">
+<div class="meet-banner-inner">
+<div class="meet-banner-icon">🚶</div>
+<div class="meet-banner-text">
+<div class="meet-banner-title">出门见面</div>
+<div class="meet-banner-sub">继续当前话题，切换到见面模式</div>
+</div>
+<svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</div>
+</div>
 </div>
 <div class="cinput-area">
 <button class="plus-btn" id="plusBtn" onclick="toggleFeatDrawer()" title="更多功能"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-width="2.5" viewbox="0 0 24 24" width="20"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></button>
@@ -623,8 +655,9 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="date-hdr-av" id="dateHdrAv"><div style="width:100%;height:100%;background:linear-gradient(135deg,#c2607f,#e08aaa);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:16px">🌸</div></div>
 <div class="date-hdr-info">
 <div class="date-hdr-name" id="dateHdrName">约会中</div>
-<div class="date-hdr-sub" id="dateStatusText">在线</div>
+<div id="dateModePill" class="mode-pill meeting"><span class="dot"></span>见面中</div>
 </div>
+<button onclick="endDateModeWithContext()" style="height:28px;padding:0 10px;border-radius:20px;background:rgba(92,202,136,.12);border:1px solid rgba(92,202,136,.3);color:#5cca88;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:var(--sans);flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation" title="回到网上聊">🏠 回家</button>
 <button onclick="showDateMore()" style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(194,96,127,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:18px;flex-shrink:0">⋯</button>
 </div>
 <!-- Scene banner -->
@@ -1113,7 +1146,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v15.2</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v15.3</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -2972,7 +3005,43 @@ var _dateScenes=[
   {icon:'🎡',name:'游乐园',prompt:'你们在游乐园约会'},
 ];
 
-function openDateMode(){
+
+// ─── MODE STATE ───────────────────────────────────────────
+var _isMeetingMode = false;
+
+function _updateModePill(){
+  var cp=document.getElementById('chatModePill');
+  var mb=document.getElementById('meetBanner');
+  if(_isMeetingMode){
+    if(cp){cp.className='mode-pill meeting';cp.innerHTML='<span class="dot"></span>见面中 📍';}
+    if(mb){
+      mb.className='meet-banner back';
+      mb.querySelector('.meet-banner-title').textContent='回到网上聊';
+      mb.querySelector('.meet-banner-sub').textContent='结束见面，继续网上聊天';
+      mb.querySelector('.meet-banner-icon').textContent='🏠';
+    }
+  } else {
+    if(cp){cp.className='mode-pill online';cp.innerHTML='<span class="dot"></span>网上聊天';}
+    if(mb){
+      mb.className='meet-banner go';
+      mb.querySelector('.meet-banner-title').textContent='出门见面';
+      mb.querySelector('.meet-banner-sub').textContent='继续当前话题，切换到见面模式';
+      mb.querySelector('.meet-banner-icon').textContent='🚶';
+    }
+  }
+}
+
+function toggleMeetMode(){
+  closeFeatDrawer();
+  setTimeout(function(){
+    if(_isMeetingMode){ endDateModeWithContext(); }
+    else { openDateModeWithContext(); }
+  },150);
+}
+
+function openDateMode(){ openDateModeWithContext(); }
+
+function openDateModeWithContext(){
   if(!activeCharId){showToast('请先选择 AI 伴侣');return;}
   var ch=chars.find(function(x){return x.id===activeCharId;});
   var nameEl=document.getElementById('dateHdrName');
@@ -2983,18 +3052,75 @@ function openDateMode(){
       avEl.innerHTML='<img src="'+ch.avatar+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
     else avEl.innerHTML='<div style="width:100%;height:100%;background:linear-gradient(135deg,#c2607f,#e08aaa);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:16px">'+(ch&&ch.avatar&&!ch.avatar.startsWith('data:')?ch.avatar:'🌸')+'</div>';
   }
-  // Update scene banner
   updateDateSceneUI();
+  _isMeetingMode=true;
+  _updateModePill();
+
+  // Grab recent chat context
+  var hist=chatHistories[activeCharId]||[];
+  var recent=hist.filter(function(m){return m.role==='user'||m.role==='assistant';}).slice(-6);
+  var ctxSnippet=recent.map(function(m){return (m.role==='user'?'我':'TA')+': '+String(m.content||'').replace(/\[.*?\]/g,'').trim().slice(0,80);}).join('\n');
+
   renderDateMsgs();
   showScreen('date');
-  if(!dateMsgsHistory[activeCharId]||!dateMsgsHistory[activeCharId].length){
-    dateMsgsHistory[activeCharId]=[];
+
+  // Bridge record in date
+  appendDateMsg('system_msg','— 从网上聊天切换到见面模式 —','system_msg');
+  // Bridge record in chat DOM
+  var chatMsgsEl=document.getElementById('messages');
+  if(chatMsgsEl){
+    var bEl=document.createElement('div');bEl.className='ctx-bridge to-date';
+    bEl.textContent='📍 出门见面了 — 对话在见面模式继续';
+    chatMsgsEl.appendChild(bEl);
+  }
+
+  var hasHistory=dateMsgsHistory[activeCharId]&&dateMsgsHistory[activeCharId].filter(function(m){return m.role==='user'||m.role==='assistant';}).length>0;
+  if(!hasHistory){
     var scene=_dateScene;
+    var ctxPart=ctxSnippet?('\n刚才网上聊到了这些，请自然延续：\n'+ctxSnippet):'';
     setTimeout(function(){
-      sendDateAI('[系统：约会模式开始，场景：'+scene.prompt+'。你主动发1-2句自然口语消息，像真人打招呼，可以撒娇/期待/说你在哪等。绝对禁止出现"via phone"或任何英文提示词]',true);
-    },600);
+      sendDateAI('[系统：你们刚从网上聊天变成真正见面了，场景：'+scene.prompt+'。'+ctxPart+'\n请发1-2句见面打招呼，可以提到刚才聊的内容，口语化自然。禁止括号动作和英文]',true);
+    },500);
+  } else {
+    var scene2=_dateScene;
+    var ctxPart2=ctxSnippet?('\n刚才网上聊到了：'+ctxSnippet):'';
+    setTimeout(function(){
+      sendDateAI('[系统：继续见面，场景：'+scene2.prompt+'。'+ctxPart2+'\n用1句话自然继续，口语化]',true);
+    },400);
   }
 }
+
+function endDateMode(){ endDateModeWithContext(); }
+
+function endDateModeWithContext(){
+  var dateHist=dateMsgsHistory[activeCharId]||[];
+  var recent=dateHist.filter(function(m){return m.role==='user'||m.role==='assistant';}).slice(-5);
+  var ctxSnippet=recent.map(function(m){return (m.role==='user'?'我':'TA')+': '+String(m.content||'').slice(0,80);}).join('\n');
+
+  _isMeetingMode=false;
+  _updateModePill();
+  showScreen('chat');
+
+  var chatMsgsEl=document.getElementById('messages');
+  if(chatMsgsEl){
+    var bEl=document.createElement('div');bEl.className='ctx-bridge to-chat';
+    bEl.textContent='🏠 见面结束，回到网上聊了';
+    chatMsgsEl.appendChild(bEl);
+    chatMsgsEl.scrollTop=chatMsgsEl.scrollHeight;
+  }
+
+  if(ctxSnippet){
+    var hint='[系统：你们刚刚见面结束分开回家了，现在切换回网上聊天。见面时聊到：\n'+ctxSnippet+'\n请发1句网聊消息延续刚才见面的氛围，可以说"到家了没""今天很开心"之类。口语化，不超过20字，禁止括号动作和英文]';
+    setTimeout(function(){
+      if(isSending)return;
+      isSending=true;
+      var tw=document.getElementById('typing-wrap');if(tw)tw.style.display='flex';
+      var msgs=document.getElementById('messages');if(msgs)msgs.scrollTop=msgs.scrollHeight;
+      callAI(hint,msgs,function(){isSending=false;},true);
+    },800);
+  }
+}
+// ─── END MODE STATE ───────────────────────────────────────
 
 function updateDateSceneUI(){
   var icon=document.getElementById('dateSceneIcon');
@@ -3038,9 +3164,7 @@ function dateSendGift(){
   });
 }
 
-function endDateMode(){
-  showScreen('chat');
-}
+
 
 function showDateMore(){
   var opts='1. 📍 发位置\n2. 🧧 发红包\n3. 🎁 送礼物\n4. 💬 说悄悄话\n5. 🌸 换场景\n6. 🔚 结束约会';
