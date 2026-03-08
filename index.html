@@ -3059,7 +3059,7 @@ function openDateModeWithContext(){
   // Grab recent chat context
   var hist=chatHistories[activeCharId]||[];
   var recent=hist.filter(function(m){return m.role==='user'||m.role==='assistant';}).slice(-6);
-  var ctxSnippet=recent.map(function(m){return (m.role==='user'?'我':'TA')+': '+String(m.content||'').replace(/\[.*?\]/g,'').trim().slice(0,80);}).join('\n');
+  var ctxSnippet=recent.map(function(m){return (m.role==='user'?'我':'TA')+': '+String(m.content||'').replace(/\[.*?\]/g,'').replace(/^\/\S+/,'').trim().slice(0,80);}).filter(function(s){return s.length>4;}).join('\n');
 
   renderDateMsgs();
   showScreen('date');
@@ -3095,7 +3095,7 @@ function endDateMode(){ endDateModeWithContext(); }
 function endDateModeWithContext(){
   var dateHist=dateMsgsHistory[activeCharId]||[];
   var recent=dateHist.filter(function(m){return m.role==='user'||m.role==='assistant';}).slice(-5);
-  var ctxSnippet=recent.map(function(m){return (m.role==='user'?'我':'TA')+': '+String(m.content||'').slice(0,80);}).join('\n');
+  var ctxSnippet=recent.map(function(m){return (m.role==='user'?'我':'TA')+': '+String(m.content||'').replace(/^\/\S+/,'').trim().slice(0,80);}).filter(function(s){return s.length>4;}).join('\n');
 
   _isMeetingMode=false;
   _updateModePill();
@@ -3323,13 +3323,20 @@ function sendDateAI(userText,silent,prefixText){
       var data=await res.json();
       var reply=(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content)||'';
       reply=reply.trim()
-        .replace(/^(好的[！!]?|当然[！!]?|我明白[^。！!]*[。！!]?|AI:|助手:|TA:)/,'')
-        .replace(/\([^)]*\)/g,'') // remove (action) descriptions
-        .replace(/（[^）]*）/g,'') // remove （action） 
+        .replace(/^(好的[！!]?|当然[！!]?|我明白[^。！!]*[。！!]?|AI:|助手:|TA:|系统：|System:|\[系统[^\]]*\])/,'')
+        .replace(/\([^)]*\)/g,'')
+        .replace(/（[^）]*）/g,'')
+        .replace(/^\[.*?\]/,'') // strip any leading [command] echoes
+        .replace(/^\/\S+/,'')   // strip slash commands like /cos
         .trim();
       if(prefixText)reply=prefixText+reply;
+      // Reject if clearly garbage (too short, pure punctuation, or still a slash cmd)
+      if(!reply||reply.length<2||/^[\/\[\]\\]/.test(reply)){
+        dateIsSending=false;if(tw)tw.style.display='none';
+        var sb2a=document.getElementById('dateStopBtn');if(sb2a)sb2a.classList.remove('visible');
+        return;
+      }
       var sb2=document.getElementById('dateStopBtn');if(sb2)sb2.classList.remove('visible');
-      if(!reply){dateIsSending=false;if(tw)tw.style.display='none';return;}
       if(tw)tw.style.display='none';
       // Check if AI wants to send location
       if(/发.{0,4}位置|分享.{0,4}位置|我在.{1,10}附近|我到了|快到了|导航|我现在在/.test(reply)){
