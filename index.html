@@ -515,6 +515,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="ch-status">在线中</div>
 </div>
 <button class="date-mode-btn" id="dateModeBtn" onclick="openDateMode()" title="出门见面"><svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></button>
+<button class="icon-btn" id="summarizeBtn" onclick="summarizeAndSaveMemory()" title="总结并保存记忆" style="font-size:15px">🧠</button>
 <button class="stop-btn" id="stopBtn" onclick="stopAIReply()" title="停止"><svg viewbox="0 0 10 10" width="14" height="14"><rect height="8" rx="1" width="8" x="1" y="1"></rect></svg></button>
 <button class="icon-btn" onclick="showScreen('call')"><svg viewbox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"></path></svg></button>
 <button class="icon-btn" onclick="editCurrentChar()"><svg viewbox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
@@ -925,6 +926,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <option value="30">每 30 分钟</option>
 <option value="60">每 1 小时</option>
 </select></div>
+<div style="padding:8px 16px 10px"><div style="font-size:11px;color:var(--t3);margin-bottom:5px;font-weight:600">主动消息使用的模型（留空=用主模型）</div><input id="proactiveModel" class="finp" placeholder="如：gpt-4o-mini / gemini-2.0-flash" type="text" style="font-size:13px" oninput="saveConfig()"/><div style="font-size:10px;color:var(--t3);margin-top:4px">可以填便宜/轻量的模型，不影响主聊天</div></div>
 </div>
 <div class="row"><div class="rinfo"><div class="rname">🌸 AI 会来看我的朋友圈</div><div class="rdesc">发动态后 AI 会自动点赞和评论</div></div><div class="toggle on" id="toggleAIMoments" onclick="toggleSw(this)"></div></div>
 <div class="row"><div class="rinfo"><div class="rname">❤️ AI 点赞我的动态</div><div class="rdesc">发布动态后 AI 随机给你点个赞</div></div><div class="toggle on" id="toggleAILike" onclick="toggleSw(this)"></div></div>
@@ -1091,7 +1093,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.9</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v15.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -2242,30 +2244,55 @@ function sendProactiveMessage(){
   var c=chars.find(function(x){return x.id===activeCharId;})||chars[0];
   if(!c)return;
   var persona=loadPersona();
-  var userCtx=persona.myName?'用户叫"'+persona.myName+'"。':'';
-  var memStr='';try{var mems=JSON.parse(localStorage.getItem('memories_'+(currentUser?currentUser.id:'guest'))||'[]');if(mems.length)memStr='\n用户记忆：'+mems.slice(-3).map(function(m){return m.text;}).join('；');}catch(e){}
+  var userCtx='';
+  if(persona.myName)userCtx+='用户叫"'+persona.myName+'"，';
+  if(persona.myGender&&persona.myGender!='不填')userCtx+='性别：'+persona.myGender+'，';
+  if(persona.myPersonality)userCtx+='性格和爱好：'+persona.myPersonality+'。';
+  var globalM=loadMemories();
+  var charM=loadMemories(c.id);
+  var allMems=charM.concat(globalM.filter(function(g){return!charM.find(function(x){return x.text===g.text;});}));
+  var memStr=allMems.length?('\n你了解用户：'+allMems.slice(-5).map(function(m){return m.text;}).join('；')+'。'):'';
   var hist=chatHistories[c.id]||[];
-  var timePhrases=['早上好','下午好','晚上好','嘿，想你了','最近怎么样','你在忙吗','有没有在想我','在干嘛呢'];
-  var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+'\n\n'+userCtx+memStr+'\n你主动给用户发消息，用一句自然口语化的话开始，不超过20字，可以撒娇、问候、或表达想念，不要说"你好"之类的客套话。';
-  (async function(){try{
-    var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP}].concat(hist.slice(-4)).concat([{role:'user',content:'[主动发消息给用户]'}]),max_tokens:60,temperature:0.95})});
-    if(!res.ok)return;
-    var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
-    if(reply){
-      reply=reply.trim();
-      if(!chatHistories[c.id])chatHistories[c.id]=[];
-      chatHistories[c.id].push({role:'assistant',content:reply});
-      saveAll();
-      // Show in-app notification
-      showInAppNotif(c.name,reply,c.id);
-      // If currently in chat with this char, also render
-      if(activeCharId===c.id){
-        var msgs=document.getElementById('messages');
-        if(msgs)appendAIMsg(msgs,reply);
+  var recentCtx='';
+  if(hist.length>=2){
+    var last=hist[hist.length-1];
+    if(last&&last.content&&last.content.length>3)recentCtx='\n上次你们聊到："'+last.content.slice(0,35)+(last.content.length>35?'…':'')+'"，可自然延续或换话题。';
+  }
+  var h=new Date().getHours();
+  var tod=h<11?'早上':h<14?'中午':h<18?'下午':h<22?'晚上':'深夜';
+  var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+
+    '\n\n【关于用户】'+userCtx+memStr+recentCtx+
+    '\n\n【任务】现在是'+tod+'，你主动给用户发一条消息。规则：\n- 1~2句话，极度口语化，像真人发微信\n- 根据时间段自然问候或撒娇表达想念\n- 禁止"你好"、禁止AI感开头、禁止正式用语\n- 直接输出消息，不要任何前缀或引号';
+  var useModel=(cfg.proactiveModel&&cfg.proactiveModel.trim())?cfg.proactiveModel.trim():cfg.model||'gpt-4o';
+  (async function(){
+    try{
+      var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},
+        body:JSON.stringify({
+          model:useModel,
+          messages:[{role:'system',content:sysP}].concat(
+            hist.slice(-6).filter(function(m){return m.role&&m.content&&m.content.length<300;})
+          ),
+          max_tokens:80,temperature:0.92
+        })
+      });
+      if(!res.ok)return;
+      var data=await res.json();
+      var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+      if(reply){
+        reply=reply.trim().replace(/^(AI:|助手:|我:|你好[，,！!]?)/,'').trim();
+        if(!reply)return;
+        if(!chatHistories[c.id])chatHistories[c.id]=[];
+        chatHistories[c.id].push({role:'assistant',content:reply});
+        saveAll();
+        showInAppNotif(c.name,reply,c.id);
+        if(activeCharId===c.id){var msgs=document.getElementById('messages');if(msgs)appendAIMsg(msgs,reply);}
       }
-    }
-  }catch(e){}})();
+    }catch(e){}
+  })();
 }
+
 function aiRespondToPost(post,c){var cfg=loadConfig();if(!cfg.apiKey||!cfg.apiUrl)return;var persona=loadPersona();var userCtx=persona.myName?'用户叫"'+persona.myName+'"。':'';var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+'\n\n'+userCtx+'\n用户刚发布了一条朋友圈动态，请你用一句简短自然的话评论，就像真实的朋友，不要太正式，可以用emoji，15字以内。';(async function(){try{var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP},{role:'user',content:'动态：'+post.text}],max_tokens:60,temperature:0.9})});if(!res.ok)return;var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;if(reply){var mm=moments.find(function(x){return x.id===post.id;});if(mm){mm.comments.push({name:c.name,text:reply.trim()});saveAll();renderMoments();}}}catch(e){}})();}
 function likeMoment(id){var m=moments.find(function(x){return x.id===id;});if(m){m.likes++;saveAll();renderMoments();}}
 function deleteMoment(id){if(!confirm('删除这条动态？'))return;moments=moments.filter(function(m){return m.id!==id;});saveAll();renderMoments();}
@@ -2285,7 +2312,7 @@ function saveConfig(){
   var extraRaw=(document.getElementById('extraParams')||{}).value||'';extraRaw=extraRaw.trim();
   if(extraRaw){try{JSON.parse(extraRaw);}catch(e){showToast('❌ 额外参数 JSON 格式有误');return;}}
   var togVal=function(id,def){var el=document.getElementById(id);return el?el.classList.contains('on'):def;};
-  var cfg={apiUrl:document.getElementById('inputApiUrl').value.trim(),apiKey:document.getElementById('inputApiKey').value.trim(),model:document.getElementById('inputModel').value.trim(),maxTokens:document.getElementById('inputMaxTokens').value.trim(),temperature:document.getElementById('inputTemperature').value.trim(),keepHistory:togVal('toggleKeepHistory',true),memoryOn:togVal('toggleMemory',true),ttsOn:togVal('toggleTTS',false),sttOn:togVal('toggleSTT',false),autoImgOn:togVal('toggleAutoImg',false),histRange:parseInt((document.getElementById('histRange')||{value:'20'}).value)||20,sendDelay:parseFloat((document.getElementById('sendDelay')||{value:'0'}).value)||0,streamOn:togVal('toggleStream',true),compatMode:togVal('toggleCompat',false),thinkingMode:togVal('toggleThinking',false),extraParams:extraRaw,proactiveChatOn:togVal('toggleProactiveChat',false),proactiveChatFreq:parseInt((document.getElementById('proactiveChatFreq')||{value:'20'}).value)||20,aiMomentsOn:togVal('toggleAIMoments',true),aiLikeOn:togVal('toggleAILike',true)};
+  var cfg={apiUrl:document.getElementById('inputApiUrl').value.trim(),apiKey:document.getElementById('inputApiKey').value.trim(),model:document.getElementById('inputModel').value.trim(),maxTokens:document.getElementById('inputMaxTokens').value.trim(),temperature:document.getElementById('inputTemperature').value.trim(),keepHistory:togVal('toggleKeepHistory',true),memoryOn:togVal('toggleMemory',true),ttsOn:togVal('toggleTTS',false),sttOn:togVal('toggleSTT',false),autoImgOn:togVal('toggleAutoImg',false),histRange:parseInt((document.getElementById('histRange')||{value:'20'}).value)||20,sendDelay:parseFloat((document.getElementById('sendDelay')||{value:'0'}).value)||0,streamOn:togVal('toggleStream',true),compatMode:togVal('toggleCompat',false),thinkingMode:togVal('toggleThinking',false),extraParams:extraRaw,proactiveChatOn:togVal('toggleProactiveChat',false),proactiveChatFreq:parseInt((document.getElementById('proactiveChatFreq')||{value:'20'}).value)||20,proactiveModel:(document.getElementById('proactiveModel')||{value:''}).value||'',aiMomentsOn:togVal('toggleAIMoments',true),aiLikeOn:togVal('toggleAILike',true)};
   var _uid=currentUser?(currentUser.id||currentUser.uid):'guest';
   localStorage.setItem('cfg_'+_uid,JSON.stringify(cfg));
   localStorage.setItem('aiConfig',JSON.stringify(cfg));
@@ -2325,6 +2352,7 @@ function loadConfigToUI(){
   setTog('toggleProactiveChat',cfg.proactiveChatOn,false);setTog('toggleAIMoments',cfg.aiMomentsOn!==false,true);setTog('toggleAILike',cfg.aiLikeOn!==false,true);
   var pcFreq=document.getElementById('proactiveChatFreq');if(pcFreq&&cfg.proactiveChatFreq)pcFreq.value=cfg.proactiveChatFreq;
   var pcRow=document.getElementById('proactiveChatRow');if(pcRow)pcRow.style.display=cfg.proactiveChatOn?'block':'none';
+  var pmEl=document.getElementById('proactiveModel');if(pmEl)pmEl.value=cfg.proactiveModel||'';
   var ttsBlock=document.getElementById('ttsSettingsBlock');
   if(ttsBlock)ttsBlock.style.display=cfg.ttsOn?'block':'none';
   if(cfg.ttsOn)loadTTSVoices();
@@ -2385,6 +2413,49 @@ function initModelSelect(){
 function testConn(){(async function(){var cfg=loadConfig();if(!cfg.apiKey||!cfg.apiUrl){showToast('请先填写 API Key 和地址');return;}showToast('🔄 测试中…');try{var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/models',{headers:{'Authorization':'Bearer '+cfg.apiKey}});showToast(res.ok?'✅ 连接成功！':'❌ 连接失败 ('+res.status+')');}catch(e){showToast('❌ 无法连接');}})();}
 function loadMemories(charId){var uid=currentUser?currentUser.id:'guest';var key=charId?'mem_'+uid+'_c_'+charId:'mem_'+uid;try{return JSON.parse(localStorage.getItem(key)||localStorage.getItem('mem_'+uid)||localStorage.getItem('memories')||'[]');}catch(e){return[];}}
 function saveMemories(mems,charId){var _muid=currentUser?currentUser.id:'guest';var key=charId?'mem_'+_muid+'_c_'+charId:'mem_'+_muid;localStorage.setItem(key,JSON.stringify(mems));if(!charId){localStorage.setItem('memories',JSON.stringify(mems));}var _fb4=window._fb;if(_fb4&&currentUser){var fbKey=charId?'memories_c_'+charId:'memories';_fb4.setDoc(_fb4.doc(_fb4.db,'users',currentUser.id,'data',fbKey),{list:mems},{merge:true}).catch(function(){});}}
+
+async function summarizeAndSaveMemory(){
+  var cfg=loadConfig();
+  if(!cfg.apiKey||!cfg.apiUrl){showToast('请先填写 API Key');return;}
+  var c=chars.find(function(x){return x.id===activeCharId;});
+  if(!c){showToast('请先打开一个聊天');return;}
+  var hist=chatHistories[activeCharId]||[];
+  if(hist.length<4){showToast('聊天内容太少，多聊几句再总结');return;}
+  var btn=document.getElementById('summarizeBtn');
+  if(btn){btn.style.opacity='0.4';btn.style.pointerEvents='none';}
+  showToast('🧠 AI 正在总结记忆…');
+  var recent=hist.slice(-40);
+  var convText=recent.map(function(m){return(m.role==='user'?'用户':'AI')+': '+m.content;}).join('\n');
+  var useModel=(cfg.proactiveModel&&cfg.proactiveModel.trim())?cfg.proactiveModel.trim():cfg.model||'gpt-4o';
+  var existing=loadMemories(activeCharId).map(function(m){return m.text;});
+  var existStr=existing.length?existing.join('；'):'（无）';
+  var sysP='从以下对话提取用户透露的重要个人信息（姓名、职业、爱好、生日、家庭、心情、重要事件等）。每条一行，20字以内，具体不笼统。只输出信息本身，不加序号。已有记忆中存在的不要重复输出。没有新信息就输出"无新信息"。\n\n已有记忆：'+existStr;
+  try{
+    var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},
+      body:JSON.stringify({model:useModel,messages:[{role:'system',content:sysP},{role:'user',content:convText}],max_tokens:200,temperature:0.2})
+    });
+    if(!res.ok){showToast('❌ 请求失败 '+res.status);return;}
+    var data=await res.json();
+    var reply=(data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content||'').trim();
+    if(!reply||reply.startsWith('无')){showToast('💬 没有发现新的记忆内容');return;}
+    var lines=reply.split('\n').map(function(l){return l.replace(/^\d+[.、]\s*/,'').trim();}).filter(function(l){return l&&l.length>2&&!existing.includes(l);});
+    if(!lines.length){showToast('💬 已有的记忆都是最新的了');return;}
+    var preview=lines.map(function(l,i){return(i+1)+'. '+l;}).join('\n');
+    showInputDialog('🧠 发现 '+lines.length+' 条新记忆','可编辑后确认保存',preview,null,'将保存到「'+c.name+'」的专属记忆里').then(function(confirmed){
+      if(!confirmed||!confirmed.trim())return;
+      var final=confirmed.split('\n').map(function(l){return l.replace(/^\d+[.、]\s*/,'').trim();}).filter(function(l){return l&&l.length>2;});
+      var mems=loadMemories(activeCharId);
+      var added=0;
+      final.forEach(function(l){if(!mems.find(function(m){return m.text===l;})){mems.push({text:l,time:Date.now()});added++;}});
+      if(added){saveMemories(mems,activeCharId);if(document.getElementById('memoryList'))renderMemoryList();}
+      showToast('✅ 保存了 '+added+' 条记忆到「'+c.name+'」');
+    });
+  }catch(e){showToast('❌ 总结失败');}
+  finally{if(btn){btn.style.opacity='';btn.style.pointerEvents='';}}
+}
+
 // ── Auto-extract memories from chat after every 20 messages ──
 function autoExtractMemory(charId){
   var cfg=loadConfig();
