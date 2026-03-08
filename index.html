@@ -1051,7 +1051,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div><!-- /screens -->
 <div class="toast" id="toast"></div>
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.2</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.3</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
@@ -1480,6 +1480,11 @@ function setTab(name,niId){
   document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');});
   var el=document.getElementById(niId);if(el)el.classList.add('active');
   showScreen(name);
+  // 切换到对应页面时初始化内容
+  if(name==='moments') renderMoments();
+  else if(name==='emoji-manager') renderEmojiManager();
+  else if(name==='profile') renderProfilePage();
+  else if(name==='settings') loadConfigToUI();
 }
 function forgotPassword(){
   var email=document.getElementById('loginEmail').value.trim();
