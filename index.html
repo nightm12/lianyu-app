@@ -338,7 +338,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 
 .epanel{display:none;position:absolute;bottom:0;left:0;right:0;height:220px;z-index:20;overflow-y:auto;background:rgba(18,12,28,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--bdr);animation:slideUp .2s ease-out}
 /* Feature drawer */
-.feat-drawer{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1);background:rgba(14,10,24,.98);border-top:1px solid var(--bdr2);position:absolute;bottom:100%;left:0;right:0;z-index:20;}
+.feat-drawer{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1);background:rgba(14,10,24,.98);border-top:1px solid var(--bdr2);position:relative;z-index:20;flex-shrink:0;}
 .feat-drawer.open{max-height:260px;}
 .feat-drawer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:16px 8px 12px;}
 .feat-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 4px;cursor:pointer;border-radius:14px;transition:background .15s;-webkit-tap-highlight-color:transparent;position:relative;z-index:21;}
@@ -595,8 +595,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <textarea class="msg-edit-ta" id="msgEditTa" placeholder="编辑你的消息…"></textarea>
 <div style="font-size:11px;color:var(--t3);text-align:center">编辑后将删除此消息之后的所有记录并重新发送</div>
 </div>
-<!-- FEATURE DRAWER + INPUT WRAPPER -->
-<div style="position:relative;flex-shrink:0">
+<!-- FEATURE DRAWER (WhatsApp-style) -->
 <div class="feat-drawer" id="featDrawer">
 <div class="feat-drawer-grid">
 
@@ -630,7 +629,6 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="sbtn" onclick="sendMessage()"><svg fill="none" height="18" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><line x1="22" x2="11" y1="2" y2="13"></line><polygon fill="white" points="22 2 15 22 11 13 2 9 22 2" stroke="none"></polygon></svg></button>
 </div>
 <input accept="image/*" id="chatImgInput" multiple="" onchange="handleImgFiles(event)" style="display:none" type="file"/>
-</div><!-- /input-wrapper -->
 </div><!-- /screen-chat -->
 <!-- CHAT WALLET OVERLAY moved to root level below -->
 <!-- date mode removed -->
@@ -817,8 +815,9 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <input accept="image/*" id="profileAvatarFile" onchange="handleProfileAvatarFile(event)" style="display:none" type="file"/>
 </div><div class="screen hidden" id="screen-settings">
 <div class="hdr">
-<button class="back-btn" onclick="showScreen('home')"><svg viewbox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+<button class="back-btn" onclick="saveConfig();showScreen('home')"><svg viewbox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
 <div class="hdr-title">设置</div>
+<button onclick="saveConfig()" style="padding:7px 16px;border-radius:20px;border:none;background:var(--a);color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);flex-shrink:0">保存</button>
 </div>
 <div class="stabs">
 <div class="stab active" onclick="switchTab(this,'tab-api')">🔑 API</div>
