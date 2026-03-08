@@ -52,7 +52,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .phone::after{content:'';position:absolute;bottom:-80px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(122,34,72,.08),transparent 65%);pointer-events:none;z-index:0}
 /* screens */
 .screens{flex:1;position:relative;overflow:hidden;z-index:1;min-height:0;height:100%}
-.screen{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;z-index:1}
+.screen{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;z-index:1}
 .screen.hidden{display:none!important}
 .screen.hidden-left{display:none!important}
 /* shared header */
@@ -217,7 +217,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .date-hdr-btn.blue{background:#e3f2fd;color:#1565c0;border-color:#bbdefb;}
 .date-hdr-btn:active{opacity:.7;}
 /* wallet modal */
-.wallet-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s}
+.wallet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s}
 .wallet-overlay.open{opacity:1;pointer-events:auto;}
 .wallet-sheet{width:100%;background:#f5f5f5;border-radius:20px 20px 0 0;padding:0 0 30px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .wallet-overlay.open .wallet-sheet{transform:translateY(0);}
@@ -266,7 +266,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .stop-btn:active{background:rgba(230,80,80,.25)}
 .stop-btn svg{width:12px;height:12px;fill:#e57373;stroke:none}
 /* edit overlay */
-.msg-edit-overlay{position:fixed;inset:0;z-index:30;background:rgba(6,4,16,.97);display:flex;flex-direction:column;padding:calc(0px+14px) 14px 14px;transform:translateY(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
+.msg-edit-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:30;background:rgba(6,4,16,.97);display:flex;flex-direction:column;padding:calc(0px+14px) 14px 14px;transform:translateY(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}
 .msg-edit-overlay.open{transform:translateY(0)}
 .msg-edit-ta{flex:1;width:100%;background:var(--glass);border:1px solid var(--bdr);border-radius:16px;padding:14px;color:var(--t);font-size:14px;line-height:1.65;resize:none;outline:none;font-family:var(--sans);margin:12px 0}
 .msg-edit-ta:focus{border-color:var(--a)}
@@ -333,7 +333,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .mp-comment{font-size:13px;color:var(--t2);padding:3px 0;line-height:1.6}
 .mp-comment .cc-name{color:var(--a2);font-weight:600}
 .compose-fab{position:absolute;bottom:calc(0px+16px);right:18px;width:52px;height:52px;border-radius:50%;background:var(--g2);border:none;color:white;font-size:22px;cursor:pointer;box-shadow:0 6px 22px var(--aglow);z-index:20;display:flex;align-items:center;justify-content:center;transition:transform .15s}.compose-fab:active{transform:scale(.88)}
-.compose-overlay{position:fixed;inset:0;background:var(--bg2);z-index:50;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}.compose-overlay.open{transform:translateY(0)}
+.compose-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg2);z-index:50;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}.compose-overlay.open{transform:translateY(0)}
 .compose-hdr{padding:calc(0px+14px) 18px 14px;border-bottom:1px solid var(--bdr2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .compose-ta{flex:1;padding:16px 18px;font-size:15px;font-family:'Noto Sans SC',sans-serif;color:var(--t);border:none;outline:none;resize:none;line-height:1.75;background:transparent;caret-color:var(--a2)}.compose-ta::placeholder{color:var(--t3)}
 .compose-imgs{padding:0 18px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
@@ -386,7 +386,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .p-stat-lbl{font-size:10.5px;color:var(--t3);font-family:var(--sans)}
 .profile-edit-btn{width:100%;padding:12px;border-radius:13px;border:1px solid var(--bdr);background:var(--glass);color:var(--t);font-family:var(--sans);font-size:13.5px;font-weight:500;cursor:pointer;margin-bottom:13px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px}
 .profile-edit-btn:active{background:var(--glass2)}
-.edit-profile-overlay{position:fixed;inset:0;background:var(--bg);z-index:10;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.edit-profile-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:10;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .edit-profile-overlay.open{transform:translateY(0)}
 .ep-hdr{padding:calc(0px+13px) 14px 11px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr2);flex-shrink:0;background:rgba(6,4,16,.92);backdrop-filter:blur(20px)}
 
@@ -427,7 +427,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <body>
 <div class="phone">
 <!-- Loading画面：已登录时显示，验证完成后隐藏 -->
-<div id="loadingScreen" style="position:fixed;inset:0;z-index:9999;background:#060410;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s">
+<div id="loadingScreen" style="position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:9999;background:#060410;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .4s">
   <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;font-weight:300;background:linear-gradient(135deg,#ffe0f0,#e08aaa,#c2607f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px">恋语</div>
   <div style="width:36px;height:36px;border:2px solid rgba(194,96,127,.2);border-top-color:#c2607f;border-radius:50%;animation:spin .8s linear infinite"></div>
 </div>
@@ -435,7 +435,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 
 <!-- LOGIN -->
 <div class="screen" id="screen-login">
-  <canvas id="loginCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.5"></canvas>
+  <canvas id="loginCanvas" style="position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;pointer-events:none;opacity:.5"></canvas>
   <div style="position:relative;z-index:1;width:100%;display:flex;flex-direction:column;align-items:center">
   <div class="login-orb"><svg class="login-orb-icon" viewBox="0 0 24 24" fill="rgba(255,255,255,.9)" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="login-title">恋语 AI</div>
@@ -1057,7 +1057,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
     <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</button>
     <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v7.5</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v7.6</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
