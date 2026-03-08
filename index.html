@@ -193,7 +193,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .dm-loc-map::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M0 0h60v60H0z' fill='%23e8f5e9'/%3E%3Cpath d='M10 20h40M10 30h40M10 40h40M20 10v40M30 10v40M40 10v40' stroke='%23c8e6c9' stroke-width='1'/%3E%3C/svg%3E") repeat;opacity:.6}
 .dm-loc-pin{width:32px;height:32px;background:#e53935;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(229,57,53,.4);position:relative;z-index:1}
 .dm-loc-pin::after{content:'';width:12px;height:12px;background:white;border-radius:50%;position:absolute}
-.dm-loc-info{padding:8px 12px 10px}
+.dm-loc-info{padding:8px 12px 10px;background:#2a1f3d}
 .dm-loc-name{font-size:13px;font-weight:600;color:#e8dff0;margin-bottom:2px}
 .dm-loc-addr{font-size:11px;color:#9b8aaa8}
 /* Red packet */
@@ -229,18 +229,18 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .wallet-overlay.open{opacity:1;pointer-events:auto;}
 .wallet-sheet{width:100%;background:#1a1228;border-radius:20px 20px 0 0;padding:0 0 30px;border-top:1px solid rgba(194,96,127,.2);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .wallet-overlay.open .wallet-sheet{transform:translateY(0);}
-.wallet-sheet-hdr{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;background:#1a1228;border-radius:20px 20px 0 0;border-bottom:1px solid #eee;}
+.wallet-sheet-hdr{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;background:#1a1228;border-radius:20px 20px 0 0;border-bottom:1px solid rgba(194,96,127,.2);}
 .wallet-sheet-title{font-size:15px;font-weight:600;color:#111;}
-.wallet-close-btn{width:28px;height:28px;border-radius:50%;background:#f0f0f0;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#666;}
+.wallet-close-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#666;}
 .wallet-balance{background:linear-gradient(135deg,#07c160,#0f9d58);margin:12px;border-radius:14px;padding:18px 20px;color:white;}
 .wallet-balance-label{font-size:12px;opacity:.85;margin-bottom:4px;}
 .wallet-balance-amount{font-size:28px;font-weight:700;letter-spacing:.5px;}
 .wallet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(194,96,127,.15);margin:12px;border-radius:14px;overflow:hidden;}
 .wallet-item{background:#231833;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:background .15s;}
-.wallet-item:active{background:#f5f5f5;}
+.wallet-item:active{background:#2e1f42;}
 .wallet-item-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
 .wallet-item-label{font-size:11px;color:#333;text-align:center;font-weight:500;}
-.wallet-recent{margin:0 12px;}
+.wallet-recent{margin:0 12px;padding-bottom:4px;}
 .wallet-recent-title{font-size:12px;color:var(--t3);font-weight:600;padding:10px 8px 6px;text-transform:uppercase;letter-spacing:.3px;}
 .wallet-tx{background:#231833;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .wallet-tx-icon{width:36px;height:36px;border-radius:50%;background:#07c16020;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
@@ -1078,7 +1078,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v10.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v11.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -1346,6 +1346,7 @@ async function loadUserDataFromFirestore(){
       });
       if(d.emojiPacks&&d.emojiPacks.length>0)emojiPacks=d.emojiPacks;
       if(d.moments&&d.moments.length>0)moments=d.moments;
+      if(d.dateMsgsHistory&&Object.keys(d.dateMsgsHistory).length>0)dateMsgsHistory=d.dateMsgsHistory;
       console.log('[恋语] Firestore load OK chars='+chars.length+' histKeys='+Object.keys(chatHistories).length);
     } else {
       console.log('[恋语] Firestore: no data/main yet — using localStorage. Will create on first save.');
@@ -1475,6 +1476,7 @@ function loadLocalFallback(){
   try{emojiPacks=JSON.parse(localStorage.getItem('u_'+uid+'_emoj')||'[]');}catch(e){emojiPacks=[];}
   try{moments=JSON.parse(localStorage.getItem('u_'+uid+'_mom')||'[]');}catch(e){moments=[];}
   try{var wd=JSON.parse(localStorage.getItem('u_'+uid+'_wallet')||'null');if(wd){_walletBalance=wd.bal||0;_walletTxList=wd.txs||[];}}catch(e){}
+  try{var dm=JSON.parse(localStorage.getItem('u_'+uid+'_dateMsgs')||'null');if(dm)dateMsgsHistory=dm;}catch(e){}
 }
 
 function stripImgFromHist(hist){
@@ -1500,6 +1502,7 @@ function saveAll(){
   try{localStorage.setItem('u_'+uid+'_emoj',JSON.stringify(emojiPacks));}catch(e){}
   try{localStorage.setItem('u_'+uid+'_mom',JSON.stringify(moments));}catch(e){}
   try{localStorage.setItem('u_'+uid+'_wallet',JSON.stringify({bal:_walletBalance,txs:_walletTxList}));}catch(e){}
+  try{var dmToSave={};Object.keys(dateMsgsHistory).forEach(function(k){dmToSave[k]=dateMsgsHistory[k].filter(function(m){return m.type!=='image';}).slice(-80);});localStorage.setItem('u_'+uid+'_dateMsgs',JSON.stringify(dmToSave));}catch(e){}
   // Only write to Firestore after initial load from server is complete
   if(currentUser)console.log('[恋语] saveAll uid='+(currentUser.id||currentUser.uid||'?')+' initDone='+_initialLoadDone);
   // This prevents a device's stale local cache from overwriting the server
@@ -1512,7 +1515,7 @@ function saveAll(){
     _firstSaveDone=true;
     _lastSaveTs=Date.now();
     _myWriteToken = Math.random().toString(36).slice(2)+Date.now().toString(36);
-    var snap={chars:chars,chatHistories:stripImgFromHist(chatHistories),emojiPacks:emojiPacks,moments:moments,_savedAt:Date.now(),_writeToken:_myWriteToken};
+    var snap={chars:chars,chatHistories:stripImgFromHist(chatHistories),emojiPacks:emojiPacks,moments:moments,dateMsgsHistory:dateMsgsHistory,_savedAt:Date.now(),_writeToken:_myWriteToken};
     console.log('[恋语] Firestore write chars='+chars.length+' histKeys='+Object.keys(chatHistories).length+' uid='+uid);
     fb.setDoc(fb.doc(fb.db,'users',uid,'data','main'),snap)
       .then(function(){console.log('[恋语] Firestore write OK ✓');})
@@ -1582,8 +1585,9 @@ function appendMsgEl(msgs,role,content,avHtml,animate){
     var col=document.createElement('div');col.className='msg-col';
     if(rpMatch){
       var card=document.createElement('div');
-      card.style.cssText='background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:14px;padding:14px 16px;min-width:160px;cursor:pointer;';
-      card.innerHTML='<div style="font-size:24px;margin-bottom:6px">🧧</div><div style="color:white;font-size:18px;font-weight:700">¥'+rpMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:4px">'+escHtml(rpMatch[2])+'</div>';
+      card.style.cssText='background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:14px;padding:14px 16px;min-width:160px;cursor:pointer;box-shadow:0 4px 16px rgba(229,57,53,.3);';
+      card.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px">🧧</div><div style="color:rgba(255,255,255,.8);font-size:12px">微信红包</div></div><div style="color:white;font-size:22px;font-weight:700;letter-spacing:.5px">¥'+rpMatch[1]+'</div><div style="color:rgba(255,255,255,.65);font-size:12px;margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.15)">'+escHtml(rpMatch[2])+'</div>';
+      (function(c,amt,note){c.onclick=function(){showToast('🧧 红包已发送 ¥'+amt);};})( card, rpMatch[1], rpMatch[2]);
       col.appendChild(card);
     } else if(trMatch){
       var card=document.createElement('div');
@@ -2720,8 +2724,8 @@ function renderDateMsgs(){
     if(m.type==='location'){
       var loc=m.meta||{};
       var bubble=document.createElement('div');bubble.className='dm-location';
-      bubble.innerHTML='<div class="dm-loc-map"><div class="dm-loc-pin"></div></div><div class="dm-loc-info"><div class="dm-loc-name">'+escHtml(loc.name||'位置')+'</div><div class="dm-loc-addr">'+escHtml(loc.addr||'')+'</div></div>';
-      bubble.onclick=function(){openMap(loc.lat,loc.lng,loc.name);}
+      bubble.innerHTML='<div class="dm-loc-map"><div class="dm-loc-pin"></div><div style="position:absolute;top:6px;right:8px;font-size:9px;color:rgba(92,202,136,.6);font-weight:500">📍 位置</div></div><div class="dm-loc-info"><div class="dm-loc-name">'+escHtml(loc.name||'位置')+'</div>'+(loc.addr?'<div class="dm-loc-addr">'+escHtml(loc.addr)+'</div>':'')+'</div>';
+      // no map opening - location is chat-only
       if(m.role==='user'){row.appendChild(bubble);row.appendChild(userAvDiv);}
       else{row.appendChild(avDiv);row.appendChild(bubble);}
     } else if(m.type==='redpacket'){
@@ -3091,57 +3095,79 @@ function chatWalletAction(type){
 }
 
 function sendRedPacketInChat(){
+  closeFeatDrawer();
   showInputDialog('🧧 发红包','金额（元）','8.88',['¥6.6','¥8.8','¥66','¥188','¥520']).then(function(amount){
-  if(!amount||isNaN(parseFloat(amount))) return;
-  showInputDialog('💬 祝福语','写下祝福','新年快乐').then(function(note){
-  note = note||'新年快乐';
-  amount = parseFloat(amount).toFixed(2);
-  _walletBalance = Math.max(0, _walletBalance - parseFloat(amount));
-  // Show red packet card in chat
-  var msgs = document.getElementById('messages'); if(!msgs) return;
-  var el = document.createElement('div'); el.className='mw me';
-  var col = document.createElement('div'); col.className='msg-col';
-  var card = document.createElement('div');
-  card.style.cssText='background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:14px;padding:14px 16px;min-width:160px;cursor:pointer;';
-  card.innerHTML='<div style="font-size:24px;margin-bottom:6px">🧧</div><div style="color:white;font-size:14px;font-weight:700">¥'+amount+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:4px">'+escHtml(note)+'</div>';
-  col.appendChild(card);
-  el.appendChild(col);
-  var tw = document.getElementById('typing-wrap');
-  if(tw&&tw.parentNode===msgs) msgs.insertBefore(el,tw); else msgs.appendChild(el);
-  msgs.scrollTop=msgs.scrollHeight;
-  if(!chatHistories[activeCharId]) chatHistories[activeCharId]=[];
-  chatHistories[activeCharId].push({role:'user',content:'[发了¥'+amount+'的红包，祝福语：'+note+']'});
-  saveAll();
-  var tw2 = document.getElementById('typing-wrap'); if(tw2) tw2.style.display='flex'; msgs.scrollTop=msgs.scrollHeight;
-  callAI('[用户发了一个¥'+amount+'的红包给你，祝福语是"'+note+'"，请用1句话自然地道谢]', msgs, function(){isSending=false;}, true);
-  addWalletTx('🧧','发红包给TA','-¥'+amount,'red');updateWalletUI();saveWallet();
-  });});
+    if(!amount||isNaN(parseFloat(amount)))return;
+    if(parseFloat(amount)>_walletBalance){showToast('余额不足，请先充值');return;}
+    showInputDialog('💬 祝福语','写下祝福','新年快乐').then(function(note){
+      note=note||'新年快乐';
+      amount=parseFloat(amount).toFixed(2);
+      _walletBalance=Math.max(0,_walletBalance-parseFloat(amount));
+      addWalletTx('🧧','发红包给TA','-¥'+amount,'red');
+      updateWalletUI();saveWallet();
+      if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+      chatHistories[activeCharId].push({role:'user',content:'[发了¥'+amount+'的红包，祝福语：'+note+']'});
+      saveAll();
+      var msgs=document.getElementById('messages');
+      var tw=document.getElementById('typing-wrap');
+      if(msgs){
+        var el=document.createElement('div');el.className='mw me';
+        var col=document.createElement('div');col.className='msg-col';
+        var card=document.createElement('div');
+        card.style.cssText='background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:14px;padding:14px 16px;min-width:160px;cursor:pointer;box-shadow:0 4px 16px rgba(229,57,53,.3);';
+        card.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px">🧧</div><div style="color:rgba(255,255,255,.8);font-size:12px;font-weight:500">微信红包</div></div><div style="color:white;font-size:22px;font-weight:700;letter-spacing:.5px">¥'+amount+'</div><div style="color:rgba(255,255,255,.65);font-size:12px;margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.15)">'+escHtml(note)+'</div>';
+        card.onclick=function(){showToast('🧧 红包已发送 ¥'+amount);};
+        col.appendChild(card);el.appendChild(col);
+        if(tw&&tw.parentNode===msgs)msgs.insertBefore(el,tw);else msgs.appendChild(el);
+        msgs.scrollTop=msgs.scrollHeight;
+        if(tw)tw.style.display='flex';
+      }
+      callAI('[用户发了一个¥'+amount+'的红包给你，祝福语是"'+note+'"，请用1句话自然地道谢]',msgs,function(){},true);
+    });
+  });
 }
 function sendLocationFromChat(){
   closeFeatDrawer();
-  // If in date mode, use date sendLocation; otherwise show in chat
-  var dateScreen = document.getElementById('screen-date');
-  if(dateScreen && !dateScreen.classList.contains('hidden')){
-    sendDateLocation(); return;
-  }
-  var place = _knownPlaces[Math.floor(Math.random()*_knownPlaces.length)];
-  var msgs = document.getElementById('messages'); if(!msgs) return;
-  var el = document.createElement('div'); el.className='mw me';
-  var col = document.createElement('div'); col.className='msg-col';
-  var card = document.createElement('div');
-  card.style.cssText='background:white;border-radius:12px;overflow:hidden;width:200px;cursor:pointer;border:1px solid #e0e0e0;';
-  card.innerHTML='<div style="height:80px;background:linear-gradient(135deg,#4caf50,#2196f3);position:relative;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div style="padding:10px 12px"><div style="font-size:13px;font-weight:600;color:#111">'+escHtml(place.name)+'</div><div style="font-size:11px;color:#777;margin-top:2px">'+escHtml(place.addr)+'</div></div>';
-  card.onclick = function(){ window.open('https://maps.google.com/?q='+encodeURIComponent(place.name),'_blank'); };
-  col.appendChild(card);
-  el.appendChild(col);
-  var tw = document.getElementById('typing-wrap');
-  if(tw&&tw.parentNode===msgs) msgs.insertBefore(el,tw); else msgs.appendChild(el);
+  var placeList = _knownPlaces.map(function(p,i){return (i+1)+'. '+p.name+(p.addr?' · '+p.addr:'');}).join('\n')+'\n'+(_knownPlaces.length+1)+'. ✏️ 自定义';
+  showInputDialog('📍 发送位置','输入编号或直接写地名','',null,placeList).then(function(input){
+    if(!input) return;
+    var num=parseInt(input.trim());
+    var placeName, placeAddr;
+    if(!isNaN(num)&&num>=1&&num<=_knownPlaces.length){
+      placeName=_knownPlaces[num-1].name; placeAddr=_knownPlaces[num-1].addr;
+    } else if(!isNaN(num)&&num===_knownPlaces.length+1){
+      showInputDialog('✏️ 自定义位置','输入地点名称','').then(function(nm){
+        if(!nm) return;
+        showInputDialog('📮 详细地址（可选）','例如：某某街道','').then(function(ad){
+          _doSendLocInChat(nm.trim(), (ad||'').trim());
+        });
+      }); return;
+    } else {
+      placeName=input.trim(); placeAddr='';
+    }
+    _doSendLocInChat(placeName, placeAddr);
+  });
+}
+function _doSendLocInChat(placeName, placeAddr){
+  var msgs=document.getElementById('messages'); if(!msgs) return;
+  var el=document.createElement('div'); el.className='mw me';
+  var col=document.createElement('div'); col.className='msg-col';
+  var card=document.createElement('div');
+  card.style.cssText='background:#1e2a1e;border-radius:14px;overflow:hidden;width:210px;border:1px solid rgba(92,202,136,.2);';
+  card.innerHTML='<div style="height:78px;background:linear-gradient(135deg,#1a3a1a,#0d2a0d);display:flex;align-items:center;justify-content:center;position:relative">'
+    +'<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#5cca88" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+    +'<div style="position:absolute;bottom:6px;right:8px;font-size:9px;color:rgba(92,202,136,.5)">📍 位置</div></div>'
+    +'<div style="padding:9px 12px 10px"><div style="font-size:13px;font-weight:600;color:#e8f5e9">'+escHtml(placeName)+'</div>'
+    +(placeAddr?'<div style="font-size:11px;color:#5cca88;margin-top:3px;opacity:.8">'+escHtml(placeAddr)+'</div>':'')+'</div>';
+  col.appendChild(card); el.appendChild(col);
+  var tw=document.getElementById('typing-wrap');
+  if(tw&&tw.parentNode===msgs)msgs.insertBefore(el,tw);else msgs.appendChild(el);
   msgs.scrollTop=msgs.scrollHeight;
-  if(!chatHistories[activeCharId]) chatHistories[activeCharId]=[];
-  chatHistories[activeCharId].push({role:'user',content:'[分享了位置：'+place.name+'，'+place.addr+']'});
+  if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+  chatHistories[activeCharId].push({role:'user',content:'[分享了位置：'+placeName+(placeAddr?'，'+placeAddr:'')+']'});
   saveAll();
-  var tw2 = document.getElementById('typing-wrap'); if(tw2) tw2.style.display='flex'; msgs.scrollTop=msgs.scrollHeight;
-  callAI('[用户分享了位置：'+place.name+'，'+place.addr+'，请自然地回应，1句话]', msgs, function(){isSending=false;}, true);
+  var tw2=document.getElementById('typing-wrap');if(tw2)tw2.style.display='flex';msgs.scrollTop=msgs.scrollHeight;
+  callAI('[用户分享了位置：'+placeName+(placeAddr?'，'+placeAddr:'')+'，请自然地回应，1句话]',msgs,function(){isSending=false;},true);
 }
 function triggerImgUploadFromDrawer(){
   closeFeatDrawer();
@@ -3165,6 +3191,7 @@ var _walletTxList = [
 function saveWallet(){
   var uid=currentUser?(currentUser.id||currentUser.uid):'guest';
   try{localStorage.setItem('u_'+uid+'_wallet',JSON.stringify({bal:_walletBalance,txs:_walletTxList}));}catch(e){}
+  try{var dmToSave={};Object.keys(dateMsgsHistory).forEach(function(k){dmToSave[k]=dateMsgsHistory[k].filter(function(m){return m.type!=='image';}).slice(-80);});localStorage.setItem('u_'+uid+'_dateMsgs',JSON.stringify(dmToSave));}catch(e){}
 }
 function updateWalletUI(){
   var b1=document.getElementById('chatWalletBalance');if(b1)b1.textContent=_walletBalance.toFixed(2);
