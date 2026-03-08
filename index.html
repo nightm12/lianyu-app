@@ -1056,7 +1056,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="toast" id="toast"></div>
   
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v7.3</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v7.4</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
@@ -1160,10 +1160,17 @@ var SCREEN_ORDER=['login','home','chat','call','settings','char-editor','emoji-m
 function showScreen(name){
   var all=document.querySelectorAll('.screen');
   var target=document.getElementById('screen-'+name);
-  if(!target)return;
+  console.log('[恋语] showScreen('+name+') target='+!!target+' total='+all.length);
+  if(!target){console.error('[恋语] 找不到 screen-'+name);return;}
+  // 强制用 inline style 切换，绕过任何 CSS 问题
   all.forEach(function(s){
-    if(s===target){s.classList.remove('hidden','hidden-left');}
-    else{s.classList.add('hidden');}
+    if(s===target){
+      s.style.display='flex';
+      s.classList.remove('hidden','hidden-left');
+    } else {
+      s.style.display='none';
+      s.classList.add('hidden');
+    }
   });
   if(name==='login'){
     if(window._initLoginCanvas)window._initLoginCanvas();
@@ -1172,11 +1179,11 @@ function showScreen(name){
     if(window._stopLoginCanvas)window._stopLoginCanvas();
     if(window._stopTagline)window._stopTagline();
   }
-  // bnav: 전체화면 페이지에서 숨김
   var bnav=document.getElementById('globalBnav');
   if(bnav){
     var hideOn=['login','chat','date','call','char-editor'];
-    bnav.style.display=hideOn.indexOf(name)>=0?'none':'flex';
+    bnav.style.display=hideOn.indexOf(name)<0?'flex':'none';
+    console.log('[恋语] bnav='+(hideOn.indexOf(name)<0?'flex':'none'));
   }
 }
 
