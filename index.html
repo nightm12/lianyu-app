@@ -1606,10 +1606,10 @@ function appendMsgEl(msgs,role,content,avHtml,animate){
       card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">📲 扫码付款</div><div style="color:white;font-size:22px;font-weight:700">¥'+payMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">付款给'+escHtml(payMatch[2])+'</div>';
       col.appendChild(card);
     } else if(locMatch){
-      var card=document.createElement('div');
-      card.style.cssText='background:#1e2a1e;border-radius:14px;overflow:hidden;width:210px;border:1px solid rgba(92,202,136,.2);';
-      card.innerHTML='<div style="height:78px;background:linear-gradient(135deg,#1a3a1a,#0d2a0d);display:flex;align-items:center;justify-content:center;position:relative"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#5cca88" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div style="position:absolute;bottom:6px;right:8px;font-size:9px;color:rgba(92,202,136,.5)">📍 位置</div></div><div style="padding:9px 12px 10px"><div style="font-size:13px;font-weight:600;color:#e8f5e9">'+escHtml(locMatch[1])+'</div>'+(locMatch[2]?'<div style="font-size:11px;color:#5cca88;margin-top:3px;opacity:.8">'+escHtml(locMatch[2])+'</div>':'')+'</div>';
-      col.appendChild(card);
+      var locCard=document.createElement('div');
+      locCard.style.cssText='background:#1e2a1e;border-radius:14px;overflow:hidden;width:210px;border:1px solid rgba(92,202,136,.2);cursor:default;';
+      locCard.innerHTML='<div style="height:70px;background:linear-gradient(135deg,#1a3a1a,#0d2a0d);display:flex;align-items:center;justify-content:center;position:relative"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#5cca88" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div style="position:absolute;bottom:5px;right:8px;font-size:9px;color:rgba(92,202,136,.5)">📍 位置</div></div><div style="padding:8px 12px 10px"><div style="font-size:13px;font-weight:600;color:#e8f5e9">'+escHtml(locMatch[1])+'</div>'+(locMatch[2]?'<div style="font-size:11px;color:#5cca88;margin-top:2px;opacity:.8">'+escHtml(locMatch[2])+'</div>':'')+'</div>';
+      col.appendChild(locCard);
     } else {
       var bub=document.createElement('div');bub.className='mb';bub.textContent=textContent;
       col.appendChild(bub);
@@ -2774,11 +2774,8 @@ function appendDateMsg(role,content,type,meta){
   if(!dateMsgsHistory[activeCharId])dateMsgsHistory[activeCharId]=[];
   dateMsgsHistory[activeCharId].push({role:role,content:content,type:type||'text',meta:meta||null});
   renderDateMsgs();
-  // Save date history to localStorage immediately
   var uid=currentUser&&(currentUser.id||currentUser.uid);
-  if(uid){
-    try{var dmToSave={};Object.keys(dateMsgsHistory).forEach(function(k){dmToSave[k]=dateMsgsHistory[k].filter(function(m){return m.type!=='image';}).slice(-80);});localStorage.setItem('u_'+uid+'_dateMsgs',JSON.stringify(dmToSave));}catch(e){}
-  }
+  if(uid){try{var dm={};Object.keys(dateMsgsHistory).forEach(function(k){dm[k]=dateMsgsHistory[k].filter(function(m){return m.type!=='image';}).slice(-80);});localStorage.setItem('u_'+uid+'_dateMsgs',JSON.stringify(dm));}catch(e){}}
 }
 
 function handleDateKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendDateMessage();}}
