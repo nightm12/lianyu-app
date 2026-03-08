@@ -230,8 +230,8 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .wallet-sheet{width:100%;background:#1a1228;border-radius:20px 20px 0 0;padding:0 0 30px;border-top:1px solid rgba(194,96,127,.2);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .wallet-overlay.open .wallet-sheet{transform:translateY(0);}
 .wallet-sheet-hdr{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;background:#1a1228;border-radius:20px 20px 0 0;border-bottom:1px solid rgba(194,96,127,.2);}
-.wallet-sheet-title{font-size:15px;font-weight:600;color:#111;}
-.wallet-close-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#666;}
+.wallet-sheet-title{font-size:15px;font-weight:600;color:#f0e8f0;}
+.wallet-close-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#c8a8c8;}
 .wallet-balance{background:linear-gradient(135deg,#07c160,#0f9d58);margin:12px;border-radius:14px;padding:18px 20px;color:white;}
 .wallet-balance-label{font-size:12px;opacity:.85;margin-bottom:4px;}
 .wallet-balance-amount{font-size:28px;font-weight:700;letter-spacing:.5px;}
@@ -239,13 +239,13 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .wallet-item{background:#231833;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:background .15s;}
 .wallet-item:active{background:#2e1f42;}
 .wallet-item-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
-.wallet-item-label{font-size:11px;color:#333;text-align:center;font-weight:500;}
+.wallet-item-label{font-size:11px;color:#c8b0c8;text-align:center;font-weight:500;}
 .wallet-recent{margin:0 12px;padding-bottom:4px;}
 .wallet-recent-title{font-size:12px;color:var(--t3);font-weight:600;padding:10px 8px 6px;text-transform:uppercase;letter-spacing:.3px;}
 .wallet-tx{background:#231833;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .wallet-tx-icon{width:36px;height:36px;border-radius:50%;background:#07c16020;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .wallet-tx-info{flex:1;}
-.wallet-tx-name{font-size:13px;font-weight:500;color:#111;}
+.wallet-tx-name{font-size:13px;font-weight:500;color:#e8d8e8;}
 .wallet-tx-time{font-size:11px;color:#999;margin-top:2px;}
 .wallet-tx-amt{font-size:14px;font-weight:600;}
 .wallet-tx-amt.red{color:#e53935;}
@@ -553,7 +553,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="feat-icon" style="background:linear-gradient(135deg,#07c160,#04a34f)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="14" rx="2" width="20" x="2" y="5"></rect><path d="M16 13a1 1 0 100-2 1 1 0 000 2z" fill="white"></path><path d="M2 10h20"></path></svg></div>
 <div class="feat-label">微信钱包</div>
 </div>
-<div class="feat-item" onclick="sendRedPacketFromChat()">
+<div class="feat-item" onclick="sendRedPacketInChat()">
 <div class="feat-icon" style="background:linear-gradient(135deg,#e53935,#b71c1c)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="14" rx="2" width="20" x="2" y="6"></rect><path d="M2 10h20M7 6V4a1 1 0 011-1h8a1 1 0 011 1v2"></path></svg></div>
 <div class="feat-label">发红包</div>
 </div>
@@ -1580,6 +1580,7 @@ function appendMsgEl(msgs,role,content,avHtml,animate){
   var trMatch=textContent.match(/^\[转账¥([\d.]+)给(.+)\]$/);
   var aaMatch=textContent.match(/^\[AA收款，你需支付¥([\d.]+)\]$/);
   var payMatch=textContent.match(/^\[付款¥([\d.]+)给(.+)\]$/);
+  var locMatch=textContent.match(/^\[分享了位置：(.+?)(?:，(.+))?\]$/);
   if(role==='user'){
     el.className='mw me';
     var col=document.createElement('div');col.className='msg-col';
@@ -1603,6 +1604,11 @@ function appendMsgEl(msgs,role,content,avHtml,animate){
       var card=document.createElement('div');
       card.style.cssText='background:linear-gradient(135deg,#5e35b1,#4527a0);border-radius:14px;padding:14px 16px;min-width:160px;';
       card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">📲 扫码付款</div><div style="color:white;font-size:22px;font-weight:700">¥'+payMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">付款给'+escHtml(payMatch[2])+'</div>';
+      col.appendChild(card);
+    } else if(locMatch){
+      var card=document.createElement('div');
+      card.style.cssText='background:#1e2a1e;border-radius:14px;overflow:hidden;width:210px;border:1px solid rgba(92,202,136,.2);';
+      card.innerHTML='<div style="height:78px;background:linear-gradient(135deg,#1a3a1a,#0d2a0d);display:flex;align-items:center;justify-content:center;position:relative"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#5cca88" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><div style="position:absolute;bottom:6px;right:8px;font-size:9px;color:rgba(92,202,136,.5)">📍 位置</div></div><div style="padding:9px 12px 10px"><div style="font-size:13px;font-weight:600;color:#e8f5e9">'+escHtml(locMatch[1])+'</div>'+(locMatch[2]?'<div style="font-size:11px;color:#5cca88;margin-top:3px;opacity:.8">'+escHtml(locMatch[2])+'</div>':'')+'</div>';
       col.appendChild(card);
     } else {
       var bub=document.createElement('div');bub.className='mb';bub.textContent=textContent;
@@ -2768,6 +2774,11 @@ function appendDateMsg(role,content,type,meta){
   if(!dateMsgsHistory[activeCharId])dateMsgsHistory[activeCharId]=[];
   dateMsgsHistory[activeCharId].push({role:role,content:content,type:type||'text',meta:meta||null});
   renderDateMsgs();
+  // Save date history to localStorage immediately
+  var uid=currentUser&&(currentUser.id||currentUser.uid);
+  if(uid){
+    try{var dmToSave={};Object.keys(dateMsgsHistory).forEach(function(k){dmToSave[k]=dateMsgsHistory[k].filter(function(m){return m.type!=='image';}).slice(-80);});localStorage.setItem('u_'+uid+'_dateMsgs',JSON.stringify(dmToSave));}catch(e){}
+  }
 }
 
 function handleDateKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendDateMessage();}}
