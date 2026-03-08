@@ -164,15 +164,15 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 /* ══════════════════════════════════════
    DATE / MEETUP SCREEN
 ══════════════════════════════════════ */
-#screen-date{background:#f5f0eb;display:flex;flex-direction:column}
-.date-hdr{padding:calc(var(--st) + 10px) 14px 10px;background:#fff;display:flex;align-items:center;gap:10px;flex-shrink:0;border-bottom:1px solid #e8e0d8;box-shadow:0 1px 8px rgba(0,0,0,.06)}
-.date-hdr-av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid #e8c8b8}
+#screen-date{background:#12101a;display:flex;flex-direction:column}
+.date-hdr{padding:calc(var(--st) + 10px) 14px 10px;background:#1c1628;display:flex;align-items:center;gap:10px;flex-shrink:0;border-bottom:1px solid rgba(194,96,127,.18);box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.date-hdr-av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(194,96,127,.4)}
 .date-hdr-av img{width:100%;height:100%;object-fit:cover;display:block}
 .date-hdr-info{flex:1}
-.date-hdr-name{font-size:15px;font-weight:600;color:#1a1a1a;font-family:'DM Sans','Noto Sans SC',sans-serif}
-.date-hdr-sub{font-size:11px;color:#10b981;display:flex;align-items:center;gap:4px}
+.date-hdr-name{font-size:15px;font-weight:600;color:#f0e8f0;font-family:'DM Sans','Noto Sans SC',sans-serif}
+.date-hdr-sub{font-size:11px;color:#5cca88;display:flex;align-items:center;gap:4px}
 .date-hdr-sub::before{content:'';width:5px;height:5px;border-radius:50%;background:#10b981;flex-shrink:0}
-.date-msgs{flex:1;overflow-y:auto;padding:12px 10px 8px;display:flex;flex-direction:column;gap:2px;background:#f5f0eb}
+.date-msgs{flex:1;overflow-y:auto;padding:12px 10px 8px;display:flex;flex-direction:column;gap:2px;background:#12101a}
 .date-msgs::-webkit-scrollbar{display:none}
 /* Date message wrappers */
 .dm-row{display:flex;align-items:flex-end;gap:7px;margin-bottom:2px;animation:msgIn .2s ease-out}
@@ -180,22 +180,22 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .dm-av{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;align-self:flex-end}
 .dm-av img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 .dm-av-ph{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#c2607f,#e08aaa);display:flex;align-items:center;justify-content:center;font-size:11px;color:white;flex-shrink:0}
-.dm-bubble{max-width:68%;padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.55;word-break:break-word;font-family:'DM Sans','Noto Sans SC',sans-serif;position:relative}
-.dm-row:not(.me) .dm-bubble{background:#fff;color:#1a1a1a;border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.dm-row.me .dm-bubble{background:#d4f7e0;color:#1a1a1a;border-bottom-right-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.dm-time{font-size:10px;color:#aaa;text-align:center;margin:6px 0 2px;width:100%}
-.dm-typing{background:#fff;border-radius:18px;border-bottom-left-radius:4px;padding:11px 16px;display:flex;gap:4px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.08);width:52px}
-.dm-td{width:6px;height:6px;border-radius:50%;background:#bbb;animation:tdA 1.2s infinite}.dm-td:nth-child(2){animation-delay:.18s}.dm-td:nth-child(3){animation-delay:.36s}
+.dm-bubble{max-width:72%;padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.55;word-break:break-word;font-family:'DM Sans','Noto Sans SC',sans-serif;position:relative}
+.dm-row:not(.me) .dm-bubble{background:#2a1f3d;color:#e8dff0;border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.dm-row.me .dm-bubble{background:linear-gradient(135deg,#c2607f,#e08aaa);color:#fff;border-bottom-right-radius:4px;box-shadow:0 2px 8px rgba(194,96,127,.35)}
+.dm-time{font-size:10px;color:#6b5f7a;text-align:center;margin:6px 0 2px;width:100%}
+.dm-typing{background:#2a1f3d;border-radius:18px;border-bottom-left-radius:4px;padding:11px 16px;display:flex;gap:4px;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,.08);width:52px}
+.dm-td{width:6px;height:6px;border-radius:50%;background:#9b8aaa;animation:tdA 1.2s infinite}.dm-td:nth-child(2){animation-delay:.18s}.dm-td:nth-child(3){animation-delay:.36s}
 /* Special message types */
-.dm-location{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);max-width:220px;cursor:pointer}
+.dm-location{background:#2a1f3d;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.4);max-width:220px;cursor:pointer;border:1px solid rgba(194,96,127,.2)}
 .dm-row.me .dm-location{background:#d4f7e0}
-.dm-loc-map{width:100%;height:100px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.dm-loc-map{width:100%;height:100px;background:linear-gradient(135deg,#1a2f1a,#0d1f0d);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .dm-loc-map::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M0 0h60v60H0z' fill='%23e8f5e9'/%3E%3Cpath d='M10 20h40M10 30h40M10 40h40M20 10v40M30 10v40M40 10v40' stroke='%23c8e6c9' stroke-width='1'/%3E%3C/svg%3E") repeat;opacity:.6}
 .dm-loc-pin{width:32px;height:32px;background:#e53935;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(229,57,53,.4);position:relative;z-index:1}
 .dm-loc-pin::after{content:'';width:12px;height:12px;background:white;border-radius:50%;position:absolute}
 .dm-loc-info{padding:8px 12px 10px}
-.dm-loc-name{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
-.dm-loc-addr{font-size:11px;color:#888}
+.dm-loc-name{font-size:13px;font-weight:600;color:#e8dff0;margin-bottom:2px}
+.dm-loc-addr{font-size:11px;color:#9b8aaa8}
 /* Red packet */
 .dm-redpacket{background:linear-gradient(145deg,#e53935,#c62828);border-radius:14px;padding:14px 16px;max-width:200px;cursor:pointer;box-shadow:0 4px 16px rgba(229,57,53,.3);position:relative;overflow:hidden;display:flex;align-items:center;gap:10px}
 .dm-redpacket::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.08)}
@@ -206,23 +206,23 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .dm-rp-opened{background:linear-gradient(145deg,#b0700e,#8d5a0e) !important}
 .dm-rp-amount{font-size:24px;font-weight:700;color:#ffd54f;text-align:center;padding:16px;width:100%}
 /* Date input bar */
-.date-input{padding:10px 12px 10px;background:#fff;border-top:1px solid #e8e0d8;display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
-.date-ci{flex:1;padding:10px 14px;border-radius:22px;border:1px solid #e0d8d0;background:#f9f5f2;font-family:'DM Sans','Noto Sans SC',sans-serif;font-size:14px;color:#1a1a1a;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s}
-.date-ci:focus{border-color:#c2607f}
-.date-ci::placeholder{color:#bbb}
-.date-sbtn{width:40px;height:40px;border-radius:50%;border:none;background:linear-gradient(135deg,#25d366,#128c7e);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(37,211,102,.35);flex-shrink:0;transition:transform .15s}
+.date-input{padding:10px 12px 10px;background:#1c1628;border-top:1px solid rgba(194,96,127,.18);display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+.date-ci{flex:1;padding:10px 14px;border-radius:22px;border:1px solid rgba(194,96,127,.25);background:rgba(255,255,255,.06);font-family:'DM Sans','Noto Sans SC',sans-serif;font-size:14px;color:#f0e8f0;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s}
+.date-ci:focus{border-color:rgba(194,96,127,.7);background:rgba(255,255,255,.09)}
+.date-ci::placeholder{color:#6b5f7a}
+.date-sbtn{width:40px;height:40px;border-radius:50%;border:none;background:var(--g2);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(37,211,102,.35);flex-shrink:0;transition:transform .15s}
 .date-sbtn:active{transform:scale(.88)}
 .date-extra-btns{display:flex;gap:6px;align-items:center}
-.date-act-btn{width:36px;height:36px;border-radius:50%;border:1px solid #e0d8d0;background:#f9f5f2;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.date-act-btn svg{width:17px;height:17px;stroke:#888;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.date-act-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(194,96,127,.25);background:rgba(255,255,255,.06);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.date-act-btn svg{width:17px;height:17px;stroke:#9b8aaa;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 /* Date mode toggle button in chat header */
 .date-mode-btn{width:34px;height:34px;padding:0;border-radius:50%;border:1px solid rgba(37,211,102,.4);background:rgba(37,211,102,.1);color:#10b981;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}lex;align-items:center;gap:5px;font-family:var(--sans);transition:all .15s;flex-shrink:0}
 .date-mode-btn:active{background:rgba(37,211,102,.2)}
 /* date header action buttons */
 .date-hdr-btn{height:28px;padding:0 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:var(--sans);border:1px solid transparent;transition:all .15s;}
-.date-hdr-btn.green{background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9;}
-.date-hdr-btn.red{background:#ffebee;color:#c62828;border-color:#ffcdd2;}
-.date-hdr-btn.blue{background:#e3f2fd;color:#1565c0;border-color:#bbdefb;}
+.date-hdr-btn.green{background:rgba(92,202,136,.12);color:#5cca88;border-color:rgba(92,202,136,.35);}
+.date-hdr-btn.red{background:rgba(229,57,53,.12);color:#ff6b6b;border-color:rgba(229,57,53,.35);}
+.date-hdr-btn.blue{background:rgba(194,96,127,.12);color:#e08aaa;border-color:rgba(194,96,127,.3);}
 .date-hdr-btn:active{opacity:.7;}
 /* wallet modal */
 .wallet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s}
@@ -251,7 +251,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .wallet-tx-amt.red{color:#e53935;}
 .wallet-tx-amt.green{color:#07c160;}
 /* Date mode system messages */
-.dm-system{text-align:center;font-size:11px;color:#aaa;margin:8px 0;padding:0 20px}
+.dm-system{text-align:center;font-size:11px;color:#6b5f7a;margin:8px 0;padding:0 20px}
 
 /* ── INLINE MSG ACTION PILLS ── */
 .mw{position:relative}
@@ -1078,7 +1078,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v9.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v10.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -2787,7 +2787,7 @@ function sendDateAI(userText,silent){
   var persona=loadPersona();
   var userCtx=persona.myName?'对方叫"'+persona.myName+'"。':'';
   var sysPrompt=(ch&&ch.prompt?ch.prompt:'你是一个温柔的AI伴侣。')+
-    '\n\n【见面模式 - 核心规则】\n你们现在正在出门见面/约会，通过手机发消息。\n① 只用1-2句话，超短回复，像真人发微信\n② 完全口语化，不要AI语气\n③ 可以：问路上情况、约定地点、发撒娇的话、等待中的无聊话\n④ 如果提到要发位置/发来位置，会触发位置功能\n⑤ 绝对不要说你是AI\n\n'+userCtx;
+    '\n\n【见面模式】你们正在出门约会或见面中，通过手机实时发消息。\n- 回复极短：1-2句，像真人发微信\n- 完全口语，用哈/嗯嗯/好呀/快了/等你\n- 可以撒娇、期待、等待、问路上情况、约定地点\n- 收到红包要开心感谢\n- 收到位置要回应（导航中/快到了/我知道）\n- 可以偶尔主动说你在哪\n- 绝不透露是AI\n\n'+userCtx;
   var hist=(dateMsgsHistory[activeCharId]||[]).filter(function(m){return m.role==='user'||m.role==='assistant';}).slice(-12).map(function(m){return{role:m.role,content:typeof m.content==='string'?m.content:'[图片]'};});
   if(!silent){}; // user message already appended
   (async function(){
@@ -2828,26 +2828,51 @@ function sendDateAI(userText,silent){
 
 // ── Location feature ──
 var _knownPlaces=[
-  {name:'星巴克咖啡',addr:'中关村大街1号',lat:39.9842,lng:116.3074},
-  {name:'奈雪の茶',addr:'三里屯太古里南区',lat:39.9332,lng:116.4551},
-  {name:'宜家家居',addr:'北四环西路',lat:40.0361,lng:116.3389},
-  {name:'欢乐谷',addr:'朝阳区东四环小武基',lat:39.8619,lng:116.4927},
-  {name:'颐和园',addr:'海淀区新建宫门路',lat:40.0024,lng:116.2755},
+  {name:'星巴克咖啡',addr:'附近商场内',lat:0,lng:0},
+  {name:'奈雪の茶',addr:'市中心店',lat:0,lng:0},
+  {name:'喜茶',addr:'购物中心',lat:0,lng:0},
+  {name:'麦当劳',addr:'附近',lat:0,lng:0},
+  {name:'电影院',addr:'万达影城',lat:0,lng:0},
+  {name:'公园',addr:'市民公园',lat:0,lng:0},
+  {name:'购物中心',addr:'市中心',lat:0,lng:0},
+  {name:'家',addr:'我家楼下',lat:0,lng:0},
 ];
 function sendDateLocation(){
-  // Show a picker with common places
-  var place=_knownPlaces[Math.floor(Math.random()*_knownPlaces.length)];
-  // In a real app: use Geolocation API. For demo, pick from list
-  appendDateMsg('user','','location',place);
-  // AI reacts to user sending location
-  setTimeout(function(){sendDateAI('[用户发来了位置：'+place.name+'，'+place.addr+'，请自然地回应，比如说我导航过去/我知道在哪/快了]',true);},400);
+  // Build place list + custom option
+  var placeList = _knownPlaces.map(function(p,i){return (i+1)+'. 📍 '+p.name+' - '+p.addr;}).join('\n') + '\n' + (_knownPlaces.length+1) + '. ✏️ 自定义位置';
+  showInputDialog('📍 发送位置','输入编号 或 自定义地址','',null,placeList).then(function(input){
+    if(!input)return;
+    var num = parseInt(input.trim());
+    var place;
+    if(!isNaN(num) && num >= 1 && num <= _knownPlaces.length){
+      place = _knownPlaces[num-1];
+    } else if(!isNaN(num) && num === _knownPlaces.length+1){
+      // Custom - ask for details
+      showInputDialog('✏️ 自定义位置','输入地点名称','咖啡厅').then(function(name){
+        if(!name)return;
+        showInputDialog('📮 详细地址','输入详细地址（可选）','').then(function(addr){
+          var customPlace = {name:name.trim(), addr:(addr||'').trim(), lat:0, lng:0};
+          appendDateMsg('user','','location',customPlace);
+          setTimeout(function(){sendDateAI('[用户发来了位置：'+customPlace.name+(customPlace.addr?'，'+customPlace.addr:'')+' 请自然地回应，比如导航/在哪附近/快了]',true);},400);
+        });
+      });
+      return;
+    } else {
+      // Treat raw text as custom place name
+      place = {name:input.trim(), addr:'', lat:0, lng:0};
+    }
+    appendDateMsg('user','','location',place);
+    setTimeout(function(){sendDateAI('[用户发来了位置：'+place.name+(place.addr?'，'+place.addr:'')+' 请自然地回应，比如导航过去/我知道在哪/快了]',true);},400);
+  });
 }
 function aiSendLocation(){
   var place=_knownPlaces[Math.floor(Math.random()*_knownPlaces.length)];
   appendDateMsg('assistant','','location',place);
 }
 function openMap(lat,lng,name){
-  var url='https://maps.google.com/?q='+encodeURIComponent(name||'')+'&ll='+lat+','+lng;
+  var url = (lat&&lng&&(lat!==0||lng!==0))
+    ? 'https://maps.google.com/?q='+encodeURIComponent(name||'')+'@'+lat+','+lng
+    : 'https://maps.google.com/search/?q='+encodeURIComponent(name||'');
   window.open(url,'_blank');
 }
 
