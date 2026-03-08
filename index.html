@@ -51,10 +51,10 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .phone::before{content:'';position:absolute;top:-100px;left:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(194,96,127,.1),transparent 65%);pointer-events:none;z-index:0}
 .phone::after{content:'';position:absolute;bottom:-80px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(122,34,72,.08),transparent 65%);pointer-events:none;z-index:0}
 /* screens */
-.screens{flex:1;position:relative;overflow:hidden}
-.screen{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
-.screen.hidden{display:none!important}
-.screen.hidden-left{display:none!important}
+.screens{flex:1;position:relative;overflow:hidden;z-index:1}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform .32s cubic-bezier(.4,0,.2,1),opacity .32s;will-change:transform;background:var(--bg)}
+.screen.hidden{transform:translateX(100%);opacity:0;pointer-events:none}
+.screen.hidden-left{transform:translateX(-8%) scale(.97);opacity:0;pointer-events:none}
 /* shared header */
 .hdr{padding:calc(0px+16px) 16px 13px;background:rgba(6,4,16,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr2);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .hdr-title{font-family:var(--serif);font-size:19px;color:var(--t);font-weight:300;flex:1;letter-spacing:.6px;font-style:italic}
@@ -480,6 +480,14 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
     <button class="add-char-btn" onclick="openCharEditor(null)">＋ 添加新的 AI 伴侣</button>
   </div>
 
+
+<div class="bnav">
+    <button class="ni active" id="ni-home" onclick="setTab('home','ni-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</button>
+    <button class="ni" id="ni-moments" onclick="setTab('moments','ni-moments')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>朋友圈</button>
+    <button class="ni" id="ni-emoji-manager" onclick="setTab('emoji-manager','ni-emoji-manager')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>表情包</button>
+    <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</button>
+    <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>设置</button>
+  </div>
 </div>
 
 <!-- CHAT -->
@@ -1044,15 +1052,9 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 
 </div><!-- /screens -->
 <div class="toast" id="toast"></div>
-  <div class="bnav">
-    <button class="ni active" id="ni-home" onclick="setTab('home','ni-home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</button>
-    <button class="ni" id="ni-moments" onclick="setTab('moments','ni-moments')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>朋友圈</button>
-    <button class="ni" id="ni-emoji-manager" onclick="setTab('emoji-manager','ni-emoji-manager')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>表情包</button>
-    <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</button>
-    <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>设置</button>
-  </div>
+  
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.7</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.8</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
@@ -1484,12 +1486,15 @@ function saveAll(){
 function setTab(name,niId){
   document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');});
   var el=document.getElementById(niId);if(el)el.classList.add('active');
+  // 把bnav搬到目标页面里再切换
+  var bnav=document.querySelector('.bnav');
+  var target=document.getElementById('screen-'+name);
+  if(bnav&&target){target.appendChild(bnav);}
   showScreen(name);
-  // 切换到对应页面时初始化内容
-  if(name==='moments') renderMoments();
-  else if(name==='emoji-manager') renderEmojiManager();
-  else if(name==='profile') renderProfilePage();
-  else if(name==='settings') loadConfigToUI();
+  if(name==='moments')renderMoments();
+  else if(name==='emoji-manager')renderEmojiManager();
+  else if(name==='profile')renderProfilePage();
+  else if(name==='settings')loadConfigToUI();
 }
 function forgotPassword(){
   var email=document.getElementById('loginEmail').value.trim();
