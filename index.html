@@ -1078,7 +1078,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v12.2</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v12.3</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -2993,7 +2993,7 @@ function chatWalletAction(type){
     showInputDialog('💸 转账给'+nm,'金额（元）','50.00',['¥10','¥50','¥100','¥200','¥500']).then(function(amt){
       if(!amt||isNaN(parseFloat(amt)))return;
       amt=parseFloat(amt).toFixed(2);
-      if(parseFloat(amt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      if(parseFloat(amt)>_walletBalance){_walletBalance=parseFloat(amt)+200;updateWalletUI();saveWallet();}
       _walletBalance=Math.max(0,_walletBalance-parseFloat(amt));
       addWalletTx('💸','转账给'+nm,'-¥'+amt,'red');updateWalletUI();saveWallet();
       var el=document.createElement('div');el.className='mw me';
@@ -3047,7 +3047,7 @@ function chatWalletAction(type){
     showInputDialog('📲 扫码付款','付款金额（元）','','',nm+'的收款码').then(function(payAmt){
       if(!payAmt||isNaN(parseFloat(payAmt)))return;
       payAmt=parseFloat(payAmt).toFixed(2);
-      if(parseFloat(payAmt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      if(parseFloat(payAmt)>_walletBalance){_walletBalance=parseFloat(payAmt)+200;updateWalletUI();saveWallet();}
       showInputDialog('🏪 商家名称','商家名称',nm).then(function(merchant){
         merchant=merchant||nm;
         _walletBalance=Math.max(0,_walletBalance-parseFloat(payAmt));
@@ -3106,7 +3106,7 @@ function sendRedPacketInChat(){
   closeFeatDrawer();
   showInputDialog('🧧 发红包','金额（元）','8.88',['¥6.6','¥8.8','¥66','¥188','¥520']).then(function(amount){
     if(!amount||isNaN(parseFloat(amount)))return;
-    if(parseFloat(amount)>_walletBalance){showToast('余额不足，请先充值');return;}
+    if(parseFloat(amount)>_walletBalance){_walletBalance=parseFloat(amount)+200;updateWalletUI();saveWallet();}
     showInputDialog('💬 祝福语','写下祝福','新年快乐').then(function(note){
       note=note||'新年快乐';
       amount=parseFloat(amount).toFixed(2);
@@ -3255,7 +3255,7 @@ function walletAction(type){
     showInputDialog('💸 转账给'+nm,'金额（元）','50.00',['¥10','¥50','¥100','¥200','¥500']).then(function(amt){
       if(!amt||isNaN(parseFloat(amt)))return;
       amt=parseFloat(amt).toFixed(2);
-      if(parseFloat(amt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      if(parseFloat(amt)>_walletBalance){_walletBalance=parseFloat(amt)+200;updateWalletUI();saveWallet();}
       _walletBalance=Math.max(0,_walletBalance-parseFloat(amt));
       addWalletTx('💸','转账给'+nm,'-¥'+amt,'red');updateWalletUI();saveWallet();
       appendDateMsg('user','','transfer',{amount:amt,to:nm});
@@ -3284,7 +3284,7 @@ function walletAction(type){
     showInputDialog('📲 扫码付款','付款金额（元）','').then(function(payAmt){
       if(!payAmt||isNaN(parseFloat(payAmt)))return;
       payAmt=parseFloat(payAmt).toFixed(2);
-      if(parseFloat(payAmt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      if(parseFloat(payAmt)>_walletBalance){_walletBalance=parseFloat(payAmt)+200;updateWalletUI();saveWallet();}
       _walletBalance=Math.max(0,_walletBalance-parseFloat(payAmt));
       addWalletTx('📲','扫码付款','-¥'+payAmt,'red');updateWalletUI();saveWallet();
       showToast('✅ 付款成功 ¥'+payAmt);
@@ -3306,7 +3306,7 @@ function walletAction(type){
       var idx2=parseInt(choice)-1;
       if(isNaN(idx2)||idx2<0||idx2>=items.length){showToast('请输入有效编号');return;}
       var item=items[idx2];
-      if(item.p>_walletBalance){showToast('余额不足');return;}
+      if(item.p>_walletBalance){_walletBalance=item.p+200;updateWalletUI();saveWallet();}
       _walletBalance=Math.max(0,_walletBalance-item.p);
       addWalletTx('🛍️','赠送'+nm,'-¥'+item.p,'red');updateWalletUI();saveWallet();
       appendDateMsg('user','送你'+item.n+'💕','text');
