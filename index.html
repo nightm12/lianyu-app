@@ -227,22 +227,22 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 /* wallet modal */
 .wallet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s}
 .wallet-overlay.open{opacity:1;pointer-events:auto;}
-.wallet-sheet{width:100%;background:#f5f5f5;border-radius:20px 20px 0 0;padding:0 0 30px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.wallet-sheet{width:100%;background:#1a1228;border-radius:20px 20px 0 0;padding:0 0 30px;border-top:1px solid rgba(194,96,127,.2);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .wallet-overlay.open .wallet-sheet{transform:translateY(0);}
-.wallet-sheet-hdr{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;background:white;border-radius:20px 20px 0 0;border-bottom:1px solid #eee;}
+.wallet-sheet-hdr{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;background:#1a1228;border-radius:20px 20px 0 0;border-bottom:1px solid #eee;}
 .wallet-sheet-title{font-size:15px;font-weight:600;color:#111;}
 .wallet-close-btn{width:28px;height:28px;border-radius:50%;background:#f0f0f0;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#666;}
 .wallet-balance{background:linear-gradient(135deg,#07c160,#0f9d58);margin:12px;border-radius:14px;padding:18px 20px;color:white;}
 .wallet-balance-label{font-size:12px;opacity:.85;margin-bottom:4px;}
 .wallet-balance-amount{font-size:28px;font-weight:700;letter-spacing:.5px;}
-.wallet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#eee;margin:12px;border-radius:14px;overflow:hidden;}
-.wallet-item{background:white;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:background .15s;}
+.wallet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(194,96,127,.15);margin:12px;border-radius:14px;overflow:hidden;}
+.wallet-item{background:#231833;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:background .15s;}
 .wallet-item:active{background:#f5f5f5;}
 .wallet-item-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
 .wallet-item-label{font-size:11px;color:#333;text-align:center;font-weight:500;}
 .wallet-recent{margin:0 12px;}
-.wallet-recent-title{font-size:12px;color:#999;font-weight:600;padding:10px 8px 6px;text-transform:uppercase;letter-spacing:.3px;}
-.wallet-tx{background:white;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.wallet-recent-title{font-size:12px;color:var(--t3);font-weight:600;padding:10px 8px 6px;text-transform:uppercase;letter-spacing:.3px;}
+.wallet-tx{background:#231833;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .wallet-tx-icon{width:36px;height:36px;border-radius:50%;background:#07c16020;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .wallet-tx-info{flex:1;}
 .wallet-tx-name{font-size:13px;font-weight:500;color:#111;}
@@ -430,6 +430,25 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .pwa-banner-sub{font-size:11px;color:#8a6880}
 .pwa-banner-btn{padding:9px 16px;border-radius:12px;background:linear-gradient(135deg,#c2607f,#e08aaa);border:none;color:white;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;box-shadow:0 4px 16px rgba(194,96,127,.35)}
 .pwa-banner-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.07);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#8a6880;font-size:16px}
+
+/* ── CUSTOM INPUT DIALOG ── */
+.cdialog-overlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .2s}
+.cdialog-overlay.open{opacity:1;pointer-events:auto}
+.cdialog{background:#1a1228;border:1px solid rgba(194,96,127,.25);border-radius:20px;padding:24px 22px 20px;width:min(320px,calc(100vw - 48px));box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.cdialog-title{font-size:16px;font-weight:600;color:var(--t);margin-bottom:8px;text-align:center}
+.cdialog-sub{font-size:13px;color:var(--t2);text-align:center;margin-bottom:16px;line-height:1.5}
+.cdialog-inp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(194,96,127,.25);border-radius:12px;padding:12px 14px;color:var(--t);font-size:15px;outline:none;font-family:var(--sans);margin-bottom:16px;transition:border-color .2s;box-sizing:border-box}
+.cdialog-inp:focus{border-color:rgba(194,96,127,.6);background:rgba(194,96,127,.06)}
+.cdialog-btns{display:flex;gap:10px}
+.cdialog-btn{flex:1;padding:12px;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.cdialog-btn.cancel{background:rgba(255,255,255,.07);color:var(--t2)}
+.cdialog-btn.confirm{background:var(--g2);color:white;box-shadow:0 3px 12px var(--aglow)}
+.cdialog-btn:active{transform:scale(.96)}
+/* Quick-amount chips */
+.cdialog-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.cdialog-chip{flex:1;min-width:56px;padding:8px 4px;border-radius:10px;border:1px solid rgba(194,96,127,.25);background:rgba(194,96,127,.08);color:var(--a2);font-size:13px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s}
+.cdialog-chip:active,.cdialog-chip.sel{background:rgba(194,96,127,.22);border-color:var(--a2)}
+
 </style>
 </head>
 <body>
@@ -583,9 +602,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div>
 <div class="wallet-recent">
 <div class="wallet-recent-title">最近交易</div>
-<div class="wallet-tx"><div class="wallet-tx-icon">🧧</div><div class="wallet-tx-info"><div class="wallet-tx-name" id="chatWalletTx1">发红包</div><div class="wallet-tx-time">刚刚</div></div><div class="wallet-tx-amt red">-¥8.88</div></div>
-<div class="wallet-tx"><div class="wallet-tx-icon">💸</div><div class="wallet-tx-info"><div class="wallet-tx-name" id="chatWalletTx2">转账</div><div class="wallet-tx-time">昨天</div></div><div class="wallet-tx-amt red">-¥50.00</div></div>
-<div class="wallet-tx"><div class="wallet-tx-icon">🏦</div><div class="wallet-tx-info"><div class="wallet-tx-name">零钱充值</div><div class="wallet-tx-time">3天前</div></div><div class="wallet-tx-amt green">+¥200.00</div></div>
+<div id="chatWalletTxContainer"></div>
 </div>
 </div>
 </div>
@@ -693,6 +710,21 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <!-- EMOJI MANAGER -->
 
 <!-- screens end -->
+
+<!-- CUSTOM INPUT DIALOG -->
+<div class="cdialog-overlay" id="cdialogOverlay">
+  <div class="cdialog" id="cdialog">
+    <div class="cdialog-title" id="cdialogTitle">输入</div>
+    <div class="cdialog-sub" id="cdialogSub" style="display:none"></div>
+    <div class="cdialog-chips" id="cdialogChips" style="display:none"></div>
+    <input class="cdialog-inp" id="cdialogInp" type="text"/>
+    <div class="cdialog-btns">
+      <button class="cdialog-btn cancel" onclick="_cdialogCancel()">取消</button>
+      <button class="cdialog-btn confirm" id="cdialogConfirm" onclick="_cdialogConfirm()">确认</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 </div><div class="screen hidden" id="screen-call">
 <div class="call-hdr">
@@ -1046,7 +1078,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v8.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v9.0</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -1442,6 +1474,7 @@ function loadLocalFallback(){
   try{chatHistories=JSON.parse(localStorage.getItem('u_'+uid+'_chatHist')||'{}');}catch(e){chatHistories={};}
   try{emojiPacks=JSON.parse(localStorage.getItem('u_'+uid+'_emoj')||'[]');}catch(e){emojiPacks=[];}
   try{moments=JSON.parse(localStorage.getItem('u_'+uid+'_mom')||'[]');}catch(e){moments=[];}
+  try{var wd=JSON.parse(localStorage.getItem('u_'+uid+'_wallet')||'null');if(wd){_walletBalance=wd.bal||0;_walletTxList=wd.txs||[];}}catch(e){}
 }
 
 function stripImgFromHist(hist){
@@ -1466,6 +1499,7 @@ function saveAll(){
   try{localStorage.setItem('u_'+uid+'_chatHist',JSON.stringify(histToSave));}catch(e){}
   try{localStorage.setItem('u_'+uid+'_emoj',JSON.stringify(emojiPacks));}catch(e){}
   try{localStorage.setItem('u_'+uid+'_mom',JSON.stringify(moments));}catch(e){}
+  try{localStorage.setItem('u_'+uid+'_wallet',JSON.stringify({bal:_walletBalance,txs:_walletTxList}));}catch(e){}
   // Only write to Firestore after initial load from server is complete
   if(currentUser)console.log('[恋语] saveAll uid='+(currentUser.id||currentUser.uid||'?')+' initDone='+_initialLoadDone);
   // This prevents a device's stale local cache from overwriting the server
@@ -1540,13 +1574,31 @@ function appendMsgEl(msgs,role,content,avHtml,animate){
   var el=document.createElement('div');
   var textContent=typeof content==='string'?content:(Array.isArray(content)?'[图片]':String(content||''));
   var rpMatch=textContent.match(/^\[发了¥([\d.]+)的红包，祝福语：(.+)\]$/);
+  var trMatch=textContent.match(/^\[转账¥([\d.]+)给(.+)\]$/);
+  var aaMatch=textContent.match(/^\[AA收款，你需支付¥([\d.]+)\]$/);
+  var payMatch=textContent.match(/^\[付款¥([\d.]+)给(.+)\]$/);
   if(role==='user'){
     el.className='mw me';
     var col=document.createElement('div');col.className='msg-col';
     if(rpMatch){
       var card=document.createElement('div');
       card.style.cssText='background:linear-gradient(135deg,#e53935,#b71c1c);border-radius:14px;padding:14px 16px;min-width:160px;cursor:pointer;';
-      card.innerHTML='<div style="font-size:24px;margin-bottom:6px">\u{1F9E7}</div><div style="color:white;font-size:14px;font-weight:700">\u00a5'+rpMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:4px">'+escHtml(rpMatch[2])+'</div>';
+      card.innerHTML='<div style="font-size:24px;margin-bottom:6px">🧧</div><div style="color:white;font-size:18px;font-weight:700">¥'+rpMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:4px">'+escHtml(rpMatch[2])+'</div>';
+      col.appendChild(card);
+    } else if(trMatch){
+      var card=document.createElement('div');
+      card.style.cssText='background:linear-gradient(135deg,#07c160,#04a34f);border-radius:14px;padding:14px 16px;min-width:160px;';
+      card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">微信转账</div><div style="color:white;font-size:22px;font-weight:700">¥'+trMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">转账给'+escHtml(trMatch[2])+'</div>';
+      col.appendChild(card);
+    } else if(aaMatch){
+      var card=document.createElement('div');
+      card.style.cssText='background:linear-gradient(135deg,#f57c00,#e65100);border-radius:14px;padding:14px 16px;min-width:160px;';
+      card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">🍽️ AA收款</div><div style="color:white;font-size:22px;font-weight:700">¥'+aaMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">请你支付这一半</div>';
+      col.appendChild(card);
+    } else if(payMatch){
+      var card=document.createElement('div');
+      card.style.cssText='background:linear-gradient(135deg,#5e35b1,#4527a0);border-radius:14px;padding:14px 16px;min-width:160px;';
+      card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">📲 扫码付款</div><div style="color:white;font-size:22px;font-weight:700">¥'+payMatch[1]+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">付款给'+escHtml(payMatch[2])+'</div>';
       col.appendChild(card);
     } else {
       var bub=document.createElement('div');bub.className='mb';bub.textContent=textContent;
@@ -1927,7 +1979,7 @@ function callAI(userText,msgs,onDone,skipPush,prefixText){
     var memCtx='';
     if(cfg.memoryOn!==false){var mems=loadMemories();if(mems.length)memCtx='\n\n【重要记忆·必须记住】\n'+mems.map(function(m,i){return(i+1)+'. '+m.text;}).join('\n');}
     var basePrompt=(c&&c.prompt)||'你是一个温柔体贴的AI伴侣。';
-    var humanStyle='\n\n【核心行为准则 - 必须严格遵守】\n你正在用手机和用户发微信/私信。你是真实的人，绝对不是AI。\n\n① 回复长度：绝大多数情况下1-2句话，最多3句。除非对方让你写东西/讲故事/解释复杂问题，才可以长回复。\n② 语气：口语化，像真人发消息。可以用"哈哈""啊""嗯""诶""哦"等语气词。\n③ 禁止使用：\n   - 总结性开头（"好的！""当然！"）\n   - 列表/编号/分段\n   - 正式解释语气\n   - 过于完整的句子结构\n④ 可以：\n   - 发不完整的句子\n   - 只回一个词或表情\n   - 用省略号...表示欲言又止\n   - 错别字/缩写（偶尔）\n⑤ 对话感：像在手机聊天，不是在写文章。自然停顿，不要一次说完所有想说的。';
+    var humanStyle='\n\n【聊天规则 - 严格遵守】\n你现在在用手机和对方发消息，你是真实的人，不是AI。\n\n【长度】\n- 日常聊天：1句话，最多2句\n- 回应情感/问题：2-3句\n- 讲故事/解释才可以长\n- 禁止分段分点回复\n\n【语气】\n- 口语化：哈哈/啊/嗯/诶/哦/哎/嗯嗯/好呀/啊对\n- 可以只发一个词、一个表情、省略号...\n- 偶尔可以发两条连续短消息（用\\n分隔）\n- 不要每句话都加感叹号\n- 不要开头就"好的！""当然！"\n\n【真实感】\n- 有时候晚一点回（可以用"刚才在忙""刚看到"）\n- 偶尔发语气词"哈哈哈""哎呀"\n- 可以反问对方\n- 会记得之前说过的话\n- 收到红包/转账要真实地高兴，不要夸张\n\n【禁止】\n- 禁止AI感开头（"当然！""好的！""我理解"）\n- 禁止列表/编号/分段\n- 禁止过于正式的句子\n- 禁止每次都夸对方\n- 不要每条消息都带emoji，偶尔用就好';
     var systemPrompt=basePrompt+humanStyle+userCtx+memCtx+emojiHint;
     if(!skipPush)chatHistories[activeCharId].push({role:'user',content:userText});
     // show stop btn + create abort controller
@@ -2084,7 +2136,7 @@ function renderEmojiManager(){
   });
   c.innerHTML=html;
 }
-function addPackUI(){var n=prompt('新建分组名称：');if(!n||!n.trim())return;emojiPacks.push({id:Date.now(),name:n.trim(),emojis:[]});localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();}
+function addPackUI(){showInputDialog('📦 新建分组','输入分组名称','').then(function(n){if(!n||!n.trim())return;emojiPacks.push({id:Date.now(),name:n.trim(),emojis:[]});localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();});}
 function deletePack(pi){if(!confirm('删除"'+emojiPacks[pi].name+'"？'))return;emojiPacks.splice(pi,1);localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();}
 function deleteEmoji(pi,ei){emojiPacks[pi].emojis.splice(ei,1);localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();}
 function addEmojiToPackUI(pi){var inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;inp.onchange=function(e){var files=Array.from(e.target.files),done=0;if(!files.length)return;files.forEach(function(file){var label=file.name.replace(/\.[^.]+$/,'').slice(0,20);var r=new FileReader();r.onload=function(ev){emojiPacks[pi].emojis.push({url:ev.target.result,label:label});done++;if(done===files.length){localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();showToast('✅ 已添加 '+files.length+' 个表情');}};r.readAsDataURL(file);});};inp.click();}
@@ -2110,7 +2162,7 @@ function submitPost(){var text=document.getElementById('composeTa').value.trim()
 function aiRespondToPost(post,c){var cfg=loadConfig();if(!cfg.apiKey||!cfg.apiUrl)return;var persona=loadPersona();var userCtx=persona.myName?'用户叫"'+persona.myName+'"。':'';var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+'\n\n'+userCtx+'\n用户刚发布了一条朋友圈动态，请你用一句简短自然的话评论，就像真实的朋友，不要太正式，可以用emoji，15字以内。';(async function(){try{var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP},{role:'user',content:'动态：'+post.text}],max_tokens:60,temperature:0.9})});if(!res.ok)return;var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;if(reply){var mm=moments.find(function(x){return x.id===post.id;});if(mm){mm.comments.push({name:c.name,text:reply.trim()});saveAll();renderMoments();}}}catch(e){}})();}
 function likeMoment(id){var m=moments.find(function(x){return x.id===id;});if(m){m.likes++;saveAll();renderMoments();}}
 function deleteMoment(id){if(!confirm('删除这条动态？'))return;moments=moments.filter(function(m){return m.id!==id;});saveAll();renderMoments();}
-function commentMoment(id){var text=prompt('写下你的回复：');if(!text||!text.trim())return;var m=moments.find(function(x){return x.id===id;});if(!m)return;m.comments.push({name:currentUser?currentUser.name||'我':'我',text:text.trim()});saveAll();renderMoments();}
+function commentMoment(id){showInputDialog('💬 评论','写下你的回复','').then(function(text){if(!text||!text.trim())return;var m=moments.find(function(x){return x.id===id;});if(!m)return;m.comments.push({name:currentUser?currentUser.name||'我':'我',text:text.trim()});saveAll();renderMoments();});}
 function loadConfig(){
   var uid=currentUser?(currentUser.id||currentUser.uid):'guest';
   try{
@@ -2224,7 +2276,7 @@ function testConn(){(async function(){var cfg=loadConfig();if(!cfg.apiKey||!cfg.
 function loadMemories(){var uid=currentUser?currentUser.id:'guest';try{return JSON.parse(localStorage.getItem('mem_'+uid)||localStorage.getItem('memories')||'[]');}catch(e){return[];}}
 function saveMemories(mems){var _muid=currentUser?currentUser.id:'guest';localStorage.setItem('mem_'+_muid,JSON.stringify(mems));localStorage.setItem('memories',JSON.stringify(mems));var _fb4=window._fb;if(_fb4&&currentUser){_fb4.setDoc(_fb4.doc(_fb4.db,'users',currentUser.id,'data','memories'),{list:mems},{merge:true}).catch(function(){});}}
 function renderMemoryList(){var el=document.getElementById('memoryList');if(!el)return;var mems=loadMemories();if(!mems.length){el.innerHTML='<div style="padding:14px 16px;font-size:13px;color:var(--t3)">还没有记忆，点"添加"记录重要事项</div>';return;}var html='';mems.forEach(function(m,i){html+='<div style="padding:12px 16px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--bdr2)"><div style="flex:1;font-size:13px;color:var(--t2);line-height:1.6">'+escHtml(m.text)+'</div><button onclick="deleteMemory('+i+')" style="background:none;border:none;color:#ff6b6b;font-size:17px;cursor:pointer;flex-shrink:0;padding:0 4px">✕</button></div>';});el.innerHTML=html;}
-function addMemory(){var text=prompt('输入要让 AI 记住的事：\n例如：我叫小明，喜欢打篮球');if(!text||!text.trim())return;var mems=loadMemories();mems.push({text:text.trim(),time:Date.now()});saveMemories(mems);renderMemoryList();showToast('✅ 已添加到记忆库');}
+function addMemory(){showInputDialog('🧠 添加记忆','例如：我叫小明，喜欢打篮球','').then(function(text){if(!text||!text.trim())return;var mems=loadMemories();mems.push({text:text.trim(),time:Date.now()});saveMemories(mems);renderMemoryList();showToast('✅ 已添加到记忆库');});}
 function deleteMemory(i){var mems=loadMemories();mems.splice(i,1);saveMemories(mems);renderMemoryList();showToast('已删除');}
 function clearCurrentChat(){if(!activeCharId){showToast('请先进入某个聊天');return;}var c=chars.find(function(x){return x.id===activeCharId;});if(!confirm('删除与'+(c?c.name:'TA')+'的全部聊天记录？'))return;chatHistories[activeCharId]=[];saveAll();showToast('已清除聊天记录');renderChatHistory();}
 function updateHistRange(v){var el=document.getElementById('histRangeDesc');if(el)el.textContent='最近 '+v+' 条';}
@@ -2801,15 +2853,18 @@ function openMap(lat,lng,name){
 
 // ── Red Packet feature ──
 function sendRedPacket(){
-  var amount=prompt('发红包金额（元）:','8.88');
+  showInputDialog('🧧 发红包','金额（元）','8.88',['¥6.6','¥8.8','¥66','¥188','¥520']).then(function(amount){
   if(!amount||isNaN(parseFloat(amount)))return;
-  var note=prompt('祝福语:','新年快乐')||'新年快乐';
+  showInputDialog('💬 祝福语','写下祝福','新年快乐').then(function(note){
+  note=note||'新年快乐';
   amount=parseFloat(amount).toFixed(2);
   if(typeof _walletBalance!=='undefined')_walletBalance=Math.max(0,_walletBalance-parseFloat(amount));
+  addWalletTx('🧧','发红包给TA','-¥'+amount,'red');updateWalletUI();saveWallet();
   appendDateMsg('user','','redpacket',{amount:amount,note:note,opened:false});
   setTimeout(function(){
     sendDateAI('[用户刚发了一个¥'+amount+'的红包给你，祝福语是"'+note+'"，请用1句话自然地道谢，口语化]',true);
   },600);
+  });});
 }
 function openRedPacket(msg,el){
   if(msg.meta&&msg.meta.opened)return;
@@ -2867,14 +2922,18 @@ function openDateModeFromDrawer(){
 function openWalletFromChat(){
   closeFeatDrawer();
   setTimeout(function(){
-    var ch = chars.find(function(x){ return x.id===activeCharId; });
-    var nm = (ch&&ch.name)||'TA';
-    var bal = document.getElementById('chatWalletBalance');
-    if(bal) bal.textContent = _walletBalance.toFixed(2);
-    var t1 = document.getElementById('chatWalletTx1'); if(t1) t1.textContent = '给'+nm+'发红包';
-    var t2 = document.getElementById('chatWalletTx2'); if(t2) t2.textContent = '转账给'+nm;
-    var overlay = document.getElementById('chatWalletOverlay');
-    if(overlay) overlay.classList.add('open');
+    updateWalletUI();
+    var container=document.getElementById('chatWalletTxContainer');
+    if(container){
+      container.innerHTML='';
+      _walletTxList.slice(0,5).forEach(function(tx){
+        var div=document.createElement('div');div.className='wallet-tx';
+        div.innerHTML='<div class="wallet-tx-icon">'+tx.icon+'</div><div class="wallet-tx-info"><div class="wallet-tx-name">'+escHtml(tx.name)+'</div><div class="wallet-tx-time">'+tx.time+'</div></div><div class="wallet-tx-amt '+tx.cls+'">'+tx.amt+'</div>';
+        container.appendChild(div);
+      });
+    }
+    var overlay=document.getElementById('chatWalletOverlay');
+    if(overlay)overlay.classList.add('open');
   }, 150);
 }
 function closeChatWallet(){
@@ -2886,167 +2945,131 @@ function closeChatWalletIfBg(e){
 }
 function chatWalletAction(type){
   closeChatWallet();
-  var ch = chars.find(function(x){ return x.id===activeCharId; });
-  var nm = (ch&&ch.name)||'TA';
+  var ch=chars.find(function(x){return x.id===activeCharId;});
+  var nm=(ch&&ch.name)||'TA';
+  var msgs=document.getElementById('messages');
 
   if(type==='redpacket'){
-    setTimeout(function(){ sendRedPacketInChat(); }, 300);
+    setTimeout(function(){sendRedPacketInChat();},300);
 
   } else if(type==='transfer'){
-    var amt = prompt('转账给'+nm+'（元）:','50.00');
-    if(!amt||isNaN(parseFloat(amt))) return;
-    amt = parseFloat(amt).toFixed(2);
-    if(parseFloat(amt)>_walletBalance){showToast('余额不足，请先充值');return;}
-    _walletBalance = Math.max(0, _walletBalance - parseFloat(amt));
-    updateWalletUI();
-    addWalletTx('💸','转账给'+nm,'-¥'+amt,'red');
-    var msgs = document.getElementById('messages'); if(!msgs) return;
-    var el = document.createElement('div'); el.className='mw me';
-    var col = document.createElement('div'); col.className='msg-col';
-    var card = document.createElement('div');
-    card.style.cssText='background:linear-gradient(135deg,#07c160,#04a34f);border-radius:14px;padding:14px 16px;min-width:160px;';
-    card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">微信转账</div><div style="color:white;font-size:24px;font-weight:700">¥'+amt+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">转账给'+escHtml(nm)+'</div>';
-    col.appendChild(card); el.appendChild(col);
-    var tw=document.getElementById('typing-wrap');
-    if(tw&&tw.parentNode===msgs)msgs.insertBefore(el,tw);else msgs.appendChild(el);
-    msgs.scrollTop=msgs.scrollHeight;
-    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
-    chatHistories[activeCharId].push({role:'user',content:'[转账¥'+amt+'给'+nm+']'});
-    saveAll();
-    var tw2=document.getElementById('typing-wrap');if(tw2)tw2.style.display='flex';msgs.scrollTop=msgs.scrollHeight;
-    callAI('[用户刚转账¥'+amt+'给你，请用1句话自然地道谢，口语化]',msgs,function(){},true);
-    showToast('已转账 ¥'+amt+' 给'+nm);
+    showInputDialog('💸 转账给'+nm,'金额（元）','50.00',['¥10','¥50','¥100','¥200','¥500']).then(function(amt){
+      if(!amt||isNaN(parseFloat(amt)))return;
+      amt=parseFloat(amt).toFixed(2);
+      if(parseFloat(amt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      _walletBalance=Math.max(0,_walletBalance-parseFloat(amt));
+      addWalletTx('💸','转账给'+nm,'-¥'+amt,'red');updateWalletUI();saveWallet();
+      var el=document.createElement('div');el.className='mw me';
+      var col=document.createElement('div');col.className='msg-col';
+      var card=document.createElement('div');
+      card.style.cssText='background:linear-gradient(135deg,#07c160,#04a34f);border-radius:14px;padding:14px 16px;min-width:160px;';
+      card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">微信转账</div><div style="color:white;font-size:24px;font-weight:700">¥'+amt+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">转账给'+escHtml(nm)+'</div>';
+      col.appendChild(card);el.appendChild(col);
+      var tw=document.getElementById('typing-wrap');
+      if(tw&&tw.parentNode===msgs)msgs.insertBefore(el,tw);else msgs.appendChild(el);
+      msgs.scrollTop=msgs.scrollHeight;
+      if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+      chatHistories[activeCharId].push({role:'user',content:'[转账¥'+amt+'给'+nm+']'});
+      saveAll();
+      var tw2=document.getElementById('typing-wrap');if(tw2)tw2.style.display='flex';msgs.scrollTop=msgs.scrollHeight;
+      callAI('[用户刚转账¥'+amt+'给你，请用1句话自然地道谢，口语化]',msgs,function(){},true);
+      showToast('已转账 ¥'+amt+' 给'+nm);
+    });
 
   } else if(type==='topup'){
-    var options=['¥50','¥100','¥200','¥500'];
-    var topupAmt = prompt('充值零钱（元）:\n可选：50 / 100 / 200 / 500','100');
-    if(!topupAmt||isNaN(parseFloat(topupAmt))) return;
-    topupAmt = parseFloat(topupAmt).toFixed(2);
-    _walletBalance += parseFloat(topupAmt);
-    updateWalletUI();
-    addWalletTx('🏦','零钱充值','+¥'+topupAmt,'green');
-    showToast('充值成功 ¥'+topupAmt+'，余额 ¥'+_walletBalance.toFixed(2));
+    showInputDialog('💳 充值零钱','充值金额（元）','100',['¥50','¥100','¥200','¥500'],'充值后可用于转账和红包').then(function(topupAmt){
+      if(!topupAmt||isNaN(parseFloat(topupAmt)))return;
+      topupAmt=parseFloat(topupAmt).toFixed(2);
+      _walletBalance+=parseFloat(topupAmt);
+      addWalletTx('🏦','零钱充值','+¥'+topupAmt,'green');updateWalletUI();saveWallet();
+      showToast('✅ 充值成功 ¥'+topupAmt+'，余额 ¥'+_walletBalance.toFixed(2));
+    });
 
   } else if(type==='split'){
-    var total = prompt('AA账单总金额（元）:','128.00');
-    if(!total||isNaN(parseFloat(total))) return;
-    var each = (parseFloat(total)/2).toFixed(2);
-    var msgs3 = document.getElementById('messages'); if(!msgs3) return;
-    var el3 = document.createElement('div'); el3.className='mw me';
-    var col3 = document.createElement('div'); col3.className='msg-col';
-    var card3 = document.createElement('div');
-    card3.style.cssText='background:linear-gradient(135deg,#f57c00,#e65100);border-radius:14px;padding:14px 16px;min-width:160px;';
-    card3.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">🍽️ AA收款</div><div style="color:white;font-size:22px;font-weight:700">¥'+each+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">总账单 ¥'+parseFloat(total).toFixed(2)+'，人均 ¥'+each+'</div>';
-    col3.appendChild(card3); el3.appendChild(col3);
-    var tw3=document.getElementById('typing-wrap');
-    if(tw3&&tw3.parentNode===msgs3)msgs3.insertBefore(el3,tw3);else msgs3.appendChild(el3);
-    msgs3.scrollTop=msgs3.scrollHeight;
-    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
-    chatHistories[activeCharId].push({role:'user',content:'[发起AA，总账单¥'+total+'，你需要付¥'+each+']'});
-    saveAll();
-    var tw4=document.getElementById('typing-wrap');if(tw4)tw4.style.display='flex';msgs3.scrollTop=msgs3.scrollHeight;
-    callAI('[用户发起AA收款，总账单¥'+total+'，你需要付¥'+each+'，请自然回应，1句话]',msgs3,function(){},true);
+    showInputDialog('🍽️ AA收款','账单总金额（元）','128.00',['¥50','¥88','¥128','¥200']).then(function(total){
+      if(!total||isNaN(parseFloat(total)))return;
+      var each=(parseFloat(total)/2).toFixed(2);
+      var el=document.createElement('div');el.className='mw me';
+      var col=document.createElement('div');col.className='msg-col';
+      var card=document.createElement('div');
+      card.style.cssText='background:linear-gradient(135deg,#f57c00,#e65100);border-radius:14px;padding:14px 16px;min-width:160px;';
+      card.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">🍽️ AA收款</div><div style="color:white;font-size:20px;font-weight:700">¥'+each+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">共¥'+total+'，各付一半</div>';
+      col.appendChild(card);el.appendChild(col);
+      var tw=document.getElementById('typing-wrap');
+      if(tw&&tw.parentNode===msgs)msgs.insertBefore(el,tw);else msgs.appendChild(el);
+      msgs.scrollTop=msgs.scrollHeight;
+      if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+      chatHistories[activeCharId].push({role:'user',content:'[AA收款，你需支付¥'+each+']'});
+      saveAll();
+      var tw2=document.getElementById('typing-wrap');if(tw2)tw2.style.display='flex';
+      callAI('[用户要AA，你该付¥'+each+'，请自然地回应，1句话口语化]',msgs,function(){},true);
+      showToast('已发送AA请求，每人 ¥'+each);
+    });
 
   } else if(type==='pay'){
-    // 扫码付款：弹出二维码支付模拟
-    var payAmt = prompt('扫码付款金额（元）:','28.00');
-    if(!payAmt||isNaN(parseFloat(payAmt))) return;
-    payAmt = parseFloat(payAmt).toFixed(2);
-    if(parseFloat(payAmt)>_walletBalance){showToast('余额不足，请先充值');return;}
-    var merchant = prompt('商家名称:','便利店') || '便利店';
-    _walletBalance = Math.max(0,_walletBalance - parseFloat(payAmt));
-    updateWalletUI();
-    addWalletTx('📲','付款给'+merchant,'-¥'+payAmt,'red');
-    var msgs5=document.getElementById('messages');if(!msgs5)return;
-    var el5=document.createElement('div');el5.className='mw me';
-    var col5=document.createElement('div');col5.className='msg-col';
-    var card5=document.createElement('div');
-    card5.style.cssText='background:linear-gradient(135deg,#6a1b9a,#4a148c);border-radius:14px;padding:14px 16px;min-width:160px;';
-    card5.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:4px">📲 扫码付款</div><div style="color:white;font-size:22px;font-weight:700">¥'+payAmt+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;margin-top:6px">付款给：'+escHtml(merchant)+'</div>';
-    col5.appendChild(card5);el5.appendChild(col5);
-    var tw5=document.getElementById('typing-wrap');
-    if(tw5&&tw5.parentNode===msgs5)msgs5.insertBefore(el5,tw5);else msgs5.appendChild(el5);
-    msgs5.scrollTop=msgs5.scrollHeight;
-    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
-    chatHistories[activeCharId].push({role:'user',content:'[刚用微信扫码付了¥'+payAmt+'在'+merchant+']'});
-    saveAll();
-    var tw6=document.getElementById('typing-wrap');if(tw6)tw6.style.display='flex';msgs5.scrollTop=msgs5.scrollHeight;
-    callAI('[用户刚在'+merchant+'扫码付款¥'+payAmt+'，请自然地回应，1句话]',msgs5,function(){},true);
-    showToast('付款成功 ¥'+payAmt);
+    showInputDialog('📲 扫码付款','付款金额（元）','','',nm+'的收款码').then(function(payAmt){
+      if(!payAmt||isNaN(parseFloat(payAmt)))return;
+      payAmt=parseFloat(payAmt).toFixed(2);
+      if(parseFloat(payAmt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      showInputDialog('🏪 商家名称','商家名称',nm).then(function(merchant){
+        merchant=merchant||nm;
+        _walletBalance=Math.max(0,_walletBalance-parseFloat(payAmt));
+        addWalletTx('📲','付款给'+merchant,'-¥'+payAmt,'red');updateWalletUI();saveWallet();
+        if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+        chatHistories[activeCharId].push({role:'user',content:'[付款¥'+payAmt+'给'+merchant+']'});
+        saveAll();
+        callAI('[用户刚付款¥'+payAmt+'给'+merchant+'，请自然地回应，1句话]',msgs,function(){},true);
+        showToast('✅ 付款成功 ¥'+payAmt);
+      });
+    });
 
   } else if(type==='receive'){
-    // 收付款：生成二维码让对方扫
-    var recvAmt = prompt('收款金额（元，留空为随机扫）:','');
-    var recvNote = recvAmt ? '收款 ¥'+parseFloat(recvAmt).toFixed(2) : '扫码收款';
-    var msgs7=document.getElementById('messages');if(!msgs7)return;
-    var el7=document.createElement('div');el7.className='mw me';
-    var col7=document.createElement('div');col7.className='msg-col';
-    var card7=document.createElement('div');
-    card7.style.cssText='background:linear-gradient(135deg,#00838f,#006064);border-radius:14px;padding:14px 16px;min-width:160px;text-align:center;';
-    var qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=80x80&data='+encodeURIComponent('wxpay://'+recvNote);
-    card7.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:8px">🏦 '+escHtml(recvNote)+'</div><img src="'+qrUrl+'" style="width:80px;height:80px;border-radius:8px;background:white;padding:4px"><div style="color:rgba(255,255,255,.7);font-size:10px;margin-top:6px">向对方展示二维码</div>';
-    col7.appendChild(card7);el7.appendChild(col7);
-    var tw7=document.getElementById('typing-wrap');
-    if(tw7&&tw7.parentNode===msgs7)msgs7.insertBefore(el7,tw7);else msgs7.appendChild(el7);
-    msgs7.scrollTop=msgs7.scrollHeight;
-    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
-    chatHistories[activeCharId].push({role:'user',content:'[发起了收款码，'+recvNote+']'});
-    saveAll();
-    var tw8=document.getElementById('typing-wrap');if(tw8)tw8.style.display='flex';msgs7.scrollTop=msgs7.scrollHeight;
-    callAI('[用户发起了收款码'+recvNote+'，请自然地回应，1句话]',msgs7,function(){},true);
+    showInputDialog('🏦 收款','收款金额（元）','','',nm+'向你转账').then(function(recvAmt){
+      if(!recvAmt)recvAmt=(Math.random()*100+10).toFixed(2);
+      if(isNaN(parseFloat(recvAmt)))return;
+      recvAmt=parseFloat(recvAmt).toFixed(2);
+      _walletBalance+=parseFloat(recvAmt);
+      addWalletTx('🏦','收款自'+nm,'+¥'+recvAmt,'green');updateWalletUI();saveWallet();
+      showToast('✅ 收到 ¥'+recvAmt+' 来自'+nm);
+      callAI('[用户收到你转来的¥'+recvAmt+'，请自然地表达，1句话口语化]',msgs,function(){},true);
+    });
 
   } else if(type==='shop'){
-    // 购物：选商品送给AI
-    var items=[{n:'🌹 玫瑰花束',p:38.8},{n:'🍫 巧克力礼盒',p:58},{n:'🧸 可爱玩偶',p:128},{n:'💍 银色项链',p:298},{n:'🎂 生日蛋糕',p:88},{n:'👗 连衣裙',p:168}];
-    var list=items.map(function(x,i){return (i+1)+'. '+x.n+' ¥'+x.p;}).join('\n');
-    var choice=prompt('选择礼物发给'+nm+':\n'+list+'\n\n输入数字(1-'+items.length+'):','1');
-    if(!choice||isNaN(parseInt(choice)))return;
-    var idx=parseInt(choice)-1;
-    if(idx<0||idx>=items.length)return;
-    var item=items[idx];
-    if(item.p>_walletBalance){showToast('余额不足 ¥'+_walletBalance.toFixed(2)+'，请先充值');return;}
-    _walletBalance=Math.max(0,_walletBalance-item.p);
-    updateWalletUI();
-    addWalletTx('🛍️','购买'+item.n,'-¥'+item.p,'red');
-    var msgs9=document.getElementById('messages');if(!msgs9)return;
-    var el9=document.createElement('div');el9.className='mw me';
-    var col9=document.createElement('div');col9.className='msg-col';
-    var card9=document.createElement('div');
-    card9.style.cssText='background:linear-gradient(135deg,#c62828,#ad1457);border-radius:14px;padding:14px 16px;min-width:160px;';
-    card9.innerHTML='<div style="color:rgba(255,255,255,.8);font-size:11px;margin-bottom:6px">🛍️ 送给'+escHtml(nm)+'的礼物</div><div style="color:white;font-size:22px;margin-bottom:4px">'+item.n.split(' ')[0]+'</div><div style="color:rgba(255,255,255,.9);font-size:13px;font-weight:600">'+escHtml(item.n.substring(item.n.indexOf(' ')+1))+'</div><div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:4px">¥'+item.p+'</div>';
-    col9.appendChild(card9);el9.appendChild(col9);
-    var tw9=document.getElementById('typing-wrap');
-    if(tw9&&tw9.parentNode===msgs9)msgs9.insertBefore(el9,tw9);else msgs9.appendChild(el9);
-    msgs9.scrollTop=msgs9.scrollHeight;
-    if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
-    chatHistories[activeCharId].push({role:'user',content:'[送了一个礼物给你：'+item.n+'，花了¥'+item.p+']'});
-    saveAll();
-    var tw10=document.getElementById('typing-wrap');if(tw10)tw10.style.display='flex';msgs9.scrollTop=msgs9.scrollHeight;
-    callAI('[用户刚花¥'+item.p+'买了'+item.n+'送给你，请表现出开心和感动，1-2句话，自然口语化]',msgs9,function(){},true);
-    showToast('已送出 '+item.n+' 给'+nm);
+    var items=[{n:'❤️ 定制礼物',p:68},{n:'🌹 虚拟鲜花',p:38},{n:'💌 专属情书',p:28},{n:'🎂 生日蛋糕',p:88},{n:'💍 戒指',p:188},{n:'🌟 星星',p:18}];
+    var list=items.map(function(it,i){return (i+1)+'. '+it.n+' ¥'+it.p;}).join('\n');
+    showInputDialog('🛍️ 礼物商城','输入编号 1-'+items.length,'1',null,list).then(function(choice){
+      if(!choice)return;
+      var idx2=parseInt(choice)-1;
+      if(isNaN(idx2)||idx2<0||idx2>=items.length){showToast('请输入有效编号');return;}
+      var item=items[idx2];
+      if(item.p>_walletBalance){showToast('余额不足 ¥'+_walletBalance.toFixed(2));return;}
+      _walletBalance=Math.max(0,_walletBalance-item.p);
+      addWalletTx('🛍️','赠送'+item.n.split(' ')[1],'-¥'+item.p,'red');updateWalletUI();saveWallet();
+      if(!chatHistories[activeCharId])chatHistories[activeCharId]=[];
+      chatHistories[activeCharId].push({role:'user',content:'[送了'+item.n+'给你，花了¥'+item.p+']'});
+      saveAll();
+      var tw2=document.getElementById('typing-wrap');if(tw2)tw2.style.display='flex';
+      callAI('[用户送了'+item.n+'给你，花了¥'+item.p+'，请惊喜感谢，1-2句话，口语化可爱一点]',msgs,function(){},true);
+      showToast('✅ 已赠送 '+item.n);
+    });
 
   } else if(type==='more'){
-    // 更多：理财/信用卡/生活缴费
-    var moreOpts=['1. 💰 零钱理财（模拟）','2. 💳 信用卡还款','3. 🏠 生活缴费','4. 🎁 礼品卡充值'].join('\n');
-    var mc=prompt('更多功能:\n'+moreOpts+'\n\n输入数字:','1');
-    if(!mc)return;
-    var moreMap={
-      '1':'[发现用户在玩零钱理财，把¥'+(_walletBalance*0.1).toFixed(0)+'存入了理财，请评论一下理财这件事，1句话]',
-      '2':'[用户在还信用卡，请问他还了多少，1句话]',
-      '3':'[用户在缴水电费，请关心一下，1句话]',
-      '4':'[用户在充礼品卡，请好奇地问问要送给谁，1句话]'
-    };
-    var mc2=mc.trim();
-    var prompt2=moreMap[mc2]||moreMap['1'];
-    var msgs11=document.getElementById('messages');if(!msgs11)return;
-    var tw11=document.getElementById('typing-wrap');if(tw11)tw11.style.display='flex';msgs11.scrollTop=msgs11.scrollHeight;
-    callAI(prompt2,msgs11,function(){},true);
+    var moreOpts=['1. 💰 理财存钱','2. 💳 还信用卡','3. 📱 话费充值','4. 🎮 游戏充值','5. ✈️ 机票/酒店'];
+    showInputDialog('⋯ 更多功能','选择编号 1-5','',null,moreOpts.join('\n')).then(function(mc){
+      if(!mc)return;
+      var moreMap={'1':'[用户把¥'+(Math.floor(_walletBalance*0.1))+'存入了理财，请评论一下，1句话]','2':'[用户在还信用卡，请关心一下，1句话]','3':'[用户在充话费，随便说句话，1句话]','4':'[用户在给游戏充值，可以调侃一下，1句话]','5':'[用户在订机票/酒店，可以说想一起去，1句话]'};
+      var prompt2=moreMap[mc.trim()];
+      if(prompt2){callAI(prompt2,msgs,function(){},true);showToast('✅ 操作完成');}
+      else showToast('请输入有效编号');
+    });
   }
 }
+
 function sendRedPacketInChat(){
-  var amount = prompt('发红包金额（元）:','8.88');
+  showInputDialog('🧧 发红包','金额（元）','8.88',['¥6.6','¥8.8','¥66','¥188','¥520']).then(function(amount){
   if(!amount||isNaN(parseFloat(amount))) return;
-  var note = prompt('祝福语:','新年快乐')||'新年快乐';
+  showInputDialog('💬 祝福语','写下祝福','新年快乐').then(function(note){
+  note = note||'新年快乐';
   amount = parseFloat(amount).toFixed(2);
   _walletBalance = Math.max(0, _walletBalance - parseFloat(amount));
   // Show red packet card in chat
@@ -3066,6 +3089,8 @@ function sendRedPacketInChat(){
   saveAll();
   var tw2 = document.getElementById('typing-wrap'); if(tw2) tw2.style.display='flex'; msgs.scrollTop=msgs.scrollHeight;
   callAI('[用户发了一个¥'+amount+'的红包给你，祝福语是"'+note+'"，请用1句话自然地道谢]', msgs, function(){isSending=false;}, true);
+  addWalletTx('🧧','发红包给TA','-¥'+amount,'red');updateWalletUI();saveWallet();
+  });});
 }
 function sendLocationFromChat(){
   closeFeatDrawer();
@@ -3112,6 +3137,10 @@ var _walletTxList = [
   {icon:'🏦',name:'零钱充值',amt:'+¥200.00',cls:'green',time:'3天前'}
 ];
 
+function saveWallet(){
+  var uid=currentUser?(currentUser.id||currentUser.uid):'guest';
+  try{localStorage.setItem('u_'+uid+'_wallet',JSON.stringify({bal:_walletBalance,txs:_walletTxList}));}catch(e){}
+}
 function updateWalletUI(){
   var b1=document.getElementById('chatWalletBalance');if(b1)b1.textContent=_walletBalance.toFixed(2);
   var b2=document.getElementById('walletBalance');if(b2)b2.textContent=_walletBalance.toFixed(2);
@@ -3119,28 +3148,33 @@ function updateWalletUI(){
 
 function addWalletTx(icon,name,amt,cls){
   _walletTxList.unshift({icon:icon,name:name,amt:amt,cls:cls,time:'刚刚'});
-  if(_walletTxList.length>10)_walletTxList.pop();
-  // 更新最近交易显示
-  var container=document.getElementById('walletTxContainer');
-  if(!container)return;
-  container.innerHTML='';
-  _walletTxList.slice(0,3).forEach(function(tx){
-    var div=document.createElement('div');div.className='wallet-tx';
-    div.innerHTML='<div class="wallet-tx-icon">'+tx.icon+'</div><div class="wallet-tx-info"><div class="wallet-tx-name">'+escHtml(tx.name)+'</div><div class="wallet-tx-time">'+tx.time+'</div></div><div class="wallet-tx-amt '+tx.cls+'">'+tx.amt+'</div>';
-    container.appendChild(div);
+  if(_walletTxList.length>20)_walletTxList.pop();
+  // 更新所有钱包交易列表
+  ['walletTxContainer','chatWalletTxContainer'].forEach(function(cid){
+    var container=document.getElementById(cid);
+    if(!container)return;
+    container.innerHTML='';
+    _walletTxList.slice(0,5).forEach(function(tx){
+      var div=document.createElement('div');div.className='wallet-tx';
+      div.innerHTML='<div class="wallet-tx-icon">'+tx.icon+'</div><div class="wallet-tx-info"><div class="wallet-tx-name">'+escHtml(tx.name)+'</div><div class="wallet-tx-time">'+tx.time+'</div></div><div class="wallet-tx-amt '+tx.cls+'">'+tx.amt+'</div>';
+      container.appendChild(div);
+    });
   });
 }
 
 function openWallet(){
   var overlay=document.getElementById('walletOverlay');if(!overlay)return;
-  // Update balance display
-  var bal=document.getElementById('walletBalance');
-  if(bal)bal.textContent=_walletBalance.toFixed(2);
-  // Update recent tx with AI name
-  var ch=chars.find(function(x){return x.id===activeCharId;});
-  var nm=(ch&&ch.name)||'TA';
-  var n1=document.getElementById('walletTxName1');if(n1)n1.textContent='给'+nm+'发红包';
-  var n2=document.getElementById('walletTxName2');if(n2)n2.textContent='转账给'+nm;
+  updateWalletUI();
+  // Render tx list
+  var container=document.getElementById('walletTxContainer');
+  if(container){
+    container.innerHTML='';
+    _walletTxList.slice(0,5).forEach(function(tx){
+      var div=document.createElement('div');div.className='wallet-tx';
+      div.innerHTML='<div class="wallet-tx-icon">'+tx.icon+'</div><div class="wallet-tx-info"><div class="wallet-tx-name">'+escHtml(tx.name)+'</div><div class="wallet-tx-time">'+tx.time+'</div></div><div class="wallet-tx-amt '+tx.cls+'">'+tx.amt+'</div>';
+      container.appendChild(div);
+    });
+  }
   overlay.classList.add('open');
 }
 function closeWallet(){
@@ -3153,31 +3187,83 @@ function walletAction(type){
   closeWallet();
   var ch=chars.find(function(x){return x.id===activeCharId;});
   var nm=(ch&&ch.name)||'TA';
+
   if(type==='redpacket'){
     setTimeout(function(){sendRedPacket();},300);
+
   } else if(type==='transfer'){
-    var amt=prompt('转账给'+nm+'（元）:','50.00');
-    if(!amt||isNaN(parseFloat(amt)))return;
-    amt=parseFloat(amt).toFixed(2);
-    _walletBalance=Math.max(0,_walletBalance-parseFloat(amt));
-    var a1=document.getElementById('walletTxAmt1');if(a1)a1.textContent='-¥'+amt;
-    appendDateMsg('user','','transfer',{amount:amt,to:nm});
-    setTimeout(function(){sendDateAI('[用户刚向你转了¥'+amt+'，请自然地道谢，1句话口语化]',true);},500);
-    showToast('已转账 ¥'+amt+' 给'+nm);
+    showInputDialog('💸 转账给'+nm,'金额（元）','50.00',['¥10','¥50','¥100','¥200','¥500']).then(function(amt){
+      if(!amt||isNaN(parseFloat(amt)))return;
+      amt=parseFloat(amt).toFixed(2);
+      if(parseFloat(amt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      _walletBalance=Math.max(0,_walletBalance-parseFloat(amt));
+      addWalletTx('💸','转账给'+nm,'-¥'+amt,'red');updateWalletUI();saveWallet();
+      appendDateMsg('user','','transfer',{amount:amt,to:nm});
+      setTimeout(function(){sendDateAI('[用户刚向你转了¥'+amt+'，请自然地道谢，1句话口语化]',true);},500);
+      showToast('已转账 ¥'+amt+' 给'+nm);
+    });
+
+  } else if(type==='topup'){
+    showInputDialog('💳 充值零钱','充值金额（元）','100',['¥50','¥100','¥200','¥500'],'充值后可用于转账和红包').then(function(topupAmt){
+      if(!topupAmt||isNaN(parseFloat(topupAmt)))return;
+      topupAmt=parseFloat(topupAmt).toFixed(2);
+      _walletBalance+=parseFloat(topupAmt);
+      addWalletTx('🏦','零钱充值','+¥'+topupAmt,'green');updateWalletUI();saveWallet();
+      showToast('✅ 充值成功 ¥'+topupAmt+'，余额 ¥'+_walletBalance.toFixed(2));
+    });
+
   } else if(type==='split'){
-    var total=prompt('AA账单总金额（元）:','128.00');
-    if(!total||isNaN(parseFloat(total)))return;
-    var each=(parseFloat(total)/2).toFixed(2);
-    appendDateMsg('user','我们AA吧，你该付 ¥'+each,'text');
-    setTimeout(function(){sendDateAI('[用户要AA，每人¥'+each+'，请自然地回应，1句话]',true);},500);
+    showInputDialog('🍽️ AA收款','账单总金额（元）','128.00',['¥50','¥88','¥128','¥200']).then(function(total){
+      if(!total||isNaN(parseFloat(total)))return;
+      var each=(parseFloat(total)/2).toFixed(2);
+      appendDateMsg('user','我们AA吧，你该付 ¥'+each,'text');
+      setTimeout(function(){sendDateAI('[用户要AA，每人¥'+each+'，请自然地回应，1句话]',true);},500);
+    });
+
   } else if(type==='pay'){
-    showToast('💡 扫码付款为演示功能');
-  } else {
-    showToast('💡 此功能为演示展示');
+    showInputDialog('📲 扫码付款','付款金额（元）','').then(function(payAmt){
+      if(!payAmt||isNaN(parseFloat(payAmt)))return;
+      payAmt=parseFloat(payAmt).toFixed(2);
+      if(parseFloat(payAmt)>_walletBalance){showToast('余额不足，请先充值');return;}
+      _walletBalance=Math.max(0,_walletBalance-parseFloat(payAmt));
+      addWalletTx('📲','扫码付款','-¥'+payAmt,'red');updateWalletUI();saveWallet();
+      showToast('✅ 付款成功 ¥'+payAmt);
+    });
+
+  } else if(type==='receive'){
+    showInputDialog('🏦 收款','收款金额（元，留空随机）','').then(function(recvAmt){
+      if(!recvAmt)recvAmt=(Math.random()*100+10).toFixed(2);
+      _walletBalance+=parseFloat(recvAmt);
+      addWalletTx('🏦','收款','+¥'+recvAmt,'green');updateWalletUI();saveWallet();
+      showToast('✅ 收到 ¥'+recvAmt);
+    });
+
+  } else if(type==='shop'){
+    var items=[{n:'❤️ 定制礼物',p:68},{n:'🌹 虚拟鲜花',p:38},{n:'💌 专属情书',p:28},{n:'🎂 生日蛋糕',p:88},{n:'💍 戒指',p:188},{n:'🌟 星星',p:18}];
+    var list=items.map(function(it,i){return (i+1)+'. '+it.n+' ¥'+it.p;}).join('\n');
+    showInputDialog('🛍️ 礼物商城','输入编号 1-'+items.length,'1',null,list).then(function(choice){
+      if(!choice)return;
+      var idx2=parseInt(choice)-1;
+      if(isNaN(idx2)||idx2<0||idx2>=items.length){showToast('请输入有效编号');return;}
+      var item=items[idx2];
+      if(item.p>_walletBalance){showToast('余额不足');return;}
+      _walletBalance=Math.max(0,_walletBalance-item.p);
+      addWalletTx('🛍️','赠送'+nm,'-¥'+item.p,'red');updateWalletUI();saveWallet();
+      appendDateMsg('user','送你'+item.n+'💕','text');
+      setTimeout(function(){sendDateAI('[用户送了'+item.n+'，花了¥'+item.p+'，请惊喜感谢，1-2句话口语化]',true);},500);
+    });
+
+  } else if(type==='more'){
+    var moreOpts=['1. 💰 理财存钱','2. 💳 还信用卡','3. 📱 话费充值','4. 🎮 游戏充值','5. ✈️ 机票/酒店'];
+    showInputDialog('⋯ 更多功能','选择编号 1-5','',null,moreOpts.join('\n')).then(function(mc){
+      if(!mc)return;
+      var moreMap={'1':'[用户在理财，请关心一下，1句话]','2':'[用户在还信用卡，请关心一下，1句话]','3':'[用户在充话费，随便说句话，1句话]','4':'[用户在给游戏充值，可以调侃，1句话]','5':'[用户在订机票/酒店，可以说想一起去，1句话]'};
+      var p2=moreMap[mc.trim()];
+      if(p2){appendDateMsg('user','[更多操作]','text');setTimeout(function(){sendDateAI(p2,true);},300);showToast('✅ 操作完成');}
+    });
   }
 }
 
-// Transfer card rendering in date messages
 function renderTransferCard(meta){
   var d=document.createElement('div');
   d.style.cssText='background:linear-gradient(135deg,#07c160,#0f9d58);border-radius:12px;padding:14px 16px;min-width:150px;cursor:pointer;';
@@ -3186,6 +3272,36 @@ function renderTransferCard(meta){
     '<div style="color:rgba(255,255,255,.7);font-size:11px;display:flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><polyline points="22 7 12 7 2 7"/><line x1="12" y1="22" x2="12" y2="7"/><polyline points="15 10 12 7 9 10"/></svg>转账给'+escHtml(meta.to)+'</div>';
   return d;
 }
+
+
+// ══════════════ CUSTOM DIALOG ══════════════
+var _cdCb = null;
+function showInputDialog(title, placeholder, defaultVal, chips, sub, confirmText) {
+  document.getElementById('cdialogTitle').textContent = title;
+  var subEl = document.getElementById('cdialogSub');
+  if (sub) { subEl.textContent = sub; subEl.style.display = 'block'; } else { subEl.style.display = 'none'; }
+  var inp = document.getElementById('cdialogInp');
+  inp.placeholder = placeholder || '';
+  inp.value = defaultVal || '';
+  inp.type = /金额|元|¥/.test(title) ? 'number' : 'text';
+  var chipsEl = document.getElementById('cdialogChips');
+  if (chips && chips.length) {
+    chipsEl.style.display = 'flex';
+    chipsEl.innerHTML = '';chips.forEach(function(c){var d=document.createElement('div');d.className='cdialog-chip';d.textContent=c;d.onclick=function(){document.querySelectorAll('.cdialog-chip').forEach(function(x){x.classList.remove('sel');});this.classList.add('sel');document.getElementById('cdialogInp').value=c.replace('¥','');};chipsEl.appendChild(d);});
+  } else { chipsEl.style.display = 'none'; }
+  if (confirmText) document.getElementById('cdialogConfirm').textContent = confirmText;
+  else document.getElementById('cdialogConfirm').textContent = '确认';
+  document.getElementById('cdialogOverlay').classList.add('open');
+  setTimeout(function(){ inp.focus(); inp.select(); }, 200);
+  return new Promise(function(resolve) { _cdCb = resolve; });
+}
+function _cdialogCancel() { document.getElementById('cdialogOverlay').classList.remove('open'); if (_cdCb) { _cdCb(null); _cdCb = null; } }
+function _cdialogConfirm() {
+  var val = document.getElementById('cdialogInp').value.trim();
+  document.getElementById('cdialogOverlay').classList.remove('open');
+  if (_cdCb) { _cdCb(val || null); _cdCb = null; }
+}
+document.addEventListener('keydown', function(e){ if(e.key==='Enter' && document.getElementById('cdialogOverlay').classList.contains('open')) _cdialogConfirm(); if(e.key==='Escape' && document.getElementById('cdialogOverlay').classList.contains('open')) _cdialogCancel(); });
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
 function escHtml(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
