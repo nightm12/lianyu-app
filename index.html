@@ -860,7 +860,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="finp-wrap">
 <div class="finp-label">模型名称</div>
 <div style="display:flex;gap:8px;align-items:center">
-<select class="finp" id="inputModel" style="flex:1;cursor:pointer"></select>
+<select class="finp" id="inputModel" onchange="saveConfig()" style="flex:1;cursor:pointer"></select>
 <button id="reloadModelBtn" onclick="loadModelList()" style="width:36px;height:36px;border-radius:10px;background:rgba(194,96,127,.15);border:1px solid rgba(194,96,127,.3);color:#e08aaa;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" title="重新加载模型">↻</button>
 </div>
 </div>
@@ -913,6 +913,21 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div>
 <!-- ADVANCED TAB -->
 <div id="tab-advanced" style="display:none">
+<div class="card">
+<div class="card-title">💬 AI 主动行为</div>
+<div class="row"><div class="rinfo"><div class="rname">💌 AI 主动找我聊天</div><div class="rdesc" id="proactiveChatDesc">开启后 AI 会不定时发消息给你（仅限当前会话）</div></div><div class="toggle off" id="toggleProactiveChat" onclick="toggleSw(this);onToggleProactiveChat()"></div></div>
+<div id="proactiveChatRow" style="display:none">
+<div class="row" style="gap:8px"><div class="rinfo"><div class="rname" style="font-size:12px">发消息频率</div></div>
+<select id="proactiveChatFreq" onchange="onToggleProactiveChat()" style="background:var(--glass);border:1px solid var(--bdr);color:var(--t);border-radius:8px;padding:5px 8px;font-size:12px">
+<option value="10">每 10 分钟</option>
+<option value="20" selected>每 20 分钟</option>
+<option value="30">每 30 分钟</option>
+<option value="60">每 1 小时</option>
+</select></div>
+</div>
+<div class="row"><div class="rinfo"><div class="rname">🌸 AI 会来看我的朋友圈</div><div class="rdesc">发动态后 AI 会自动点赞和评论</div></div><div class="toggle on" id="toggleAIMoments" onclick="toggleSw(this)"></div></div>
+<div class="row"><div class="rinfo"><div class="rname">❤️ AI 点赞我的动态</div><div class="rdesc">发布动态后 AI 随机给你点个赞</div></div><div class="toggle on" id="toggleAILike" onclick="toggleSw(this)"></div></div>
+</div>
 <div class="card">
 <div class="card-title">🎙️ 语音 &amp; 图片</div>
 <div class="row"><div class="rinfo"><div class="rname">🔊 AI 语音朗读 (TTS)</div><div class="rdesc">AI 回复后自动朗读</div></div><div class="toggle off" id="toggleTTS" onclick="toggleSw(this);onToggleTTS()"></div></div>
@@ -1076,7 +1091,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.6</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v14.7</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -1368,6 +1383,8 @@ async function loadUserDataFromFirestore(){
   _initialLoadDone=true;
   startRealtimeSync();
   setTimeout(registerForPushNotifications, 2000); // start live listener after initial load
+  // Restore proactive chat timer if enabled
+  setTimeout(function(){var cfg=loadConfig();if(cfg.proactiveChatOn)onToggleProactiveChat();},3000);
   // Trigger immediate save to create/update Firestore doc
   // This handles new users (no data/main yet) and migrates old localStorage data
   setTimeout(saveAll, 300);
@@ -2148,10 +2165,10 @@ function renderEmojiManager(){
   });
   c.innerHTML=html;
 }
-function addPackUI(){showInputDialog('📦 新建分组','输入分组名称','').then(function(n){if(!n||!n.trim())return;emojiPacks.push({id:Date.now(),name:n.trim(),emojis:[]});localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();});}
-function deletePack(pi){if(!confirm('删除"'+emojiPacks[pi].name+'"？'))return;emojiPacks.splice(pi,1);localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();}
-function deleteEmoji(pi,ei){emojiPacks[pi].emojis.splice(ei,1);localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();}
-function addEmojiToPackUI(pi){var inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;inp.onchange=function(e){var files=Array.from(e.target.files),done=0;if(!files.length)return;files.forEach(function(file){var label=file.name.replace(/\.[^.]+$/,'').slice(0,20);var r=new FileReader();r.onload=function(ev){emojiPacks[pi].emojis.push({url:ev.target.result,label:label});done++;if(done===files.length){localStorage.setItem('emojiPacks',JSON.stringify(emojiPacks));renderEmojiManager();showToast('✅ 已添加 '+files.length+' 个表情');}};r.readAsDataURL(file);});};inp.click();}
+function addPackUI(){showInputDialog('📦 新建分组','输入分组名称','').then(function(n){if(!n||!n.trim())return;emojiPacks.push({id:Date.now(),name:n.trim(),emojis:[]});saveAll();renderEmojiManager();showToast('✅ 分组已创建');});}
+function deletePack(pi){if(!confirm('删除"'+emojiPacks[pi].name+'"？'))return;emojiPacks.splice(pi,1);saveAll();renderEmojiManager();}
+function deleteEmoji(pi,ei){emojiPacks[pi].emojis.splice(ei,1);saveAll();renderEmojiManager();}
+function addEmojiToPackUI(pi){var inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;inp.onchange=function(e){var files=Array.from(e.target.files),done=0;if(!files.length)return;files.forEach(function(file){var label=file.name.replace(/\.[^.]+$/,'').slice(0,20);var r=new FileReader();r.onload=function(ev){emojiPacks[pi].emojis.push({url:ev.target.result,label:label});done++;if(done===files.length){saveAll();renderEmojiManager();showToast('✅ 已添加 '+files.length+' 个表情');}};r.readAsDataURL(file);});};inp.click();}
 function renderMoments(){
   var feed=document.getElementById('momentsFeed');if(!feed||!currentUser)return;
   var uav=document.getElementById('momUserAv');if(uav)uav.src=currentUser.avatar;
@@ -2170,7 +2187,82 @@ function renderMoments(){
 function openCompose(){document.getElementById('composeTa').value='';document.getElementById('composeImgs').innerHTML='<div class="compose-img-add" onclick="addPostImage()">＋</div>';composeImages=[];document.getElementById('composeOverlay').classList.add('open');}
 function closeCompose(){document.getElementById('composeOverlay').classList.remove('open');}
 function addPostImage(){var inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;inp.onchange=function(e){Array.from(e.target.files).forEach(function(file){var r=new FileReader();r.onload=function(ev){composeImages.push(ev.target.result);var imgs=document.getElementById('composeImgs');imgs.querySelectorAll('.compose-img-preview').forEach(function(p){p.remove();});composeImages.forEach(function(src){var img=document.createElement('img');img.src=src;img.className='compose-img-preview';imgs.insertBefore(img,imgs.querySelector('.compose-img-add'));});};r.readAsDataURL(file);});};inp.click();}
-function submitPost(){var text=document.getElementById('composeTa').value.trim();if(!text&&!composeImages.length){showToast('请输入内容');return;}var c=chars.length?chars[0]:null;var post={id:'m'+Date.now(),text:text,imgs:composeImages.slice(),time:Date.now(),likes:0,comments:[],charId:c?c.id:null};moments.push(post);saveAll();closeCompose();renderMoments();if(c&&loadConfig().apiKey)aiRespondToPost(post,c);}
+function submitPost(){var text=document.getElementById('composeTa').value.trim();if(!text&&!composeImages.length){showToast('请输入内容');return;}var c=chars.length?chars[0]:null;var post={id:'m'+Date.now(),text:text,imgs:composeImages.slice(),time:Date.now(),likes:0,comments:[],charId:c?c.id:null};moments.push(post);saveAll();closeCompose();renderMoments();var cfg=loadConfig();if(c&&cfg.apiKey){if(cfg.aiMomentsOn!==false)aiRespondToPost(post,c);if(cfg.aiLikeOn!==false){setTimeout(function(){var mm=moments.find(function(x){return x.id===post.id;});if(mm){mm.likes++;saveAll();renderMoments();showToast(c.name+' 赞了你的动态 ❤️');}},Math.random()*4000+1500);}}}
+
+// ── AI 主动浏览朋友圈：让 AI 定时点赞旧动态 ──
+function aiVisitMoments(){
+  var cfg=loadConfig();
+  if(!cfg.apiKey||!cfg.apiUrl||cfg.aiMomentsOn===false)return;
+  var c=chars.find(function(x){return x.id===activeCharId;})||chars[0];
+  if(!c)return;
+  // 随机挑一条最近5条动态点赞或评论
+  var recent=moments.slice(-5);
+  if(!recent.length)return;
+  var post=recent[Math.floor(Math.random()*recent.length)];
+  var already=post.comments&&post.comments.find(function(cc){return cc.name===c.name&&cc._visit;});
+  if(already)return;
+  // 50% 几率评论，50% 点赞
+  if(Math.random()>0.5){
+    post.likes++;saveAll();renderMoments();
+    showToast(c.name+' 点赞了你的动态 ❤️');
+  } else {
+    var persona=loadPersona();var userCtx=persona.myName?'用户叫"'+persona.myName+'"。':'';
+    var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+'\n\n'+userCtx+'\n你在刷朋友圈，看到了用户的一条旧动态，请用一句简短自然的话评论，像朋友一样，不超过15字，可以用emoji。';
+    (async function(){try{
+      var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP},{role:'user',content:'动态：'+(post.text||'[图片]')}],max_tokens:40,temperature:0.95})});
+      if(!res.ok)return;
+      var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+      if(reply){var mm=moments.find(function(x){return x.id===post.id;});if(mm){mm.comments.push({name:c.name,text:reply.trim(),_visit:true});saveAll();renderMoments();showToast(c.name+' 评论了你的动态 💬');}}
+    }catch(e){}})();
+  }
+}
+
+// ── AI 主动找你聊天 ──
+var _proactiveTimer=null;
+function onToggleProactiveChat(){
+  var el=document.getElementById('toggleProactiveChat');
+  var on=el&&el.classList.contains('on');
+  var row=document.getElementById('proactiveChatRow');
+  if(row)row.style.display=on?'block':'none';
+  if(_proactiveTimer){clearInterval(_proactiveTimer);_proactiveTimer=null;}
+  if(!on)return;
+  var cfg=loadConfig();
+  var freqEl=document.getElementById('proactiveChatFreq');
+  var mins=freqEl?parseInt(freqEl.value)||20:20;
+  _proactiveTimer=setInterval(function(){sendProactiveMessage();},mins*60*1000);
+  // Also save the setting
+  saveConfig();
+}
+function sendProactiveMessage(){
+  var cfg=loadConfig();
+  if(!cfg.apiKey||!cfg.apiUrl||!cfg.proactiveChatOn)return;
+  var c=chars.find(function(x){return x.id===activeCharId;})||chars[0];
+  if(!c)return;
+  var persona=loadPersona();
+  var userCtx=persona.myName?'用户叫"'+persona.myName+'"。':'';
+  var memStr='';try{var mems=JSON.parse(localStorage.getItem('memories_'+(currentUser?currentUser.id:'guest'))||'[]');if(mems.length)memStr='\n用户记忆：'+mems.slice(-3).map(function(m){return m.text;}).join('；');}catch(e){}
+  var hist=chatHistories[c.id]||[];
+  var timePhrases=['早上好','下午好','晚上好','嘿，想你了','最近怎么样','你在忙吗','有没有在想我','在干嘛呢'];
+  var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+'\n\n'+userCtx+memStr+'\n你主动给用户发消息，用一句自然口语化的话开始，不超过20字，可以撒娇、问候、或表达想念，不要说"你好"之类的客套话。';
+  (async function(){try{
+    var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP}].concat(hist.slice(-4)).concat([{role:'user',content:'[主动发消息给用户]'}]),max_tokens:60,temperature:0.95})});
+    if(!res.ok)return;
+    var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
+    if(reply){
+      reply=reply.trim();
+      if(!chatHistories[c.id])chatHistories[c.id]=[];
+      chatHistories[c.id].push({role:'assistant',content:reply});
+      saveAll();
+      // Show in-app notification
+      showInAppNotif(c.name,reply,c.id);
+      // If currently in chat with this char, also render
+      if(activeCharId===c.id){
+        var msgs=document.getElementById('messages');
+        if(msgs)appendAIMsg(msgs,reply);
+      }
+    }
+  }catch(e){}})();
+}
 function aiRespondToPost(post,c){var cfg=loadConfig();if(!cfg.apiKey||!cfg.apiUrl)return;var persona=loadPersona();var userCtx=persona.myName?'用户叫"'+persona.myName+'"。':'';var sysP=(c.prompt||'你是一个温柔的AI伴侣。')+'\n\n'+userCtx+'\n用户刚发布了一条朋友圈动态，请你用一句简短自然的话评论，就像真实的朋友，不要太正式，可以用emoji，15字以内。';(async function(){try{var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},body:JSON.stringify({model:cfg.model||'gpt-4o',messages:[{role:'system',content:sysP},{role:'user',content:'动态：'+post.text}],max_tokens:60,temperature:0.9})});if(!res.ok)return;var data=await res.json();var reply=data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;if(reply){var mm=moments.find(function(x){return x.id===post.id;});if(mm){mm.comments.push({name:c.name,text:reply.trim()});saveAll();renderMoments();}}}catch(e){}})();}
 function likeMoment(id){var m=moments.find(function(x){return x.id===id;});if(m){m.likes++;saveAll();renderMoments();}}
 function deleteMoment(id){if(!confirm('删除这条动态？'))return;moments=moments.filter(function(m){return m.id!==id;});saveAll();renderMoments();}
@@ -2190,7 +2282,7 @@ function saveConfig(){
   var extraRaw=(document.getElementById('extraParams')||{}).value||'';extraRaw=extraRaw.trim();
   if(extraRaw){try{JSON.parse(extraRaw);}catch(e){showToast('❌ 额外参数 JSON 格式有误');return;}}
   var togVal=function(id,def){var el=document.getElementById(id);return el?el.classList.contains('on'):def;};
-  var cfg={apiUrl:document.getElementById('inputApiUrl').value.trim(),apiKey:document.getElementById('inputApiKey').value.trim(),model:document.getElementById('inputModel').value.trim(),maxTokens:document.getElementById('inputMaxTokens').value.trim(),temperature:document.getElementById('inputTemperature').value.trim(),keepHistory:togVal('toggleKeepHistory',true),memoryOn:togVal('toggleMemory',true),ttsOn:togVal('toggleTTS',false),sttOn:togVal('toggleSTT',false),autoImgOn:togVal('toggleAutoImg',false),histRange:parseInt((document.getElementById('histRange')||{value:'20'}).value)||20,sendDelay:parseFloat((document.getElementById('sendDelay')||{value:'0'}).value)||0,streamOn:togVal('toggleStream',true),compatMode:togVal('toggleCompat',false),thinkingMode:togVal('toggleThinking',false),extraParams:extraRaw};
+  var cfg={apiUrl:document.getElementById('inputApiUrl').value.trim(),apiKey:document.getElementById('inputApiKey').value.trim(),model:document.getElementById('inputModel').value.trim(),maxTokens:document.getElementById('inputMaxTokens').value.trim(),temperature:document.getElementById('inputTemperature').value.trim(),keepHistory:togVal('toggleKeepHistory',true),memoryOn:togVal('toggleMemory',true),ttsOn:togVal('toggleTTS',false),sttOn:togVal('toggleSTT',false),autoImgOn:togVal('toggleAutoImg',false),histRange:parseInt((document.getElementById('histRange')||{value:'20'}).value)||20,sendDelay:parseFloat((document.getElementById('sendDelay')||{value:'0'}).value)||0,streamOn:togVal('toggleStream',true),compatMode:togVal('toggleCompat',false),thinkingMode:togVal('toggleThinking',false),extraParams:extraRaw,proactiveChatOn:togVal('toggleProactiveChat',false),proactiveChatFreq:parseInt((document.getElementById('proactiveChatFreq')||{value:'20'}).value)||20,aiMomentsOn:togVal('toggleAIMoments',true),aiLikeOn:togVal('toggleAILike',true)};
   var _uid=currentUser?(currentUser.id||currentUser.uid):'guest';
   localStorage.setItem('cfg_'+_uid,JSON.stringify(cfg));
   localStorage.setItem('aiConfig',JSON.stringify(cfg));
@@ -2227,6 +2319,9 @@ function loadConfigToUI(){
   var setTog=function(id,val,def){var el=document.getElementById(id);if(!el)return;var on=val===undefined?def:val;el.classList.toggle('on',on);el.classList.toggle('off',!on);};
   setTog('toggleKeepHistory',cfg.keepHistory,true);setTog('toggleMemory',cfg.memoryOn,true);setTog('toggleStream',cfg.streamOn,true);setTog('toggleCompat',cfg.compatMode,false);setTog('toggleThinking',cfg.thinkingMode,false);
   setTog('toggleTTS',cfg.ttsOn,false);setTog('toggleSTT',cfg.sttOn,false);setTog('toggleAutoImg',cfg.autoImgOn,false);
+  setTog('toggleProactiveChat',cfg.proactiveChatOn,false);setTog('toggleAIMoments',cfg.aiMomentsOn!==false,true);setTog('toggleAILike',cfg.aiLikeOn!==false,true);
+  var pcFreq=document.getElementById('proactiveChatFreq');if(pcFreq&&cfg.proactiveChatFreq)pcFreq.value=cfg.proactiveChatFreq;
+  var pcRow=document.getElementById('proactiveChatRow');if(pcRow)pcRow.style.display=cfg.proactiveChatOn?'block':'none';
   var ttsBlock=document.getElementById('ttsSettingsBlock');
   if(ttsBlock)ttsBlock.style.display=cfg.ttsOn?'block':'none';
   if(cfg.ttsOn)loadTTSVoices();
