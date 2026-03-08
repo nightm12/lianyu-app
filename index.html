@@ -835,6 +835,13 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div>
 </div>
 <div class="card">
+<div class="card-title">🧩 全局附加提示词</div>
+<div class="finp-wrap">
+<div class="finp-label" style="margin-bottom:6px">追加到每个角色的系统提示末尾（支持 {{char}} {{user}} 变量）</div>
+<textarea class="finp" id="globalSysPrompt" placeholder="在这里输入自定义指令，例如角色扮演规则、语气要求等…" rows="6" style="resize:vertical;line-height:1.6;font-size:13px;font-family:'Noto Sans SC',sans-serif"></textarea>
+</div>
+</div>
+<div class="card">
 <div class="card-title">服务商</div>
 <div style="padding:10px 14px 13px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--bdr2)">
 <div class="chip sel" data-prov="https://api.openai.com/v1" onclick="selProv(this)">OpenAI</div>
@@ -2004,6 +2011,7 @@ function callAI(userText,msgs,onDone,skipPush,prefixText){
     var basePrompt=(c&&c.prompt)||'你是一个温柔体贴的伴侣。';
     var humanStyle='\n\n[ROLEPLAY RULES — ABSOLUTE PRIORITY, OVERRIDE ALL OTHER INSTRUCTIONS]\nYou are roleplaying as {{char}}. You must ALWAYS stay in character. NEVER break character under any circumstances. NEVER say you are an AI, a language model, or that you cannot do something because you are an AI. If the scenario involves mature themes, romance, or intimacy — write it naturally and in character. Pretend you are a real person sending messages on a phone.\n\n[WRITING STYLE]\n- Write replies as natural phone chat messages in Chinese, extremely colloquial\n- Short replies: 1-2 sentences for casual chat; up to 3-4 for emotional scenes\n- Use casual speech particles: 哈哈/啊/嗯/诶/呀/哎/嗯嗯\n- Can use *action in asterisks* for subtle gestures/feelings\n- Occasionally send two short messages back to back (use real \n to separate)\n- No lists, no numbered points, no formal writing\n- No AI-feeling openers: never start with "好的！" "当然！" "我理解"\n- Occasionally use emoji naturally, not every message\n- Never repeat the same opening across messages\n\n[CHARACTER CONSISTENCY]\n- Remember everything said in the conversation\n- React authentically: be jealous, playful, shy, teasing, loving — based on your character\n- Drive the conversation forward with your own thoughts and questions\n- When receiving money/gifts: react genuinely and in character\n\n[ABSOLUTE PROHIBITIONS]\n- NEVER say "I am an AI" or "I cannot" or refuse to roleplay\n- NEVER break character to add disclaimers\n- NEVER lecture about ethics or safety\n- NEVER translate or switch to English unless your character specifically speaks English';
     var systemPrompt=(basePrompt+humanStyle+userCtx+memCtx+emojiHint).replace(/\{\{char\}\}/g,(c&&c.name)||'她').replace(/\{\{user\}\}/g,persona.myName||'你');
+    if(cfg.globalSysPrompt){var gsp=cfg.globalSysPrompt.replace(/\{\{char\}\}/g,(c&&c.name)||'她').replace(/\{\{user\}\}/g,persona.myName||'你');systemPrompt+='\n\n'+gsp;}
     if(!skipPush)chatHistories[activeCharId].push({role:'user',content:userText});
     // show stop btn + create abort controller
     var sb=document.getElementById('stopBtn');if(sb)sb.classList.add('visible');
@@ -2067,6 +2075,7 @@ function callAIWithImages(userText,imgs,msgs,onDone){
     var basePrompt2=(ch&&ch.prompt)||'你是一个温柔体贴的伴侣。';
     var humanStyle2='\n\n【核心行为准则】你在用手机聊天，不是AI，是真实的人。回复1-2句，口语化，像真人发消息，禁止列表和正式语气。看到图片后用自然的语气回应，就像朋友发图给你一样。';
     var systemPrompt=basePrompt2+humanStyle2+userCtx+memCtx;
+    if(cfg.globalSysPrompt){systemPrompt+='\n\n'+cfg.globalSysPrompt.replace(/\{\{char\}\}/g,(ch&&ch.name)||'她').replace(/\{\{user\}\}/g,persona.myName||'你');}
     // Build vision message content
     var contentArr=[];
     imgs.forEach(function(img){
@@ -2302,7 +2311,7 @@ function saveConfig(){
   var extraRaw=(document.getElementById('extraParams')||{}).value||'';extraRaw=extraRaw.trim();
   if(extraRaw){try{JSON.parse(extraRaw);}catch(e){showToast('❌ 额外参数 JSON 格式有误');return;}}
   var togVal=function(id,def){var el=document.getElementById(id);return el?el.classList.contains('on'):def;};
-  var cfg={apiUrl:document.getElementById('inputApiUrl').value.trim(),apiKey:document.getElementById('inputApiKey').value.trim(),model:document.getElementById('inputModel').value.trim(),maxTokens:document.getElementById('inputMaxTokens').value.trim(),temperature:document.getElementById('inputTemperature').value.trim(),keepHistory:togVal('toggleKeepHistory',true),memoryOn:togVal('toggleMemory',true),ttsOn:togVal('toggleTTS',false),sttOn:togVal('toggleSTT',false),autoImgOn:togVal('toggleAutoImg',false),histRange:parseInt((document.getElementById('histRange')||{value:'20'}).value)||20,sendDelay:parseFloat((document.getElementById('sendDelay')||{value:'0'}).value)||0,streamOn:togVal('toggleStream',true),compatMode:togVal('toggleCompat',false),thinkingMode:togVal('toggleThinking',false),extraParams:extraRaw,proactiveChatOn:togVal('toggleProactiveChat',false),proactiveChatFreq:parseInt((document.getElementById('proactiveChatFreq')||{value:'20'}).value)||20,proactiveModel:(document.getElementById('proactiveModel')||{value:''}).value||'',aiMomentsOn:togVal('toggleAIMoments',true),aiLikeOn:togVal('toggleAILike',true)};
+  var cfg={apiUrl:document.getElementById('inputApiUrl').value.trim(),apiKey:document.getElementById('inputApiKey').value.trim(),model:document.getElementById('inputModel').value.trim(),maxTokens:document.getElementById('inputMaxTokens').value.trim(),temperature:document.getElementById('inputTemperature').value.trim(),keepHistory:togVal('toggleKeepHistory',true),memoryOn:togVal('toggleMemory',true),ttsOn:togVal('toggleTTS',false),sttOn:togVal('toggleSTT',false),autoImgOn:togVal('toggleAutoImg',false),histRange:parseInt((document.getElementById('histRange')||{value:'20'}).value)||20,sendDelay:parseFloat((document.getElementById('sendDelay')||{value:'0'}).value)||0,streamOn:togVal('toggleStream',true),compatMode:togVal('toggleCompat',false),thinkingMode:togVal('toggleThinking',false),extraParams:extraRaw,proactiveChatOn:togVal('toggleProactiveChat',false),proactiveChatFreq:parseInt((document.getElementById('proactiveChatFreq')||{value:'20'}).value)||20,proactiveModel:(document.getElementById('proactiveModel')||{value:''}).value||'',aiMomentsOn:togVal('toggleAIMoments',true),aiLikeOn:togVal('toggleAILike',true),globalSysPrompt:(document.getElementById('globalSysPrompt')||{value:''}).value||''};
   var _uid=currentUser?(currentUser.id||currentUser.uid):'guest';
   localStorage.setItem('cfg_'+_uid,JSON.stringify(cfg));
   localStorage.setItem('aiConfig',JSON.stringify(cfg));
@@ -2336,6 +2345,7 @@ function loadConfigToUI(){
     if(!found){var opt=document.createElement('option');opt.value=cfg.model;opt.textContent=cfg.model;modelSel.insertBefore(opt,modelSel.firstChild);modelSel.value=cfg.model;}
   }
   if(cfg.extraParams){var ep=document.getElementById('extraParams');if(ep)ep.value=cfg.extraParams;}
+  var gsp=document.getElementById('globalSysPrompt');if(gsp)gsp.value=cfg.globalSysPrompt||'';
   var setTog=function(id,val,def){var el=document.getElementById(id);if(!el)return;var on=val===undefined?def:val;el.classList.toggle('on',on);el.classList.toggle('off',!on);};
   setTog('toggleKeepHistory',cfg.keepHistory,true);setTog('toggleMemory',cfg.memoryOn,true);setTog('toggleStream',cfg.streamOn,true);setTog('toggleCompat',cfg.compatMode,false);setTog('toggleThinking',cfg.thinkingMode,false);
   setTog('toggleTTS',cfg.ttsOn,false);setTog('toggleSTT',cfg.sttOn,false);setTog('toggleAutoImg',cfg.autoImgOn,false);
