@@ -193,7 +193,20 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .dm-av{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;align-self:flex-end}
 .dm-av img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 .dm-av-ph{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#c2607f,#e08aaa);display:flex;align-items:center;justify-content:center;font-size:11px;color:white;flex-shrink:0}
-.dm-bubble{max-width:72%;padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.55;word-break:break-word;font-family:'DM Sans','Noto Sans SC',sans-serif;position:relative}
+.dm-bubble{max-width:72%;padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.55;word-break:break-word;font-family:'DM Sans','Noto Sans SC',sans-serif;position:relative;cursor:pointer}
+.dm-msg-wrap{display:flex;flex-direction:column;max-width:72%}
+.dm-row.me .dm-msg-wrap{align-items:flex-end}
+.dm-row:not(.me) .dm-msg-wrap{align-items:flex-start}
+.dm-inline-actions{display:flex;gap:4px;margin-top:4px;opacity:0;pointer-events:none;transition:opacity .18s;flex-wrap:wrap}
+.dm-msg-wrap.touched .dm-inline-actions{opacity:1;pointer-events:auto}
+.dm-act-btn{height:26px;padding:0 9px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-family:var(--sans);color:rgba(255,255,255,.5);white-space:nowrap;transition:all .15s;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation}
+.dm-act-btn.primary{color:rgba(196,104,138,.8)}
+.dm-act-btn:active{background:rgba(255,255,255,.12)}
+.dm-act-btn svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;flex-shrink:0}
+/* date stop button */
+.date-stop-btn{width:34px;height:34px;padding:0;border-radius:50%;border:1px solid rgba(230,80,80,.4);background:rgba(230,80,80,.12);color:#e57373;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;-webkit-tap-highlight-color:rgba(0,0,0,0)}
+.date-stop-btn.visible{display:flex}
+.date-stop-btn:active{background:rgba(230,80,80,.25)}
 .dm-row:not(.me) .dm-bubble{background:#2a1f3d;color:#e8dff0;border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .dm-row.me .dm-bubble{background:linear-gradient(135deg,#c2607f,#e08aaa);color:#fff;border-bottom-right-radius:4px;box-shadow:0 2px 8px rgba(194,96,127,.35)}
 .dm-time{font-size:10px;color:#6b5f7a;text-align:center;margin:6px 0 2px;width:100%}
@@ -255,7 +268,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .wallet-overlay.open .wallet-sheet{transform:translateY(0);}
 .wallet-sheet-hdr{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;background:#1a1228;border-radius:20px 20px 0 0;border-bottom:1px solid rgba(194,96,127,.2);}
 .wallet-sheet-title{font-size:15px;font-weight:600;color:#f0e8f0;}
-.wallet-close-btn{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:#c8a8c8;}
+.wallet-close-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#c8a8c8;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation;}
 .wallet-balance{background:linear-gradient(135deg,#c8a570,#e8c99a,#d4aa6a);margin:12px;border-radius:14px;padding:18px 20px;color:white;}
 .wallet-balance-label{font-size:12px;opacity:.8;margin-bottom:4px;color:#3a2008;}
 .wallet-balance-amount{font-size:28px;font-weight:700;letter-spacing:.5px;color:#2a1804;}
@@ -286,7 +299,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 .mw:hover .msg-inline-actions,.mw:focus-within .msg-inline-actions,.mw.touched .msg-inline-actions{opacity:1;pointer-events:auto;}
 .mw.me .msg-inline-actions{justify-content:flex-end;}
 .mw:not(.me) .msg-inline-actions{justify-content:flex-start;}
-.msg-act-btn{height:20px;padding:0 6px;border-radius:20px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);cursor:pointer;display:inline-flex;align-items:center;gap:3px;font-size:10px;font-family:var(--sans);color:rgba(255,255,255,.35);white-space:nowrap;transition:all .15s;line-height:1;}
+.msg-act-btn{height:28px;padding:0 9px;border-radius:20px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-family:var(--sans);color:rgba(255,255,255,.45);white-space:nowrap;transition:all .15s;line-height:1;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation;}
 .msg-act-btn:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.7);}
 .msg-act-btn svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;flex-shrink:0;}
 .msg-act-btn.danger:hover{background:rgba(229,115,115,.12);border-color:rgba(229,115,115,.25);color:#e57373;}
@@ -669,6 +682,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <div class="date-extra-btns">
 <button class="date-act-btn" onclick="dateTriggerImg()"><svg viewbox="0 0 24 24"><rect height="18" rx="3" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></button>
 <button class="date-act-btn" onclick="openWallet()"><svg viewbox="0 0 24 24"><rect height="14" rx="2" width="20" x="2" y="5"></rect><path d="M16 13a1 1 0 100-2 1 1 0 000 2z" fill="#9b8aaa" stroke="none"></path><path d="M2 10h20" stroke="#9b8aaa"></path></svg></button>
+<button class="date-stop-btn" id="dateStopBtn" onclick="stopDateAI()" title="停止"><svg viewbox="0 0 10 10" width="12" height="12"><rect height="8" rx="1" width="8" x="1" y="1" fill="#e57373" stroke="none"></rect></svg></button>
 </div>
 <textarea class="date-ci" id="dateInput" oninput="autoResize(this)" onkeydown="handleDateKey(event)" placeholder="说点什么…" rows="1"></textarea>
 <button class="date-sbtn" onclick="sendDateMessage()"><svg fill="none" height="18" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="18"><line x1="22" x2="11" y1="2" y2="13"></line><polygon fill="white" points="22 2 15 22 11 13 2 9 22 2" stroke="none"></polygon></svg></button>
@@ -1138,7 +1152,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v15.1</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v15.2</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -2960,6 +2974,36 @@ var dateMsgsHistory={}; // {charId: [{role,content,type,meta}]}
 var dateIsSending=false;
 var dateAbort=null;
 
+function stopDateAI(){
+  if(dateAbort){dateAbort.abort();}
+  dateIsSending=false;
+  var tw=document.getElementById('dateTyping');if(tw)tw.style.display='none';
+  var sb=document.getElementById('dateStopBtn');if(sb)sb.classList.remove('visible');
+  showToast('已停止');
+}
+
+function dateRetryMsg(idx){
+  if(dateIsSending){showToast('正在生成中…');return;}
+  var hist=dateMsgsHistory[activeCharId]||[];
+  // find last user message before idx
+  var lastUserText='';
+  for(var i=idx-1;i>=0;i--){if(hist[i]&&hist[i].role==='user'){lastUserText=hist[i].content;break;}}
+  // remove AI msg at idx and everything after
+  dateMsgsHistory[activeCharId].splice(idx);
+  renderDateMsgs();
+  if(lastUserText)sendDateAI(lastUserText,false);
+}
+
+function dateContinueMsg(idx){
+  if(dateIsSending){showToast('正在生成中…');return;}
+  var hist=dateMsgsHistory[activeCharId]||[];
+  var existing=hist[idx]&&hist[idx].content||'';
+  dateMsgsHistory[activeCharId].splice(idx);
+  renderDateMsgs();
+  var hint='[请直接续写你上一句未完成的话，直接接着说，不要重复：'+existing.slice(-60)+']';
+  sendDateAI(hint,false,existing);
+}
+
 var _dateScene={icon:'☕',name:'咖啡厅约会',prompt:'你们在咖啡厅约会'};
 var _dateScenes=[
   {icon:'☕',name:'咖啡厅约会',prompt:'你们正在咖啡厅约会，喝咖啡聊天'},
@@ -3111,7 +3155,23 @@ function renderDateMsgs(){
     } else {
       var bub=document.createElement('div');bub.className='dm-bubble';bub.textContent=m.content;
       if(m.role==='user'){row.appendChild(bub);row.appendChild(userAvDiv);}
-      else{row.appendChild(avDiv);row.appendChild(bub);}
+      else{
+        var wrap=document.createElement('div');wrap.className='dm-msg-wrap';
+        wrap.appendChild(bub);
+        // tap to show retry/continue
+        var idx2=hist.indexOf(m);
+        var acts=document.createElement('div');acts.className='dm-inline-actions';
+        acts.innerHTML='<button class="dm-act-btn primary" onclick="dateRetryMsg('+idx2+')"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>重试</button>'+
+          '<button class="dm-act-btn" onclick="dateContinueMsg('+idx2+')"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>继续</button>';
+        wrap.appendChild(acts);
+        bub.addEventListener('click',function(e){
+          var wasOpen=wrap.classList.contains('touched');
+          document.querySelectorAll('.dm-msg-wrap.touched').forEach(function(x){x.classList.remove('touched');});
+          wrap.classList.toggle('touched',!wasOpen);
+          e.stopPropagation();
+        });
+        row.appendChild(avDiv);row.appendChild(wrap);
+      }
     }
     el.appendChild(row);
   });
@@ -3141,9 +3201,10 @@ function sendDateMessage(){
   sendDateAI(text,false);
 }
 
-function sendDateAI(userText,silent){
+function sendDateAI(userText,silent,prefixText){
   if(dateIsSending&&!silent)return;
   dateIsSending=true;
+  var sb=document.getElementById('dateStopBtn');if(sb)sb.classList.add('visible');
   var tw=document.getElementById('dateTyping');
   if(tw){tw.style.display='flex';var dm=document.getElementById('dateMsgs');if(dm)dm.scrollTop=9999;}
   var ch=chars.find(function(x){return x.id===activeCharId;});
@@ -3176,7 +3237,7 @@ function sendDateAI(userText,silent){
       var res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/chat/completions',{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.apiKey},
-        body:JSON.stringify({model:cfg.model||'gpt-4o',messages:messages,max_tokens:100,temperature:0.95}),
+        body:JSON.stringify({model:cfg.model||'gpt-4o',messages:messages,max_tokens:200,temperature:0.95}),
         signal:dateAbort.signal
       });
       if(!res.ok)throw new Error('HTTP '+res.status);
@@ -3187,8 +3248,10 @@ function sendDateAI(userText,silent){
         .replace(/\([^)]*\)/g,'') // remove (action) descriptions
         .replace(/（[^）]*）/g,'') // remove （action） 
         .trim();
-      if(!reply){dateIsSending=false;if(tw)tw.style.display='none';return;}
+      if(prefixText)reply=prefixText+reply;
+      if(!reply){dateIsSending=false;if(tw)tw.style.display='none';var sb2=document.getElementById('dateStopBtn');if(sb2)sb2.classList.remove('visible');return;}
       if(tw)tw.style.display='none';
+      var sb2=document.getElementById('dateStopBtn');if(sb2)sb2.classList.remove('visible');
       // Check if AI wants to send location
       if(/发.{0,4}位置|分享.{0,4}位置|我在.{1,10}附近|我到了|快到了|导航|我现在在/.test(reply)){
         appendDateMsg('assistant',reply,'text');
@@ -3206,6 +3269,7 @@ function sendDateAI(userText,silent){
       }
     }catch(e){
       if(tw)tw.style.display='none';
+      var sb3=document.getElementById('dateStopBtn');if(sb3)sb3.classList.remove('visible');
       if(e.name!=='AbortError')appendDateMsg('assistant','[发送失败，请检查网络]','text');
     }
     dateIsSending=false;dateAbort=null;
