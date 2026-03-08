@@ -285,8 +285,19 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 
 .epanel{display:none;position:absolute;bottom:0;left:0;right:0;height:220px;z-index:20;overflow-y:auto;background:rgba(18,12,28,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--bdr);animation:slideUp .2s ease-out}
 /* Feature drawer */
-.feat-drawer{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1);background:rgba(14,10,24,.98);border-top:1px solid var(--bdr2);}
-.feat-drawer.open{max-height:260px;}
+.feat-drawer{
+  position:fixed !important;
+  left:0; right:0; bottom:-400px;
+  z-index:8999 !important;
+  background:#0e0a18;
+  border-radius:20px 20px 0 0;
+  border-top:1px solid rgba(194,96,127,.25);
+  padding:12px 8px 44px;
+  transition:bottom .3s cubic-bezier(.4,0,.2,1);
+  pointer-events:auto !important;
+}
+
+
 .feat-drawer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:16px 8px 12px;}
 .feat-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 4px;cursor:pointer;border-radius:14px;transition:background .15s;-webkit-tap-highlight-color:transparent;}
 .feat-item:active{background:rgba(255,255,255,.06);}
@@ -542,7 +553,35 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <textarea class="msg-edit-ta" id="msgEditTa" placeholder="编辑你的消息…"></textarea>
 <div style="font-size:11px;color:var(--t3);text-align:center">编辑后将删除此消息之后的所有记录并重新发送</div>
 </div>
-
+<!-- FEATURE DRAWER (WhatsApp-style) -->
+<div class="feat-drawer" id="featDrawer" ontouchstart="event.stopPropagation()" onclick="event.stopPropagation()">
+<div class="feat-drawer-grid">
+<div class="feat-item" onclick="openDateModeFromDrawer()">
+<div class="feat-icon" style="background:linear-gradient(135deg,#10b981,#059669)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+<div class="feat-label">出门见面</div>
+</div>
+<div class="feat-item" onclick="openWalletFromChat()">
+<div class="feat-icon" style="background:linear-gradient(135deg,#07c160,#04a34f)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="14" rx="2" width="20" x="2" y="5"></rect><path d="M16 13a1 1 0 100-2 1 1 0 000 2z" fill="white"></path><path d="M2 10h20"></path></svg></div>
+<div class="feat-label">微信钱包</div>
+</div>
+<div class="feat-item" onclick="sendRedPacketInChat()">
+<div class="feat-icon" style="background:linear-gradient(135deg,#e53935,#b71c1c)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="14" rx="2" width="20" x="2" y="6"></rect><path d="M2 10h20M7 6V4a1 1 0 011-1h8a1 1 0 011 1v2"></path></svg></div>
+<div class="feat-label">发红包</div>
+</div>
+<div class="feat-item" onclick="sendLocationFromChat()">
+<div class="feat-icon" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+<div class="feat-label">发位置</div>
+</div>
+<div class="feat-item" onclick="triggerImgUploadFromDrawer()">
+<div class="feat-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="18" rx="3" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>
+<div class="feat-label">图片</div>
+</div>
+<div class="feat-item" onclick="startCallFromDrawer()">
+<div class="feat-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"></path></svg></div>
+<div class="feat-label">语音通话</div>
+</div>
+</div>
+</div>
 <div class="cinput-area">
 <button class="plus-btn" id="plusBtn" onclick="toggleFeatDrawer()" title="更多功能"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-width="2.5" viewbox="0 0 24 24" width="20"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></button>
 <button class="mic-btn" id="micBtn" onmousedown="startVoiceInput(event)" onmouseup="stopVoiceInput(event)" ontouchend="stopVoiceInput(event)" ontouchstart="startVoiceInput(event)">🎤</button>
@@ -2910,24 +2949,38 @@ function handleDateImg(e){
 // ══════════════════════════════════════════════
 var _drawerOpen = false;
 function toggleFeatDrawer(){
-  var drawer=document.getElementById('featDrawer');
-  var overlay=document.getElementById('featOverlay');
-  var btn=document.getElementById('plusBtn');
-  if(!drawer)return;
-  _drawerOpen=!_drawerOpen;
-  drawer.style.display=_drawerOpen?'block':'none';
-  if(overlay)overlay.style.display=_drawerOpen?'block':'none';
-  if(btn)btn.classList.toggle('open',_drawerOpen);
-  if(_drawerOpen)closeEmojiPicker();
+  _drawerOpen = !_drawerOpen;
+  var drawer = document.getElementById('featDrawer');
+  var btn = document.getElementById('plusBtn');
+  if(!drawer) return;
+  if(_drawerOpen){
+    drawer.classList.add('open');
+    drawer.style.bottom = '0';
+    if(btn) btn.classList.add('open');
+    closeEmojiPicker();
+    // 点击其他地方关闭
+    setTimeout(function(){
+      document.addEventListener('touchstart', _closeFeatOnOutside, {once:true, capture:true});
+      document.addEventListener('click', _closeFeatOnOutside, {once:true, capture:true});
+    }, 50);
+  } else {
+    drawer.classList.remove('open');
+    drawer.style.bottom = '-400px';
+    if(btn) btn.classList.remove('open');
+  }
+}
+function _closeFeatOnOutside(e){
+  var drawer = document.getElementById('featDrawer');
+  if(drawer && !drawer.contains(e.target)){
+    closeFeatDrawer();
+  }
 }
 function closeFeatDrawer(){
-  _drawerOpen=false;
-  var drawer=document.getElementById('featDrawer');
-  var overlay=document.getElementById('featOverlay');
-  var btn=document.getElementById('plusBtn');
-  if(drawer)drawer.style.display='none';
-  if(overlay)overlay.style.display='none';
-  if(btn)btn.classList.remove('open');
+  _drawerOpen = false;
+  var drawer = document.getElementById('featDrawer');
+  var btn = document.getElementById('plusBtn');
+  if(drawer){ drawer.classList.remove('open'); drawer.style.bottom='-400px'; }
+  if(btn) btn.classList.remove('open');
 }
 function openDateModeFromDrawer(){
   closeFeatDrawer();
@@ -3431,37 +3484,5 @@ onAuthStateChanged(auth,async fbUser=>{
   }else{window._pendingFbUser=null;if(window.onFirebaseLogout)window.onFirebaseLogout();}
 });
 </script>
-</div>
-<!-- FEAT DRAWER OVERLAY -->
-<div id="featOverlay" onclick="closeFeatDrawer()" style="display:none;position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,0.5)"></div>
-<div id="featDrawer" onclick="event.stopPropagation()" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:8001;background:#0e0a18;border-radius:20px 20px 0 0;border-top:1px solid rgba(194,96,127,.25);padding:16px 8px 40px">
-  <div style="width:36px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 16px"></div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
-<div class="feat-item" onclick="openDateModeFromDrawer()">
-<div class="feat-icon" style="background:linear-gradient(135deg,#10b981,#059669)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
-<div class="feat-label">出门见面</div>
-</div>
-<div class="feat-item" onclick="openWalletFromChat()">
-<div class="feat-icon" style="background:linear-gradient(135deg,#07c160,#04a34f)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="14" rx="2" width="20" x="2" y="5"></rect><path d="M16 13a1 1 0 100-2 1 1 0 000 2z" fill="white"></path><path d="M2 10h20"></path></svg></div>
-<div class="feat-label">微信钱包</div>
-</div>
-<div class="feat-item" onclick="sendRedPacketInChat()">
-<div class="feat-icon" style="background:linear-gradient(135deg,#e53935,#b71c1c)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="14" rx="2" width="20" x="2" y="6"></rect><path d="M2 10h20M7 6V4a1 1 0 011-1h8a1 1 0 011 1v2"></path></svg></div>
-<div class="feat-label">发红包</div>
-</div>
-<div class="feat-item" onclick="sendLocationFromChat()">
-<div class="feat-icon" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
-<div class="feat-label">发位置</div>
-</div>
-<div class="feat-item" onclick="triggerImgUploadFromDrawer()">
-<div class="feat-icon" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="18" rx="3" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>
-<div class="feat-label">图片</div>
-</div>
-<div class="feat-item" onclick="startCallFromDrawer()">
-<div class="feat-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><svg fill="none" height="22" stroke="white" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24" width="22"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"></path></svg></div>
-<div class="feat-label">语音通话</div>
-</div>
-  </div>
-</div>
-</body>
+</div></body>
 </html>
