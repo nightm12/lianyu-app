@@ -21,6 +21,11 @@
     document.documentElement.style.setProperty('--sb',sb+'px');
   }
 })();
+// 全局错误保护：JS出错时不黑屏
+window.addEventListener('error', function(){
+  var el=document.getElementById('loadingScreen');
+  if(el)el.style.display='none';
+});
 </script>
 <style>
 :root{
@@ -1046,7 +1051,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div><!-- /screens -->
 <div class="toast" id="toast"></div>
 </div><!-- /phone -->
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.1</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v6.2</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div id="pwaBanner" style="display:none!important;visibility:hidden" class="pwa-banner">
   <div class="pwa-banner-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(255,255,255,.9)"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
   <div class="pwa-banner-text">
@@ -1184,25 +1189,6 @@ function renderChars(){
       +'<div class="cinfo"><div class="cname">'+escHtml(c.name)+'</div><div class="cdesc">'+escHtml(c.desc||'')+'</div>'
       +'<div class="cbtns"><button class="cbtn cbtn-r" onclick="event.stopPropagation();startChat(\''+c.id+'\')">聊天</button><button class="cbtn cbtn-w" onclick="event.stopPropagation();openCharEditor(\''+c.id+'\')">编辑</button></div></div></div>';
   }).join('');
-}
-
-function renderProfilePage(){
-  if(!currentUser)return;
-  var u=currentUser;
-  var avEl=document.getElementById('profileAvEl');
-  if(avEl){if(u.avatar&&u.avatar.startsWith('data:'))avEl.innerHTML='<img src="'+u.avatar+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%"><div class="profile-edit-badge"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>';else{avEl.textContent='👤';var badge=document.createElement('div');badge.className='profile-edit-badge';badge.textContent='✏️';avEl.appendChild(badge);}}
-  var un=document.getElementById('profileUsername');if(un)un.textContent=u.name||'用户';
-  var em=document.getElementById('profileEmail');if(em)em.textContent=u.email||'';
-  var sc=document.getElementById('statChars');if(sc)sc.textContent=chars.length;
-  var sm=document.getElementById('statMsgs');if(sm){var total=0;Object.values(chatHistories).forEach(function(h){if(Array.isArray(h))total+=h.filter(function(m){return m.role==='user';}).length;});sm.textContent=total;}
-  var smo=document.getElementById('statMoments');if(smo)smo.textContent=moments.length;
-  var epAv=document.getElementById('epAvPreview');
-  if(epAv){if(u.avatar&&u.avatar.startsWith('data:'))epAv.innerHTML='<img src="'+u.avatar+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';else epAv.textContent='👤';}
-  var momAv=document.getElementById('momUserAv');
-  if(momAv){if(u.avatar&&u.avatar.startsWith('data:'))momAv.src=u.avatar;else momAv.src='https://ui-avatars.com/api/?name='+encodeURIComponent(u.name||'U')+'&background=be5f80&color=fff&rounded=true&size=56';}
-  var mn=document.getElementById('momCoverName');if(mn)mn.textContent=(u.name||'我')+'的朋友圈';
-  var en=document.getElementById('epName');if(en)en.value=u.name||'';
-  var eb=document.getElementById('epBio');if(eb)eb.value=u.bio||'';
 }
 
 function hideLoading(){
