@@ -285,8 +285,8 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 
 .epanel{display:none;position:absolute;bottom:0;left:0;right:0;height:220px;z-index:20;overflow-y:auto;background:rgba(18,12,28,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--bdr);animation:slideUp .2s ease-out}
 /* Feature drawer */
-.feat-drawer{position:absolute;bottom:100%;left:0;right:0;z-index:200;max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1);background:rgba(14,10,24,.98);border-top:1px solid var(--bdr2);border-bottom:none;}
-.feat-drawer.open{max-height:260px;}
+.feat-drawer{position:fixed;left:0;right:0;bottom:-400px;z-index:8999;background:rgba(14,10,24,.99);border-top:1px solid rgba(194,96,127,.2);transition:bottom .28s cubic-bezier(.4,0,.2,1);backdrop-filter:blur(20px);}
+.feat-drawer.open{bottom:72px;}
 .feat-drawer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:16px 8px 12px;}
 .feat-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 4px;cursor:pointer;border-radius:14px;transition:background .15s;-webkit-tap-highlight-color:transparent;}
 .feat-item:active{background:rgba(255,255,255,.06);}
@@ -542,8 +542,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <textarea class="msg-edit-ta" id="msgEditTa" placeholder="编辑你的消息…"></textarea>
 <div style="font-size:11px;color:var(--t3);text-align:center">编辑后将删除此消息之后的所有记录并重新发送</div>
 </div>
-
-<div class="cinput-area">
+<!-- FEATURE DRAWER (WhatsApp-style) -->
 <div class="feat-drawer" id="featDrawer">
 <div class="feat-drawer-grid">
 <div class="feat-item" onclick="openDateModeFromDrawer()">
@@ -572,7 +571,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 </div>
 </div>
 </div>
-
+<div class="cinput-area">
 <button class="plus-btn" id="plusBtn" onclick="toggleFeatDrawer()" title="更多功能"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-width="2.5" viewbox="0 0 24 24" width="20"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></button>
 <button class="mic-btn" id="micBtn" onmousedown="startVoiceInput(event)" onmouseup="stopVoiceInput(event)" ontouchend="stopVoiceInput(event)" ontouchstart="startVoiceInput(event)">🎤</button>
 <textarea class="ci" id="chatInput" oninput="autoResize(this);closeFeatDrawer()" onkeydown="handleKey(event)" placeholder="说点什么…" rows="1"></textarea>
@@ -1079,7 +1078,7 @@ body{font-family:var(--sans);background:#020108;display:flex;justify-content:cen
 <button class="ni" id="ni-profile" onclick="setTab('profile','ni-profile')"><svg viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>我的</button>
 <button class="ni" id="ni-settings" onclick="setTab('settings','ni-settings')"><svg viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>设置</button>
 </div>
-<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v12.6</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
+<div id="ver" style="position:fixed;bottom:4px;right:8px;font-size:9px;color:rgba(255,255,255,.15);pointer-events:none;z-index:9999;font-family:monospace">v12.7</div><div id="syncDot" style="position:fixed;top:calc(env(safe-area-inset-top,0px)+8px);right:12px;width:7px;height:7px;border-radius:50%;background:#4caf8a;opacity:0;transition:opacity .4s;z-index:9999;box-shadow:0 0 6px #4caf8a;pointer-events:none"></div>
 <div class="pwa-banner" id="pwaBanner" style="display:none!important;visibility:hidden">
 <div class="pwa-banner-icon"><svg fill="rgba(255,255,255,.9)" height="24" viewbox="0 0 24 24" width="24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></div>
 <div class="pwa-banner-text">
@@ -2942,16 +2941,20 @@ function toggleFeatDrawer(){
   _drawerOpen = !_drawerOpen;
   var drawer = document.getElementById('featDrawer');
   var btn = document.getElementById('plusBtn');
+  var cinput = document.querySelector('.cinput-area');
+  if(drawer && cinput){
+    var h = cinput.getBoundingClientRect().height || 72;
+    drawer.style.bottom = _drawerOpen ? h+'px' : '-400px';
+  }
   if(drawer) drawer.classList.toggle('open', _drawerOpen);
   if(btn) btn.classList.toggle('open', _drawerOpen);
-  // Close emoji panel if open
   if(_drawerOpen) { closeEmojiPicker(); }
 }
 function closeFeatDrawer(){
   _drawerOpen = false;
   var drawer = document.getElementById('featDrawer');
   var btn = document.getElementById('plusBtn');
-  if(drawer) drawer.classList.remove('open');
+  if(drawer){ drawer.style.bottom='-400px'; drawer.classList.remove('open'); }
   if(btn) btn.classList.remove('open');
 }
 function openDateModeFromDrawer(){
